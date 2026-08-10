@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地计算文本或多个文件的 MD5、SHA-1、SHA-256、SHA-384 和 SHA-512 Hash 值。" />
+  <title>Hash 计算工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./hash-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">LOCAL HASH TOOL</p>
+        <h1>Hash 计算工具</h1>
+      </div>
+      <p class="subtitle">计算文本或文件的常用 Hash。支持多行文本整体计算、逐行计算和多个文件批量导入，内容只在浏览器本地处理。</p>
+    </header>
+
+    <section class="workspace hash-workspace" aria-label="Hash 计算工作区">
+      <section class="hash-panel entry-panel" aria-labelledby="input-heading">
+        <div class="section-head">
+          <h2 id="input-heading">输入内容</h2>
+          <span class="count" id="inputSummary">文本模式</span>
+        </div>
+
+        <div class="mode-tabs" role="tablist" aria-label="输入类型">
+          <button class="mode-tab" id="textTab" type="button" role="tab" aria-selected="true" aria-controls="textPanel" data-mode="text">文本</button>
+          <button class="mode-tab" id="fileTab" type="button" role="tab" aria-selected="false" aria-controls="filePanel" data-mode="file" tabindex="-1">文件</button>
+        </div>
+
+        <fieldset class="algorithm-fieldset">
+          <legend>Hash 算法</legend>
+          <div class="algorithm-options">
+            <label><input type="checkbox" name="algorithm" value="MD5" checked /> MD5</label>
+            <label><input type="checkbox" name="algorithm" value="SHA-1" /> SHA-1</label>
+            <label><input type="checkbox" name="algorithm" value="SHA-256" checked /> SHA-256</label>
+            <label><input type="checkbox" name="algorithm" value="SHA-384" /> SHA-384</label>
+            <label><input type="checkbox" name="algorithm" value="SHA-512" /> SHA-512</label>
+            <label><input type="checkbox" name="algorithm" value="JAVA-HASHCODE" data-text-only="true" /> Java hashCode（文本）</label>
+          </div>
+        </fieldset>
+
+        <section id="textPanel" role="tabpanel" aria-labelledby="textTab">
+          <div class="field">
+            <label for="textInput">待计算文本</label>
+            <textarea class="hash-input mono-input" id="textInput" spellcheck="false" placeholder="输入或粘贴文本；逐行模式会分别计算每一行"></textarea>
+          </div>
+
+          <fieldset class="text-mode-fieldset">
+            <legend>多行处理方式</legend>
+            <div class="text-mode-options">
+              <label><input type="radio" name="textMode" value="whole" checked /> 整段文本计算一次</label>
+              <label><input type="radio" name="textMode" value="line" /> 每行分别计算</label>
+            </div>
+          </fieldset>
+
+          <div class="actions">
+            <button class="primary-button" id="hashText" type="button">计算文本 Hash</button>
+            <button class="secondary-button" id="clearText" type="button">清空文本</button>
+            <span class="hint">快捷键：⌘ / Ctrl + Enter</span>
+          </div>
+        </section>
+
+        <section id="filePanel" role="tabpanel" aria-labelledby="fileTab" hidden>
+          <div class="file-drop-zone" id="fileDropZone">
+            <input class="visually-hidden" id="fileInput" type="file" multiple />
+            <label class="secondary-button file-select-button" for="fileInput">选择多个文件</label>
+            <p>或将文件拖放到这里</p>
+            <span>文件不会上传；批量任务会按顺序读取，避免同时占用过多内存。</span>
+          </div>
+
+          <div class="selected-files-head">
+            <span class="field-label">已选择文件</span>
+            <span class="count" id="fileCount">0 个</span>
+          </div>
+          <ul class="file-list" id="fileList" aria-label="已选择文件列表">
+            <li class="file-list-empty">尚未选择文件。</li>
+          </ul>
+
+          <div class="actions">
+            <button class="primary-button" id="hashFiles" type="button" disabled>计算文件 Hash</button>
+            <button class="secondary-button" id="clearFiles" type="button" disabled>清空文件</button>
+          </div>
+        </section>
+
+        <p class="status" id="inputStatus" role="status" aria-live="polite">请选择算法并输入文本，或切换到文件模式。</p>
+      </section>
+
+      <section class="hash-panel results-panel" aria-labelledby="results-heading">
+        <div class="section-head results-heading-row">
+          <div>
+            <h2 id="results-heading">计算结果</h2>
+            <span class="count" id="resultCount">0 项</span>
+          </div>
+          <button class="secondary-button copy-all-button" id="copyAll" type="button" disabled>复制全部</button>
+        </div>
+
+        <div class="hash-output">
+          <div class="empty-state" id="emptyState">完成计算后，各项 Hash 值会显示在这里。</div>
+          <div class="hash-result-list" id="resultList" hidden aria-live="polite" aria-label="Hash 计算结果"></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="hash-note-heading">
+      <h2 id="hash-note-heading">格式与安全说明</h2>
+      <p>MD5 与 SHA 系列会把文本按 UTF-8 字节计算；浏览器文本框中的换行以 LF 处理。逐行模式不包含换行符，会保留中间空行，但忽略末尾换行产生的额外空项。文件按原始二进制字节计算。</p>
+      <p>Java hashCode 复现 <code>String.hashCode()</code> 的 UTF-16、有符号 32 位整数结果，只适用于文本，切换到文件模式时会禁用。</p>
+      <p>MD5 与 SHA-1 已不适合密码保存、数字签名等抗碰撞安全场景；校验下载文件时请优先选择 SHA-256 或更强算法。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

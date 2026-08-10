@@ -62,7 +62,28 @@ check_home() {
   check_contains 'index.html' './tools/20250127_annual-bonus-tax/' 'homepage missing annual bonus tax link'
   check_contains 'index.html' './tools/20251222_word-filter/' 'homepage missing word filter link'
   check_contains 'index.html' './tools/20260810_multi-timezone-clock/' 'homepage missing multi-timezone clock link'
+  check_contains 'index.html' './tools/20260810_hash-generator/' 'homepage missing hash generator link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
+}
+
+check_hash_generator() {
+  local directory='tools/20260810_hash-generator'
+  check_tool_page "$directory"
+  check_file "$directory/hash-core.js"
+  check_contains "$directory/index.html" 'multiple' 'hash generator file input must accept multiple files'
+  check_contains "$directory/index.html" 'MD5' 'hash generator missing MD5 option'
+  check_contains "$directory/index.html" 'SHA-1' 'hash generator missing SHA-1 option'
+  check_contains "$directory/index.html" 'SHA-256' 'hash generator missing SHA-256 option'
+  check_contains "$directory/index.html" 'SHA-384' 'hash generator missing SHA-384 option'
+  check_contains "$directory/index.html" 'SHA-512' 'hash generator missing SHA-512 option'
+  check_contains "$directory/index.html" 'JAVA-HASHCODE' 'hash generator missing Java String.hashCode option'
+  check_contains "$directory/index.html" 'value="MD5" checked' 'hash generator must select MD5 by default'
+  check_contains "$directory/index.html" 'value="SHA-256" checked' 'hash generator must select SHA-256 by default'
+  check_not_contains "$directory/index.html" 'value="SHA-1" checked' 'hash generator must not select SHA-1 by default'
+  check_contains "$directory/hash-core.js" 'md5Hex' 'hash generator missing local MD5 implementation'
+  check_contains "$directory/hash-core.js" 'javaStringHashCode' 'hash generator missing Java String.hashCode implementation'
+  check_contains "$directory/script.js" 'crypto.subtle' 'hash generator missing Web Crypto hashing'
+  check_contains "$directory/script.js" 'file.arrayBuffer' 'hash generator missing local file reading'
 }
 
 check_timezone_clock() {
@@ -131,11 +152,15 @@ case "$group" in
   timezone)
     check_timezone_clock
     ;;
+  hash)
+    check_hash_generator
+    ;;
   all)
     check_home
     check_calculator_rsa
     check_tax_word
     check_timezone_clock
+    check_hash_generator
     ;;
   *)
     printf 'Unknown group: %s\n' "$group" >&2
