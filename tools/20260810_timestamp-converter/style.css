@@ -1,0 +1,241 @@
+.converter-panel {
+  padding: 16px;
+}
+
+.live-timestamp {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 18px 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-section);
+  background: var(--mist);
+}
+
+.live-copy {
+  min-width: 0;
+}
+
+.live-copy p {
+  margin: 0 0 3px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.live-value-row {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+
+.live-value {
+  color: var(--ink);
+  font: 800 clamp(24px, 4vw, 34px)/1.15 var(--font-mono);
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+}
+
+.unit-badge {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  padding: 2px 8px;
+  border-radius: var(--radius-pill);
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+.live-actions {
+  display: flex;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.compact-button {
+  min-height: 44px;
+  padding: 0 13px;
+  font-size: 12px;
+}
+
+.compact-button[aria-pressed="true"] {
+  border-color: var(--teal);
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+}
+
+.conversion-section {
+  padding: 28px 20px;
+}
+
+.conversion-section + .conversion-section {
+  border-top: 1px solid var(--line);
+}
+
+.conversion-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.conversion-heading .section-kicker {
+  margin-bottom: 2px;
+  font-size: 10px;
+}
+
+.conversion-heading h2 {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.heading-mark {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--teal-line);
+  border-radius: var(--radius-button);
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+  font: 800 14px/1 var(--font-mono);
+}
+
+.conversion-fields {
+  display: grid;
+  align-items: end;
+  gap: 10px;
+}
+
+.timestamp-fields {
+  grid-template-columns: minmax(210px, 1.35fr) minmax(120px, 0.55fr) minmax(170px, 0.8fr) auto auto;
+}
+
+.datetime-fields {
+  grid-template-columns: minmax(250px, 1.4fr) minmax(170px, 0.8fr) minmax(120px, 0.55fr) auto auto;
+}
+
+.field-button {
+  white-space: nowrap;
+}
+
+.conversion-result {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.result-copy {
+  display: grid;
+  min-width: 0;
+  gap: 3px;
+  padding: 11px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+}
+
+.result-label {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.result-value {
+  min-width: 0;
+  color: var(--ink-code);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+.result-meta {
+  color: var(--muted);
+  font: 11px/1.5 var(--font-mono);
+  overflow-wrap: anywhere;
+}
+
+.copy-result {
+  align-self: stretch;
+}
+
+.conversion-section .status {
+  margin-bottom: 0;
+}
+
+@media (max-width: 940px) {
+  .timestamp-fields,
+  .datetime-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .timestamp-fields .field:first-child,
+  .datetime-fields .field:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 640px) {
+  .converter-panel {
+    padding: 12px;
+  }
+
+  .live-timestamp {
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 16px;
+  }
+
+  .live-actions {
+    display: grid;
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .conversion-section {
+    padding: 24px 8px;
+  }
+
+  .timestamp-fields,
+  .datetime-fields {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .timestamp-fields .field:first-child,
+  .datetime-fields .field:first-child {
+    grid-column: auto;
+  }
+
+  .field-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 420px) {
+  .live-value {
+    font-size: 20px;
+    letter-spacing: -0.06em;
+  }
+
+  .live-actions {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .conversion-result {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .copy-result {
+    width: 100%;
+  }
+}

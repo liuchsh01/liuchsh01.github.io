@@ -65,7 +65,24 @@ check_home() {
   check_contains 'index.html' './tools/20260810_hash-generator/' 'homepage missing hash generator link'
   check_contains 'index.html' './tools/20260810_random-password-generator/' 'homepage missing random password generator link'
   check_contains 'index.html' './tools/20260810_json-formatter/' 'homepage missing JSON formatter link'
+  check_contains 'index.html' './tools/20260810_timestamp-converter/' 'homepage missing timestamp converter link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
+}
+
+check_timestamp_converter() {
+  local directory='tools/20260810_timestamp-converter'
+  check_tool_page "$directory"
+  check_file "$directory/timestamp-core.js"
+  check_contains "$directory/index.html" 'id="currentTimestamp"' 'timestamp converter missing live current timestamp'
+  check_contains "$directory/index.html" 'id="timestampInput"' 'timestamp converter missing timestamp input'
+  check_contains "$directory/index.html" 'id="timestampUnit"' 'timestamp converter missing timestamp unit selector'
+  check_contains "$directory/index.html" 'id="timestampTimeZone"' 'timestamp converter missing timestamp time-zone selector'
+  check_contains "$directory/index.html" 'id="dateTimeInput"' 'timestamp converter missing date-time input'
+  check_contains "$directory/index.html" 'id="dateTimeTimeZone"' 'timestamp converter missing date-time time-zone selector'
+  check_contains "$directory/index.html" 'id="copyDateResult"' 'timestamp converter missing date result copy control'
+  check_contains "$directory/index.html" 'id="copyTimestampResult"' 'timestamp converter missing timestamp result copy control'
+  check_contains "$directory/timestamp-core.js" 'Intl.DateTimeFormat' 'timestamp converter must use browser time-zone data'
+  check_not_contains "$directory/script.js" 'innerHTML' 'timestamp converter must not inject dynamic HTML'
 }
 
 check_json_formatter() {
@@ -218,6 +235,9 @@ case "$group" in
   json)
     check_json_formatter
     ;;
+  timestamp)
+    check_timestamp_converter
+    ;;
   theme)
     check_home
     check_theme_contract
@@ -230,6 +250,7 @@ case "$group" in
     check_hash_generator
     check_password_generator
     check_json_formatter
+    check_timestamp_converter
     check_theme_contract
     ;;
   *)

@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地完成 Unix 时间戳与指定时区日期时间的双向转换，支持秒和毫秒单位。" />
+  <title>时间戳转换工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./timestamp-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">UNIX TIME CONVERTER</p>
+        <h1>时间戳转换工具</h1>
+      </div>
+      <p class="subtitle">在 Unix 时间戳和指定时区的日期时间之间双向转换，支持秒、毫秒及常用 IANA 时区。</p>
+    </header>
+
+    <section class="panel converter-panel" aria-label="时间戳转换工作区">
+      <section class="live-timestamp" aria-labelledby="current-title">
+        <div class="live-copy">
+          <p id="current-title">当前时间戳</p>
+          <div class="live-value-row">
+            <output class="live-value" id="currentTimestamp" aria-live="off"></output>
+            <span class="unit-badge" id="currentUnitLabel">秒</span>
+          </div>
+        </div>
+        <div class="live-actions">
+          <button class="secondary-button compact-button" id="toggleCurrentUnit" type="button">切换单位</button>
+          <button class="secondary-button compact-button" id="copyCurrentTimestamp" type="button">复制</button>
+          <button class="secondary-button compact-button" id="toggleCurrentTimer" type="button" aria-pressed="false">暂停</button>
+        </div>
+      </section>
+
+      <section class="conversion-section" aria-labelledby="timestamp-heading">
+        <div class="conversion-heading">
+          <span class="heading-mark" aria-hidden="true">T</span>
+          <div>
+            <p class="section-kicker">TIMESTAMP TO DATE</p>
+            <h2 id="timestamp-heading">时间戳转日期时间</h2>
+          </div>
+        </div>
+
+        <form id="timestampForm" novalidate>
+          <div class="conversion-fields timestamp-fields">
+            <div class="field">
+              <label for="timestampInput">时间戳</label>
+              <input class="mono-input" id="timestampInput" type="text" inputmode="numeric" autocomplete="off" spellcheck="false" placeholder="例如：1786365718" />
+            </div>
+            <div class="field">
+              <label for="timestampUnit">单位</label>
+              <select id="timestampUnit">
+                <option value="seconds">秒（s）</option>
+                <option value="milliseconds">毫秒（ms）</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="timestampTimeZone">时区</label>
+              <select id="timestampTimeZone" class="timezone-select"></select>
+            </div>
+            <button class="secondary-button field-button" id="fillCurrentTimestamp" type="button">填入当前</button>
+            <button class="primary-button field-button" type="submit">转换</button>
+          </div>
+        </form>
+
+        <div class="conversion-result">
+          <div class="result-copy">
+            <span class="result-label">转换结果</span>
+            <output class="result-value mono" id="dateResult">等待转换</output>
+            <span class="result-meta" id="dateResultMeta"></span>
+          </div>
+          <button class="secondary-button copy-result" id="copyDateResult" type="button" disabled>复制</button>
+        </div>
+        <p class="status" id="timestampStatus" role="status" aria-live="polite">输入时间戳并选择单位、时区后转换。</p>
+      </section>
+
+      <section class="conversion-section" aria-labelledby="datetime-heading">
+        <div class="conversion-heading">
+          <span class="heading-mark" aria-hidden="true">D</span>
+          <div>
+            <p class="section-kicker">DATE TO TIMESTAMP</p>
+            <h2 id="datetime-heading">日期时间转时间戳</h2>
+          </div>
+        </div>
+
+        <form id="dateTimeForm" novalidate>
+          <div class="conversion-fields datetime-fields">
+            <div class="field">
+              <label for="dateTimeInput">日期时间</label>
+              <input class="mono-input" id="dateTimeInput" type="datetime-local" step="1" />
+            </div>
+            <div class="field">
+              <label for="dateTimeTimeZone">时区</label>
+              <select id="dateTimeTimeZone" class="timezone-select"></select>
+            </div>
+            <div class="field">
+              <label for="dateTimeUnit">结果单位</label>
+              <select id="dateTimeUnit">
+                <option value="seconds">秒（s）</option>
+                <option value="milliseconds">毫秒（ms）</option>
+              </select>
+            </div>
+            <button class="secondary-button field-button" id="fillCurrentDateTime" type="button">填入当前</button>
+            <button class="primary-button field-button" type="submit">转换</button>
+          </div>
+        </form>
+
+        <div class="conversion-result">
+          <div class="result-copy">
+            <span class="result-label">转换结果</span>
+            <output class="result-value mono" id="timestampResult">等待转换</output>
+            <span class="result-meta" id="timestampResultMeta"></span>
+          </div>
+          <button class="secondary-button copy-result" id="copyTimestampResult" type="button" disabled>复制</button>
+        </div>
+        <p class="status" id="dateTimeStatus" role="status" aria-live="polite">输入日期时间，并说明它所属的时区后转换。</p>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="conversion-note-heading">
+      <p class="section-kicker">转换说明</p>
+      <h2 id="conversion-note-heading">时区会影响“日期时间转时间戳”</h2>
+      <p>Unix 时间戳表示从 1970-01-01 00:00:00 UTC 起经过的时间，与时区无关；时区只决定日期时间如何显示和解释。夏令时切换造成的不存在时间会提示修改，重复时间默认选择较早的时间点。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
