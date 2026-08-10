@@ -37,9 +37,9 @@
   left: 0;
   overflow: hidden;
   border: 1px solid var(--teal-line);
-  border-radius: 12px;
+  border-radius: var(--radius-panel);
   background: var(--paper);
-  box-shadow: 0 16px 36px rgba(17, 52, 44, 0.16);
+  box-shadow: var(--shadow-dropdown);
 }
 
 .timezone-option-list {
@@ -59,7 +59,7 @@
   gap: 2px;
   padding: 7px 10px;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--radius-compact);
   background: transparent;
   color: var(--ink);
   text-align: left;
@@ -96,12 +96,6 @@
 
 .form-message {
   margin: 14px 0 0;
-  padding: 10px 12px;
-  border: 1px solid var(--error-line);
-  border-radius: 9px;
-  background: var(--error-pale);
-  color: var(--error);
-  font-size: 13px;
 }
 
 .clock-section {
@@ -148,9 +142,9 @@
   width: 46px;
   height: 26px;
   flex: 0 0 auto;
-  border: 1px solid #a8b9b2;
-  border-radius: 999px;
-  background: #dce4e0;
+  border: 1px solid var(--switch-line);
+  border-radius: var(--radius-pill);
+  background: var(--switch-bg);
   transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
 }
 
@@ -160,9 +154,9 @@
   left: 3px;
   width: 18px;
   height: 18px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 2px 6px rgba(22, 62, 55, 0.22);
+  border-radius: var(--radius-round);
+  background: var(--paper);
+  box-shadow: var(--shadow-switch);
   transition: transform 160ms ease;
 }
 
@@ -176,7 +170,7 @@
 }
 
 .seconds-switch input:focus-visible + .switch-track {
-  outline: 3px solid rgba(15, 118, 110, 0.22);
+  outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
 }
 
@@ -197,8 +191,8 @@
   min-width: 0;
   overflow: hidden;
   padding: 22px;
-  border: 1px solid rgba(15, 118, 110, 0.15);
-  border-radius: 18px;
+  border: 1px solid var(--card-line);
+  border-radius: var(--radius-note);
   background: var(--paper);
   box-shadow: var(--shadow-soft);
   transition: border-color 150ms ease, box-shadow 150ms ease, transform 150ms ease;
@@ -210,14 +204,14 @@
   right: 0;
   left: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--teal), #7fb8a7);
+  background: linear-gradient(90deg, var(--teal), var(--teal-gradient-end));
   content: "";
 }
 
 .timezone-clock.drag-origin {
-  border-color: rgba(15, 118, 110, 0.42);
+  border-color: var(--teal-line-hover);
   border-style: dashed;
-  box-shadow: inset 0 0 0 2px rgba(15, 118, 110, 0.05);
+  box-shadow: inset 0 0 0 2px var(--teal-inset);
   opacity: 0.18;
   pointer-events: none;
 }
@@ -230,8 +224,8 @@
   position: fixed;
   z-index: 1000;
   margin: 0;
-  border-color: rgba(15, 118, 110, 0.42);
-  box-shadow: 0 24px 58px rgba(17, 52, 44, 0.25);
+  border-color: var(--teal-line-hover);
+  box-shadow: var(--shadow-drag);
   opacity: 0.98;
   pointer-events: none;
   transform: translate3d(var(--drag-x), var(--drag-y), 0) rotate(var(--drag-tilt)) scale(var(--drag-scale));
@@ -303,7 +297,7 @@ body.clock-dragging {
   min-height: 36px;
   padding: 0 9px;
   border-color: var(--line);
-  background: #ffffff;
+  background: var(--paper);
   color: var(--muted);
   font-size: 12px;
 }
@@ -339,7 +333,7 @@ body.clock-dragging {
 .clock-time {
   display: block;
   overflow: hidden;
-  color: #17423b;
+  color: var(--ink-code);
   font: 700 clamp(31px, 4vw, 42px)/1.05 var(--font-mono);
   letter-spacing: -0.055em;
   text-overflow: ellipsis;
@@ -348,7 +342,7 @@ body.clock-dragging {
 
 .clock-date {
   margin: 12px 0 0;
-  color: #31433c;
+  color: var(--ink-soft);
   font-size: 13px;
   font-weight: 650;
 }
@@ -362,8 +356,8 @@ body.clock-dragging {
 .clock-empty {
   min-height: 180px;
   border: 1px dashed var(--line);
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.56);
+  border-radius: var(--radius-section);
+  background: var(--surface-glass-soft);
 }
 
 .clock-note h2 {

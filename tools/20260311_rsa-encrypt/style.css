@@ -34,19 +34,6 @@
 
 .form-status {
   margin: 18px 0 0;
-  padding: 11px 13px;
-  border: 1px solid #f0cfcd;
-  border-radius: 10px;
-  background: var(--error-pale);
-  color: var(--error);
-  font-size: 13px;
-  line-height: 1.6;
-}
-
-.form-status.success {
-  border-color: var(--line);
-  background: var(--teal-pale);
-  color: var(--teal-dark);
 }
 
 .form-actions {
@@ -56,16 +43,7 @@
   margin-top: 20px;
 }
 
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
 .section-head h2 {
-  margin: 0;
   font-size: 18px;
 }
 

@@ -20,7 +20,7 @@ check_contains() {
   local file="$1"
   local pattern="$2"
   local label="$3"
-  if [[ ! -f "$file" ]] || ! rg -q --fixed-strings "$pattern" "$file"; then
+  if [[ ! -f "$file" ]] || ! rg -q --fixed-strings -- "$pattern" "$file"; then
     fail "$label"
   fi
 }
@@ -29,7 +29,7 @@ check_not_contains() {
   local file="$1"
   local pattern="$2"
   local label="$3"
-  if [[ -f "$file" ]] && rg -q "$pattern" "$file"; then
+  if [[ -f "$file" ]] && rg -q -- "$pattern" "$file"; then
     fail "$label"
   fi
 }
@@ -64,6 +64,29 @@ check_home() {
   check_contains 'index.html' './tools/20260810_multi-timezone-clock/' 'homepage missing multi-timezone clock link'
   check_contains 'index.html' './tools/20260810_hash-generator/' 'homepage missing hash generator link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
+}
+
+check_theme_contract() {
+  check_contains 'assets/css/theme.css' '全站主题入口' 'theme.css must document the global theme entry point'
+  check_contains 'assets/css/theme.css' '--ink-soft:' 'theme.css missing semantic text color tokens'
+  check_contains 'assets/css/theme.css' '--control-bg:' 'theme.css missing semantic surface tokens'
+  check_contains 'assets/css/theme.css' '--shadow-card-hover:' 'theme.css missing semantic shadow tokens'
+  check_contains 'assets/css/theme.css' '--radius-section:' 'theme.css missing semantic radius tokens'
+  check_contains 'assets/css/theme.css' '.info-card {' 'theme.css missing shared info card component'
+  check_contains 'assets/css/theme.css' '.form-message,' 'theme.css missing shared form message component'
+
+  local css_file
+  while IFS= read -r css_file; do
+    if rg -q '#[0-9a-fA-F]{3,8}|rgba?\(' "$css_file"; then
+      fail "$css_file must use theme color and shadow variables"
+    fi
+    if rg -q 'border-radius:[[:space:]]*[0-9]' "$css_file"; then
+      fail "$css_file must use theme radius variables"
+    fi
+    if rg -q 'font-family:[[:space:]]*(ui-monospace|SFMono|"SFMono|Consolas|Georgia)' "$css_file"; then
+      fail "$css_file must use theme font variables"
+    fi
+  done < <(rg --files tools -g 'style.css')
 }
 
 check_hash_generator() {
@@ -155,12 +178,17 @@ case "$group" in
   hash)
     check_hash_generator
     ;;
+  theme)
+    check_home
+    check_theme_contract
+    ;;
   all)
     check_home
     check_calculator_rsa
     check_tax_word
     check_timezone_clock
     check_hash_generator
+    check_theme_contract
     ;;
   *)
     printf 'Unknown group: %s\n' "$group" >&2

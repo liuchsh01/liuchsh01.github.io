@@ -14,42 +14,10 @@
   border-right: 1px solid var(--line);
 }
 
-.section-head {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  min-height: 32px;
-  margin-bottom: 16px;
-}
-
-.section-head h2 {
-  margin: 0;
-  font-size: 16px;
-  letter-spacing: -0.01em;
-}
-
-.count,
-.hint {
-  color: var(--muted);
-  font-size: 12px;
-}
-
 .formula-input {
   min-height: 330px;
   resize: vertical;
   line-height: 1.75;
-}
-
-.actions,
-.result-actions {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.actions {
-  margin-top: 16px;
 }
 
 .result-actions {
@@ -64,18 +32,12 @@
   white-space: nowrap;
 }
 
-.percent-toggle[aria-pressed="true"] {
-  border-color: var(--teal);
-  background: var(--teal);
-  color: #fff;
-}
-
 .output-window {
   height: 390px;
   overflow: hidden;
   border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #fbfdfc;
+  border-radius: var(--radius-panel);
+  background: var(--control-bg);
 }
 
 .empty-state {
@@ -106,26 +68,26 @@
   min-height: 48px;
   padding: 9px 9px 9px 12px;
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: var(--radius-button);
   background: var(--paper);
 }
 
 .result-row.error {
-  border-color: #f0cfcd;
+  border-color: var(--error-line);
   background: var(--error-pale);
 }
 
 .line-number {
-  color: #91a39c;
-  font: 12px/1 "SFMono-Regular", Consolas, monospace;
+  color: var(--muted-soft);
+  font: 12px/1 var(--font-mono);
   text-align: right;
 }
 
 .answer {
   min-width: 0;
   overflow: hidden;
-  color: #17423b;
-  font: 650 14px/1.4 "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  color: var(--ink-code);
+  font: 650 14px/1.4 var(--font-mono);
   overflow-wrap: anywhere;
 }
 
@@ -140,7 +102,7 @@
   min-height: 44px;
   padding: 0 9px;
   border: 0;
-  border-radius: 7px;
+  border-radius: var(--radius-small);
   background: var(--teal-pale);
   color: var(--teal-dark);
   font: inherit;
@@ -153,11 +115,11 @@
 
 .copy-one:hover {
   background: var(--teal);
-  color: #fff;
+  color: var(--on-accent);
 }
 
 .copy-one:focus-visible {
-  outline: 3px solid rgba(15, 118, 110, 0.18);
+  outline: 3px solid var(--focus-ring-soft);
   outline-offset: 2px;
 }
 
