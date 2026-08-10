@@ -1,0 +1,276 @@
+.json-workspace {
+  grid-template-columns: minmax(0, 0.88fr) minmax(420px, 1.12fr);
+  padding: 0;
+}
+
+.json-panel {
+  min-width: 0;
+  padding: 28px;
+}
+
+.input-panel {
+  border-right: 1px solid var(--line);
+}
+
+.json-input {
+  min-height: 470px;
+  tab-size: 2;
+}
+
+.repair-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-top: 16px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--mist);
+  cursor: pointer;
+}
+
+.repair-option input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 3px 0 0;
+}
+
+.repair-option span {
+  display: grid;
+  gap: 2px;
+}
+
+.repair-option strong {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.repair-option small {
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 1.55;
+}
+
+.result-heading-row > div {
+  display: flex;
+  align-items: baseline;
+  gap: 9px;
+}
+
+.copy-formatted {
+  min-height: 38px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.result-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.view-tabs {
+  display: inline-grid;
+  grid-template-columns: repeat(2, auto);
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--mist);
+}
+
+.view-tab {
+  min-height: 36px;
+  padding: 0 11px;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 11px;
+}
+
+.view-tab[aria-selected="true"] {
+  background: var(--paper);
+  color: var(--teal-dark);
+  box-shadow: var(--shadow-tab);
+}
+
+.tree-actions {
+  display: flex;
+  gap: 6px;
+}
+
+.tree-actions button {
+  min-height: 36px;
+  padding: 0 10px;
+  font-size: 11px;
+}
+
+.repair-notice {
+  margin-bottom: 12px;
+  padding: 11px 13px;
+  border: 1px solid var(--success-line);
+  border-radius: var(--radius-button);
+  background: var(--success-pale);
+  color: var(--success);
+  font-size: 11px;
+}
+
+.repair-notice strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 12px;
+}
+
+.repair-notice ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0;
+  padding-left: 18px;
+}
+
+.json-output {
+  height: 520px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--control-bg);
+}
+
+.json-output .empty-state {
+  height: 100%;
+  border: 0;
+  background: transparent;
+}
+
+.tree-panel,
+.text-panel {
+  height: 100%;
+  min-width: 0;
+  overflow: auto;
+}
+
+.json-tree {
+  min-width: max-content;
+  padding: 13px 15px 18px;
+  font: 12px/1.7 var(--font-mono);
+}
+
+.json-branch {
+  min-width: 0;
+}
+
+.json-branch > summary {
+  min-height: 30px;
+  padding: 3px 7px;
+  border-radius: var(--radius-small);
+  cursor: pointer;
+  list-style-position: outside;
+  white-space: nowrap;
+}
+
+.json-branch > summary:hover {
+  background: var(--teal-pale);
+}
+
+.json-children {
+  margin-left: 12px;
+  padding-left: 14px;
+  border-left: 1px solid var(--line);
+}
+
+.json-leaf {
+  min-height: 28px;
+  padding: 2px 7px;
+  white-space: nowrap;
+}
+
+.json-key {
+  color: var(--syntax-key);
+  font-weight: 700;
+}
+
+.json-index {
+  color: var(--muted-soft);
+}
+
+.json-string {
+  color: var(--syntax-string);
+}
+
+.json-number {
+  color: var(--syntax-number);
+}
+
+.json-boolean {
+  color: var(--syntax-boolean);
+  font-weight: 700;
+}
+
+.json-null {
+  color: var(--syntax-null);
+  font-style: italic;
+}
+
+.json-punctuation,
+.json-type-count {
+  color: var(--syntax-punctuation);
+}
+
+.json-type-count {
+  margin-left: 8px;
+  font-size: 10px;
+}
+
+.formatted-json {
+  min-width: max-content;
+  min-height: 100%;
+  margin: 0;
+  padding: 16px;
+  color: var(--ink-code);
+  font: 12px/1.7 var(--font-mono);
+  white-space: pre;
+}
+
+@media (max-width: 860px) {
+  .json-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .input-panel {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .json-input {
+    min-height: 330px;
+  }
+}
+
+@media (max-width: 520px) {
+  .json-panel {
+    padding: 20px;
+  }
+
+  .result-toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .view-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .tree-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .json-output {
+    height: 430px;
+  }
+}

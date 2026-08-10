@@ -40,6 +40,12 @@
   --success: #27745f;
   --success-pale: #eaf7f1;
   --success-line: #cfe8de;
+  --syntax-key: var(--teal-dark);
+  --syntax-string: var(--success);
+  --syntax-number: #8a5a24;
+  --syntax-boolean: #3f6f68;
+  --syntax-null: #7a716d;
+  --syntax-punctuation: var(--muted);
   --switch-line: #a8b9b2;
   --switch-bg: #dce4e0;
   --toast-bg: #18352f;

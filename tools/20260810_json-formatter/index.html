@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地格式化 JSON 字符串，以可展开树形结构查看对象和数组，并尝试修正常见语法问题。" />
+  <title>JSON 格式化工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./json-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">JSON INSPECTOR</p>
+        <h1>JSON 格式化工具</h1>
+      </div>
+      <p class="subtitle">格式化并检查 JSON 字符串，以树形结构展开或收起对象和数组；严格解析失败时，可尝试修正常见语法问题。</p>
+    </header>
+
+    <section class="workspace json-workspace" aria-label="JSON 格式化工作区">
+      <section class="json-panel input-panel" aria-labelledby="input-heading">
+        <div class="section-head">
+          <h2 id="input-heading">JSON 输入</h2>
+          <span class="count" id="inputCount">0 字符</span>
+        </div>
+
+        <div class="field">
+          <label for="jsonInput">待格式化字符串</label>
+          <textarea class="json-input mono-input" id="jsonInput" spellcheck="false" placeholder="例如：{name: 'Codex', enabled: True, items: [1, 2, 3,]}"></textarea>
+        </div>
+
+        <label class="repair-option" for="repairToggle">
+          <input id="repairToggle" type="checkbox" role="switch" checked />
+          <span>
+            <strong>解析失败时尝试修正</strong>
+            <small>处理单引号、未加引号的键、注释、尾逗号、全角标点和常见非标准字面量。</small>
+          </span>
+        </label>
+
+        <div class="actions">
+          <button class="primary-button" id="formatJson" type="button">格式化 JSON</button>
+          <button class="secondary-button" id="clearInput" type="button">清空</button>
+          <span class="hint">快捷键：⌘ / Ctrl + Enter</span>
+        </div>
+
+        <p class="status" id="inputStatus" role="status" aria-live="polite">输入 JSON 后点击“格式化 JSON”。</p>
+      </section>
+
+      <section class="json-panel results-panel" aria-labelledby="result-heading">
+        <div class="section-head result-heading-row">
+          <div>
+            <h2 id="result-heading">格式化结果</h2>
+            <span class="count" id="resultSummary">等待输入</span>
+          </div>
+          <button class="secondary-button copy-formatted" id="copyFormatted" type="button" disabled>复制 JSON</button>
+        </div>
+
+        <div class="result-toolbar">
+          <div class="view-tabs" role="tablist" aria-label="结果视图">
+            <button class="view-tab" id="treeTab" type="button" role="tab" aria-selected="true" aria-controls="treePanel" data-view="tree">树形视图</button>
+            <button class="view-tab" id="textTab" type="button" role="tab" aria-selected="false" aria-controls="textPanel" data-view="text" tabindex="-1">格式化文本</button>
+          </div>
+          <div class="tree-actions">
+            <button class="secondary-button" id="expandAll" type="button" disabled>全部展开</button>
+            <button class="secondary-button" id="collapseAll" type="button" disabled>全部收起</button>
+          </div>
+        </div>
+
+        <aside class="repair-notice" id="repairNotice" aria-labelledby="repair-heading" hidden>
+          <strong id="repair-heading">已自动修正后格式化</strong>
+          <ul id="repairList"></ul>
+        </aside>
+
+        <div class="json-output">
+          <div class="empty-state" id="emptyState">解析成功后，可展开的 JSON 结构会显示在这里。</div>
+          <section class="tree-panel" id="treePanel" role="tabpanel" aria-labelledby="treeTab" hidden>
+            <div class="json-tree" id="jsonTree" aria-live="polite"></div>
+          </section>
+          <section class="text-panel" id="textPanel" role="tabpanel" aria-labelledby="textTab" hidden>
+            <pre class="formatted-json" id="formattedJson" tabindex="0"></pre>
+          </section>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="repair-note-heading">
+      <p class="section-kicker">修正规则</p>
+      <h2 id="repair-note-heading">有限、可说明的语法修正</h2>
+      <p>工具只做确定性的文本修正，不使用 <code>eval</code>。无法可靠判断的内容会保留为错误并提示修改；格式化和修正全部在当前浏览器中完成。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

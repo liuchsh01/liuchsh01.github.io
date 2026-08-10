@@ -64,7 +64,23 @@ check_home() {
   check_contains 'index.html' './tools/20260810_multi-timezone-clock/' 'homepage missing multi-timezone clock link'
   check_contains 'index.html' './tools/20260810_hash-generator/' 'homepage missing hash generator link'
   check_contains 'index.html' './tools/20260810_random-password-generator/' 'homepage missing random password generator link'
+  check_contains 'index.html' './tools/20260810_json-formatter/' 'homepage missing JSON formatter link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
+}
+
+check_json_formatter() {
+  local directory='tools/20260810_json-formatter'
+  check_tool_page "$directory"
+  check_file "$directory/json-core.js"
+  check_contains "$directory/index.html" 'id="jsonInput"' 'JSON formatter missing input textarea'
+  check_contains "$directory/index.html" 'id="repairToggle"' 'JSON formatter missing repair toggle'
+  check_contains "$directory/index.html" 'id="expandAll"' 'JSON formatter missing expand-all control'
+  check_contains "$directory/index.html" 'id="collapseAll"' 'JSON formatter missing collapse-all control'
+  check_contains "$directory/index.html" 'id="copyFormatted"' 'JSON formatter missing copy control'
+  check_contains "$directory/script.js" 'document.createElement' 'JSON formatter must render results safely with DOM APIs'
+  check_contains "$directory/json-core.js" 'repairJson' 'JSON formatter missing repair pipeline'
+  check_not_contains "$directory/json-core.js" 'eval\(|new Function' 'JSON formatter must not execute user input'
+  check_not_contains "$directory/script.js" 'innerHTML' 'JSON formatter must not inject user input as HTML'
 }
 
 check_password_generator() {
@@ -199,6 +215,9 @@ case "$group" in
   password)
     check_password_generator
     ;;
+  json)
+    check_json_formatter
+    ;;
   theme)
     check_home
     check_theme_contract
@@ -210,6 +229,7 @@ case "$group" in
     check_timezone_clock
     check_hash_generator
     check_password_generator
+    check_json_formatter
     check_theme_contract
     ;;
   *)
