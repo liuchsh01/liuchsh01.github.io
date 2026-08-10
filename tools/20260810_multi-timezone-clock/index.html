@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="同时查看多个国家和地区的当前时间，并按需添加或删除 IANA 时区时钟。" />
+  <title>多时区时钟｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="home-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">WORLD CLOCKS</p>
+        <h1>多时区时钟</h1>
+      </div>
+      <p class="subtitle">同时查看不同国家和地区的当前时间。全部时间由浏览器原生 JavaScript 在本地计算。</p>
+    </header>
+
+    <section class="panel timezone-manager" aria-labelledby="manager-title">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">添加时区</p>
+          <h2 id="manager-title">输入 IANA 时区名称</h2>
+        </div>
+        <span class="count" id="clockCount">5 个时钟</span>
+      </div>
+
+      <form class="timezone-form" id="timezoneForm" novalidate>
+        <div class="field timezone-field">
+          <label for="timezoneInput">时区</label>
+          <div class="timezone-input-row">
+            <div class="timezone-combobox">
+              <input
+                id="timezoneInput"
+                name="timezone"
+                type="text"
+                role="combobox"
+                aria-autocomplete="list"
+                aria-controls="timezoneList"
+                aria-expanded="false"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="输入国家、城市或 IANA 时区"
+                aria-describedby="timezoneHint timezoneError"
+              />
+              <div class="timezone-dropdown" id="timezoneDropdown" hidden>
+                <ul class="timezone-option-list" id="timezoneList" role="listbox" aria-label="可选时区"></ul>
+              </div>
+            </div>
+            <button class="primary-button add-clock" type="submit">添加时钟</button>
+          </div>
+          <p class="helper-text" id="timezoneHint">下拉框收录主要国家和地区，也可以输入浏览器支持的 IANA 时区，例如 Asia/Tokyo。</p>
+        </div>
+      </form>
+      <p class="form-message" id="timezoneError" role="alert" hidden></p>
+    </section>
+
+    <section class="clock-section" aria-labelledby="clocks-title">
+      <div class="section-head clocks-heading">
+        <div>
+          <p class="section-kicker">当前时间</p>
+          <h2 id="clocks-title">世界时钟</h2>
+        </div>
+        <div class="clock-heading-actions">
+          <label class="seconds-switch" for="hideSeconds">
+            <span class="switch-label">隐藏秒钟</span>
+            <input id="hideSeconds" type="checkbox" role="switch" />
+            <span class="switch-track" aria-hidden="true">
+              <span class="switch-thumb"></span>
+            </span>
+          </label>
+          <span class="sync-status" id="syncStatus">等待首次校准</span>
+        </div>
+      </div>
+
+      <div class="clock-grid" id="clockGrid"></div>
+      <div class="empty-state clock-empty" id="clockEmpty" hidden>
+        当前没有时区时钟。请在上方输入一个时区后添加。
+      </div>
+    </section>
+
+    <section class="panel clock-note" aria-labelledby="clock-note-title">
+      <p class="section-kicker">刷新机制</p>
+      <h2 id="clock-note-title">整秒刷新，整分钟重新校准</h2>
+      <p>页面每秒使用 JavaScript 更新一次显示，并在本地时间的每个整分钟重新校准定时器，以减少浏览器计时漂移。页面不会请求远程时间服务。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
