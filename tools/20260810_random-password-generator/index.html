@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="使用浏览器安全随机数批量生成随机密码，支持字符组、数量、长度区间、必须包含和排除字符。" />
+  <title>随机密码生成器｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./password-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">SECURE PASSWORDS</p>
+        <h1>随机密码生成器</h1>
+      </div>
+      <p class="subtitle">按字符类型、数量和长度批量生成随机密码。可指定必须包含或排除的字符，所有随机过程都在浏览器本地完成。</p>
+    </header>
+
+    <section class="workspace password-workspace" aria-label="随机密码生成工作区">
+      <form class="password-panel password-form" id="passwordForm" novalidate aria-labelledby="settings-heading">
+        <div class="section-head">
+          <h2 id="settings-heading">生成参数</h2>
+          <span class="count" id="parameterSummary">1 个 · 20 位</span>
+        </div>
+
+        <fieldset class="character-fieldset">
+          <legend>使用字符</legend>
+          <div class="character-options">
+            <label><input type="checkbox" name="characterGroup" value="digits" checked /><span>0-9</span><small>数字</small></label>
+            <label><input type="checkbox" name="characterGroup" value="lowercase" checked /><span>a-z</span><small>小写</small></label>
+            <label><input type="checkbox" name="characterGroup" value="uppercase" checked /><span>A-Z</span><small>大写</small></label>
+            <label><input type="checkbox" name="characterGroup" value="symbols" /><span>!@#$</span><small>特殊</small></label>
+          </div>
+        </fieldset>
+
+        <div class="parameter-grid">
+          <div class="field">
+            <label for="passwordCount">生成数量</label>
+            <input class="mono-input" id="passwordCount" type="number" min="1" max="100" step="1" value="1" inputmode="numeric" />
+            <span class="helper-text">一次最多生成 100 个</span>
+          </div>
+
+          <fieldset class="length-fieldset">
+            <legend>密码长度</legend>
+            <div class="length-range">
+              <label class="visually-hidden" for="minLength">最小密码长度</label>
+              <input class="mono-input" id="minLength" type="number" min="1" max="1024" step="1" value="20" inputmode="numeric" />
+              <span aria-hidden="true">—</span>
+              <label class="visually-hidden" for="maxLength">最大密码长度</label>
+              <input class="mono-input" id="maxLength" type="number" min="1" max="1024" step="1" inputmode="numeric" placeholder="可选" />
+            </div>
+            <span class="helper-text">最大长度留空时，按固定长度生成</span>
+          </fieldset>
+        </div>
+
+        <div class="field">
+          <label for="includeCharacters">包含字符</label>
+          <input class="mono-input" id="includeCharacters" type="text" autocomplete="off" spellcheck="false" placeholder="可选，例如：@-_" />
+          <span class="helper-text">填写的每个字符都会在每个密码中至少出现一次</span>
+        </div>
+
+        <div class="field">
+          <label for="excludeCharacters">排除字符</label>
+          <input class="mono-input" id="excludeCharacters" type="text" autocomplete="off" spellcheck="false" value="0oO1ilILq9" />
+          <span class="helper-text">默认排除容易混淆的数字和字母，可自行修改</span>
+        </div>
+
+        <div class="actions">
+          <button class="primary-button" id="generatePasswords" type="submit">生成随机密码</button>
+          <button class="secondary-button" id="resetSettings" type="button">恢复默认</button>
+          <span class="hint">快捷键：⌘ / Ctrl + Enter</span>
+        </div>
+
+        <p class="status" id="formStatus" role="status" aria-live="polite">默认使用数字、小写和大写字母。</p>
+      </form>
+
+      <section class="password-panel password-results" aria-labelledby="results-heading">
+        <div class="section-head results-heading-row">
+          <div>
+            <h2 id="results-heading">生成结果</h2>
+            <span class="count" id="resultCount">0 个</span>
+          </div>
+          <button class="secondary-button copy-all-button" id="copyAll" type="button" disabled>复制全部</button>
+        </div>
+
+        <div class="password-output">
+          <div class="empty-state" id="emptyState">设置参数后生成密码，结果会显示在这里。</div>
+          <ol class="password-list" id="passwordList" hidden aria-live="polite" aria-label="随机密码结果"></ol>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="security-note-heading">
+      <p class="section-kicker">安全说明</p>
+      <h2 id="security-note-heading">使用加密安全的浏览器随机数</h2>
+      <p>密码通过 <code>crypto.getRandomValues()</code> 生成，并使用无偏差随机取样。不会上传、保存或记录生成结果；关闭或刷新页面后结果即消失。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

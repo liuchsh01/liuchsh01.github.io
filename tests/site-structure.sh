@@ -63,7 +63,25 @@ check_home() {
   check_contains 'index.html' './tools/20251222_word-filter/' 'homepage missing word filter link'
   check_contains 'index.html' './tools/20260810_multi-timezone-clock/' 'homepage missing multi-timezone clock link'
   check_contains 'index.html' './tools/20260810_hash-generator/' 'homepage missing hash generator link'
+  check_contains 'index.html' './tools/20260810_random-password-generator/' 'homepage missing random password generator link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
+}
+
+check_password_generator() {
+  local directory='tools/20260810_random-password-generator'
+  check_tool_page "$directory"
+  check_file "$directory/password-core.js"
+  check_contains "$directory/index.html" 'value="digits" checked' 'password generator must enable digits by default'
+  check_contains "$directory/index.html" 'value="lowercase" checked' 'password generator must enable lowercase by default'
+  check_contains "$directory/index.html" 'value="uppercase" checked' 'password generator must enable uppercase by default'
+  check_contains "$directory/index.html" 'value="symbols"' 'password generator missing symbol option'
+  check_contains "$directory/index.html" 'id="passwordCount"' 'password generator missing count input'
+  check_contains "$directory/index.html" 'id="minLength"' 'password generator missing minimum length input'
+  check_contains "$directory/index.html" 'id="maxLength"' 'password generator missing maximum length input'
+  check_contains "$directory/index.html" 'id="includeCharacters"' 'password generator missing required characters input'
+  check_contains "$directory/index.html" 'id="excludeCharacters"' 'password generator missing excluded characters input'
+  check_contains "$directory/password-core.js" 'getRandomValues' 'password generator must use cryptographic randomness'
+  check_contains "$directory/script.js" 'copyText' 'password generator missing copy behavior'
 }
 
 check_theme_contract() {
@@ -178,6 +196,9 @@ case "$group" in
   hash)
     check_hash_generator
     ;;
+  password)
+    check_password_generator
+    ;;
   theme)
     check_home
     check_theme_contract
@@ -188,6 +209,7 @@ case "$group" in
     check_tax_word
     check_timezone_clock
     check_hash_generator
+    check_password_generator
     check_theme_contract
     ;;
   *)
