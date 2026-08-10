@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器中逐行计算算术公式，支持括号、小数、百分号、结果复制与百分数显示。" />
+  <title>多行计算器｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">BATCH ARITHMETIC</p>
+        <h1>多行计算器</h1>
+      </div>
+      <p class="subtitle">每行输入一个公式，批量计算。支持 +、−、×、÷、括号、小数与百分号，所有运算都在浏览器本地完成。</p>
+    </header>
+
+    <section class="workspace calculator-workspace" aria-label="多行计算工作区">
+      <section class="calculator-panel entry-panel" aria-labelledby="formula-heading">
+        <div class="section-head">
+          <h2 id="formula-heading">计算公式</h2>
+          <span class="count" id="formulaCount">5 行</span>
+        </div>
+
+        <label class="field-label" for="formulas">每行一个算术公式</label>
+        <textarea class="formula-input mono-input" id="formulas" spellcheck="false" placeholder="例如：(100 + 20) / 3">(799393+20100-763825)/(799393+20100)
+(6+162895-6859)/(6+162895)
+(95+121228-4202)/(95+121228)
+(1+70151-3390)/(1+70151)
+(2+7-8)/(2+7)</textarea>
+
+        <div class="actions">
+          <button class="primary-button" id="calculate" type="button">计算全部</button>
+          <span class="hint">快捷键：⌘ / Ctrl + Enter</span>
+        </div>
+      </section>
+
+      <section class="calculator-panel results-panel" aria-labelledby="result-heading">
+        <div class="section-head result-heading-row">
+          <h2 id="result-heading">计算结果</h2>
+          <div class="result-actions">
+            <button class="secondary-button percent-toggle" id="percentToggle" type="button" aria-pressed="false">转为百分数</button>
+            <button class="secondary-button" id="copyAll" type="button" disabled>复制全部结果</button>
+          </div>
+        </div>
+
+        <div class="output-window">
+          <div class="empty-state" id="emptyState">输入公式后点击“计算全部”，每行结果会显示在这里。</div>
+          <div class="result-list" id="resultList" hidden aria-live="polite" aria-label="逐行计算结果"></div>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="calculator-note-heading">
+      <h2 id="calculator-note-heading">使用说明</h2>
+      <p>仅接受数字、科学计数法、括号、<code>+ - * / %</code> 和行末等号；百分号按“除以 100”处理。非法字符、括号缺失和除以 0 会在对应行显示原因。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite"></div>
+</body>
+</html>

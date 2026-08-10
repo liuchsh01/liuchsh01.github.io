@@ -1,43 +1,90 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>主页</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px;
-        }
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        h1 {
-            color: #333;
-        }
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-        }
-        a:hover {
-            background-color: #0056b3;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="一组轻量、无需登录、在浏览器本地处理的日常实用工具。" />
+  <title>实用工具集</title>
+  <link rel="stylesheet" href="./assets/css/theme.css" />
+  <script src="./assets/js/common.js" defer></script>
 </head>
 <body>
-    <div class="container">
-        <h1>欢迎来到我的主页</h1>
-        <a href="年终奖计税.html">年终奖计税</a>
-        <a href="智能单词筛选器.html">智能单词筛选器</a>
-        <a href="RSA_encrypt.html">RSA公钥加密</a>
-        <a href="multiline-calculator.html">多行计算器</a>
-    </div>
+  <main class="shell">
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">EVERYDAY TOOLBOX</p>
+        <h1>实用工具集</h1>
+      </div>
+      <p class="subtitle">为日常计算、文本处理和开发工作准备的小工具，打开页面即可使用。</p>
+    </header>
+
+    <section class="site-intro" aria-labelledby="intro-title">
+      <div>
+        <h2 id="intro-title">简单、直接，也尊重你的数据</h2>
+        <p>每个页面专注解决一个明确问题，尽量使用浏览器原生能力完成处理。</p>
+      </div>
+      <ul class="feature-list" aria-label="站点特点">
+        <li>轻量</li>
+        <li>浏览器本地处理</li>
+        <li>无需登录</li>
+      </ul>
+    </section>
+
+    <section class="tool-section" aria-labelledby="tools-title">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">全部工具</p>
+          <h2 id="tools-title">选择一个工具开始</h2>
+        </div>
+        <span class="count">共 4 个</span>
+      </div>
+
+      <div class="tool-grid">
+        <a class="tool-card" href="./tools/20260807_multiline-calculator/">
+          <span class="tool-category">计算</span>
+          <div>
+            <h3>多行计算器</h3>
+            <p>每行输入一个公式，批量计算并复制结果，支持常用算术与百分数。</p>
+          </div>
+          <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
+        </a>
+
+        <a class="tool-card" href="./tools/20260311_rsa-encrypt/">
+          <span class="tool-category">编码与安全</span>
+          <div>
+            <h3>RSA 公钥加密</h3>
+            <p>整理 RSA 公钥格式并在浏览器中加密短文本，便于开发与联调。</p>
+          </div>
+          <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
+        </a>
+
+        <a class="tool-card" href="./tools/20250127_annual-bonus-tax/">
+          <span class="tool-category">计算</span>
+          <div>
+            <h3>年终奖计税</h3>
+            <p>按全年一次性奖金计税规则估算税额、税后奖金或反推税前金额。</p>
+          </div>
+          <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
+        </a>
+
+        <a class="tool-card" href="./tools/20251222_word-filter/">
+          <span class="tool-category">文本</span>
+          <div>
+            <h3>智能单词筛选器</h3>
+            <p>批量整理英文单词，识别常见词形并按条件筛选需要的内容。</p>
+          </div>
+          <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
+        </a>
+      </div>
+    </section>
+
+    <footer class="site-footer">
+      <p>输入与计算默认只在当前浏览器中处理。</p>
+      <p>轻量工具，随开随用。</p>
+    </footer>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
 </body>
 </html>

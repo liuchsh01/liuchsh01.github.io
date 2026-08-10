@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地按长度、包含字母、排除字母和常见词形变化筛选英文单词。" />
+  <title>智能单词筛选器</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="home-link back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">SMART WORD FILTER</p>
+        <h1>智能单词筛选器</h1>
+      </div>
+      <p class="subtitle">从文章或单词列表中提取英文词，按长度和字母条件筛选，并可识别常见复数、过去式与词根形式。</p>
+    </header>
+
+    <section class="workspace word-workspace" aria-label="英文单词筛选工作区">
+      <form class="filter-form" id="filterForm" novalidate>
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">输入与条件</p>
+            <h2>筛选设置</h2>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="sourceText">源文本</label>
+          <textarea id="sourceText" name="source-text" spellcheck="false" placeholder="粘贴英文文章、段落或单词列表……" aria-describedby="sourceHint filterMessage"></textarea>
+          <p class="field-hint" id="sourceHint">只提取 A–Z 英文字母组成的单词；源词会转为小写并自动去重。</p>
+        </div>
+
+        <div class="filter-grid">
+          <div class="form-group">
+            <label for="wordLength">目标单词长度</label>
+            <input id="wordLength" name="word-length" type="number" inputmode="numeric" min="1" step="1" placeholder="例如：5" aria-describedby="filterMessage" />
+          </div>
+
+          <div class="form-group">
+            <label for="mustInclude">必须包含的字母</label>
+            <input id="mustInclude" name="must-include" type="text" autocomplete="off" placeholder="例如：ae" />
+          </div>
+
+          <div class="form-group">
+            <label for="mustExclude">必须排除的字母</label>
+            <input id="mustExclude" name="must-exclude" type="text" autocomplete="off" placeholder="例如：z" />
+          </div>
+        </div>
+
+        <label class="checkbox-field" for="enableStemming">
+          <input id="enableStemming" name="enable-stemming" type="checkbox" checked />
+          <span>
+            <strong>启用变形匹配</strong>
+            <small>同时检查原词以及 s、es、ies、ed、ied 等常见变形对应的词根。</small>
+          </span>
+        </label>
+
+        <p class="form-message" id="filterMessage" role="alert" hidden></p>
+
+        <div class="actions">
+          <button class="primary-button" type="submit">开始筛选</button>
+          <span class="shortcut-hint">⌘ / Ctrl + Enter</span>
+        </div>
+      </form>
+
+      <section class="filter-results" aria-labelledby="resultsTitle">
+        <div class="result-header">
+          <div>
+            <p class="section-kicker">结果</p>
+            <h2 id="resultsTitle">符合条件的单词</h2>
+          </div>
+          <span class="count-badge" id="countBadge">0 个</span>
+        </div>
+
+        <p class="result-summary" id="resultSummary" aria-live="polite">输入文本和筛选条件后点击“开始筛选”。</p>
+        <div class="word-list" id="resultContainer">
+          <div class="empty-state">暂时没有筛选结果</div>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="matchingTitle">
+      <p class="section-kicker">匹配说明</p>
+      <h2 id="matchingTitle">词形识别范围</h2>
+      <p>变形匹配采用轻量规则识别复数和过去式，并处理 parties → party、studied → study、stopped → stop 等常见形式。它不是完整的英语词形还原器，不规则变化仍需在源文本中以目标形式出现。</p>
+      <p>所有输入和筛选均在当前浏览器中完成，不会上传文本。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite"></div>
+</body>
+</html>

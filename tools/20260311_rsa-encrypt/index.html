@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="使用 RSA 公钥在浏览器本地加密文本，输出 Base64 密文，兼容常见 Java RSA/ECB/PKCS1Padding 用法。" />
+  <title>RSA 加密工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jsencrypt/3.3.2/jsencrypt.min.js" defer></script>
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">RSA ENCRYPTION</p>
+        <h1>RSA 加密工具</h1>
+      </div>
+      <p class="subtitle">输入 RSA 公钥和明文，在浏览器中生成 Base64 密文。公钥和明文不会上传到服务器。</p>
+    </header>
+
+    <section class="workspace rsa-workspace" aria-label="RSA 加密工作区">
+      <form class="rsa-form" id="rsaForm" novalidate>
+        <div class="form-group">
+          <label class="field-label" for="publicKey">RSA 公钥</label>
+          <textarea class="key-input mono-input" id="publicKey" rows="8" spellcheck="false" autocomplete="off" placeholder="支持纯 Base64，或包含 BEGIN PUBLIC KEY 的 PEM 格式"></textarea>
+          <p class="field-help">纯 Base64 公钥会自动补全为标准 PEM 格式。</p>
+        </div>
+
+        <div class="form-group">
+          <label class="field-label" for="plainText">待加密明文</label>
+          <textarea id="plainText" rows="6" spellcheck="false" placeholder="输入需要加密的文本"></textarea>
+          <p class="field-help">RSA 适合短文本；PKCS#1 v1.5 的明文上限为密钥字节数减 11。</p>
+        </div>
+
+        <p class="form-status" id="formStatus" role="status" aria-live="polite" hidden></p>
+
+        <div class="form-actions">
+          <button class="primary-button" id="encryptButton" type="submit">执行加密</button>
+          <span class="hint">快捷键：⌘ / Ctrl + Enter</span>
+        </div>
+      </form>
+
+      <section class="rsa-result" aria-labelledby="cipher-heading">
+        <div class="section-head">
+          <div>
+            <p class="panel-kicker">BASE64 OUTPUT</p>
+            <h2 id="cipher-heading">加密结果</h2>
+          </div>
+          <button class="secondary-button" id="copyResult" type="button" disabled>复制密文</button>
+        </div>
+
+        <label class="field-label visually-hidden" for="cipherText">Base64 加密结果</label>
+        <textarea class="cipher-output mono-input" id="cipherText" rows="12" readonly placeholder="加密结果会显示在这里"></textarea>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="rsa-note-heading">
+      <h2 id="rsa-note-heading">兼容与隐私说明</h2>
+      <p>本工具使用 JSEncrypt 3.3.2，在浏览器内执行 RSA PKCS#1 v1.5 加密，可与常见 Java <code>RSA/ECB/PKCS1Padding</code> 解密实现配合。页面会从 cdnjs 加载加密库，但你的公钥、明文和密文不会由本工具发送到网络。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite"></div>
+</body>
+</html>

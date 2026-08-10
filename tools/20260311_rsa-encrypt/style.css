@@ -1,0 +1,116 @@
+.rsa-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.9fr);
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.rsa-form,
+.rsa-result {
+  min-width: 0;
+  padding: 28px;
+}
+
+.rsa-form {
+  border-right: 1px solid var(--line);
+}
+
+.form-group + .form-group {
+  margin-top: 20px;
+}
+
+.key-input {
+  min-height: 180px;
+}
+
+.field-help,
+.hint {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
+.form-status {
+  margin: 18px 0 0;
+  padding: 11px 13px;
+  border: 1px solid #f0cfcd;
+  border-radius: 10px;
+  background: var(--error-pale);
+  color: var(--error);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.form-status.success {
+  border-color: var(--line);
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+}
+
+.form-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.panel-kicker {
+  margin: 0 0 5px;
+  color: var(--teal);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.cipher-output {
+  min-height: 300px;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 760px) {
+  .rsa-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .rsa-form,
+  .rsa-result {
+    padding: 20px;
+  }
+
+  .rsa-form {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cipher-output {
+    min-height: 240px;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-actions,
+  .section-head {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .form-actions .primary-button,
+  .section-head .secondary-button {
+    width: 100%;
+  }
+}

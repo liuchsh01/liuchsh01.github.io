@@ -1,0 +1,246 @@
+.word-workspace {
+  grid-template-columns: minmax(0, 1fr);
+  overflow: hidden;
+}
+
+.word-workspace > * + * {
+  border-top: 1px solid var(--line);
+  border-left: 0;
+}
+
+.filter-form,
+.filter-results {
+  padding: 28px;
+}
+
+.section-kicker {
+  margin: 0 0 5px;
+  color: var(--teal);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.filter-form .section-head {
+  margin-bottom: 20px;
+}
+
+.filter-form h2,
+.filter-results h2,
+.info-card h2 {
+  margin: 0;
+}
+
+#sourceText {
+  min-height: 180px;
+  resize: vertical;
+}
+
+.field-hint {
+  margin: 8px 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.checkbox-field {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-top: 20px;
+  padding: 14px 15px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--mist);
+  cursor: pointer;
+}
+
+.checkbox-field input {
+  flex: 0 0 auto;
+  width: 18px;
+  height: 18px;
+  margin: 2px 0 0;
+  accent-color: var(--teal);
+}
+
+.checkbox-field span {
+  display: grid;
+  gap: 3px;
+}
+
+.checkbox-field strong {
+  color: var(--ink);
+  font-size: 14px;
+}
+
+.checkbox-field small {
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.form-message {
+  margin: 18px 0 0;
+  padding: 11px 13px;
+  border: 1px solid var(--error-line);
+  border-radius: 10px;
+  background: var(--error-pale);
+  color: var(--error);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 22px;
+}
+
+.shortcut-hint {
+  color: var(--muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.result-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.count-badge {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border: 1px solid var(--teal-line);
+  border-radius: 999px;
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.result-summary {
+  margin: 12px 0 18px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.word-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  min-width: 0;
+}
+
+.word-tag {
+  display: inline-flex;
+  align-items: flex-start;
+  flex-direction: column;
+  max-width: 100%;
+  padding: 9px 13px;
+  border: 1px solid var(--teal-line);
+  border-radius: 10px;
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 14px;
+  font-weight: 750;
+  overflow-wrap: anywhere;
+  animation: word-appear 220ms ease-out both;
+}
+
+.word-tag .sub-info {
+  margin-top: 3px;
+  color: var(--muted);
+  font-family: inherit;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.empty-state {
+  width: 100%;
+  padding: 32px 20px;
+  border: 1px dashed var(--line);
+  border-radius: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  text-align: center;
+}
+
+.info-card {
+  margin-top: 22px;
+  padding: 24px 28px;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.72);
+}
+
+.info-card p:not(.section-kicker) {
+  margin: 12px 0 0;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+@keyframes word-appear {
+  from {
+    opacity: 0;
+    transform: translateY(5px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 760px) {
+  .filter-form,
+  .filter-results {
+    padding: 20px;
+  }
+
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+
+  #sourceText {
+    min-height: 210px;
+  }
+
+  .info-card {
+    padding: 20px;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .primary-button {
+    width: 100%;
+  }
+
+  .shortcut-hint {
+    text-align: center;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .word-tag {
+    animation: none;
+  }
+}
