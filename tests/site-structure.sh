@@ -67,7 +67,29 @@ check_home() {
   check_contains 'index.html' './tools/20260810_json-formatter/' 'homepage missing JSON formatter link'
   check_contains 'index.html' './tools/20260810_timestamp-converter/' 'homepage missing timestamp converter link'
   check_contains 'index.html' './tools/20260811_token-inspector/' 'homepage missing token inspector link'
+  check_contains 'index.html' './tools/20260811_image-converter/' 'homepage missing image converter link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
+}
+
+check_image_converter() {
+  local directory='tools/20260811_image-converter'
+  check_tool_page "$directory"
+  check_file "$directory/image-core.js"
+  check_contains "$directory/index.html" 'id="imageInput"' 'image converter missing file input'
+  check_contains "$directory/index.html" 'multiple' 'image converter must support multiple files'
+  check_contains "$directory/index.html" 'id="outputFormat"' 'image converter missing output format selector'
+  check_contains "$directory/index.html" 'id="widthInput"' 'image converter missing width input'
+  check_contains "$directory/index.html" 'id="heightInput"' 'image converter missing height input'
+  check_contains "$directory/index.html" 'id="keepAspect"' 'image converter missing aspect-ratio control'
+  check_contains "$directory/index.html" 'id="qualityInput"' 'image converter missing quality control'
+  check_contains "$directory/index.html" 'id="backgroundColor"' 'image converter missing JPEG background color'
+  check_contains "$directory/index.html" 'id="convertImages"' 'image converter missing conversion control'
+  check_contains "$directory/index.html" 'id="resultList"' 'image converter missing result list'
+  check_contains "$directory/image-core.js" 'calculateOutputDimensions' 'image converter missing dimension calculation core'
+  check_contains "$directory/script.js" 'createImageBitmap' 'image converter missing local image decoding'
+  check_contains "$directory/script.js" 'canvas.toBlob' 'image converter missing Canvas encoding'
+  check_contains "$directory/script.js" 'URL.createObjectURL' 'image converter missing local preview/download URLs'
+  check_not_contains "$directory/script.js" 'innerHTML' 'image converter must render file data safely'
 }
 
 check_token_inspector() {
@@ -259,6 +281,9 @@ case "$group" in
   token)
     check_token_inspector
     ;;
+  image)
+    check_image_converter
+    ;;
   theme)
     check_home
     check_theme_contract
@@ -273,6 +298,7 @@ case "$group" in
     check_json_formatter
     check_timestamp_converter
     check_token_inspector
+    check_image_converter
     check_theme_contract
     ;;
   *)

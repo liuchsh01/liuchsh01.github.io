@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地批量转换 PNG、JPEG、WebP 等图片，可指定输出宽高并选择等比例缩放或强制拉伸。" />
+  <title>图片格式转换工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./image-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">LOCAL IMAGE CONVERTER</p>
+        <h1>图片格式转换工具</h1>
+      </div>
+      <p class="subtitle">批量转换为 PNG、JPEG 或 WebP，可保持原尺寸、等比例缩放，或强制输出指定宽高。图片不会上传。</p>
+    </header>
+
+    <section class="workspace image-workspace" aria-label="图片转换工作区">
+      <section class="image-panel file-panel" aria-labelledby="file-heading">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">SOURCE IMAGES</p>
+            <h2 id="file-heading">选择图片</h2>
+          </div>
+          <span class="count" id="fileCount">0 张</span>
+        </div>
+
+        <div class="image-drop-zone" id="imageDropZone">
+          <input
+            class="visually-hidden"
+            id="imageInput"
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,image/svg+xml,.jpg,.jpeg,.png,.webp,.gif,.bmp,.svg"
+            multiple
+          />
+          <label class="secondary-button file-select-button" for="imageInput">选择多张图片</label>
+          <p>或将图片拖放到这里</p>
+          <span>支持浏览器可读取的 PNG、JPEG、WebP、GIF、BMP 和 SVG；GIF 只转换第一帧。</span>
+        </div>
+
+        <ul class="image-file-list" id="imageFileList" aria-label="已选择图片">
+          <li class="file-list-empty">尚未选择图片。</li>
+        </ul>
+
+        <button class="secondary-button clear-images" id="clearImages" type="button" disabled>清空图片</button>
+      </section>
+
+      <section class="image-panel settings-panel" aria-labelledby="settings-heading">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">OUTPUT SETTINGS</p>
+            <h2 id="settings-heading">输出设置</h2>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="outputFormat">输出格式</label>
+          <select id="outputFormat">
+            <option value="png">PNG（无损、支持透明）</option>
+            <option value="jpeg">JPEG（适合照片）</option>
+            <option value="webp">WebP（体积较小）</option>
+          </select>
+        </div>
+
+        <fieldset class="dimension-fieldset">
+          <legend>输出尺寸</legend>
+          <div class="dimension-grid">
+            <div class="field">
+              <label for="widthInput">宽度（px）</label>
+              <input id="widthInput" type="number" min="1" max="16384" inputmode="numeric" placeholder="保持原宽度" />
+            </div>
+            <div class="field">
+              <label for="heightInput">高度（px）</label>
+              <input id="heightInput" type="number" min="1" max="16384" inputmode="numeric" placeholder="保持原高度" />
+            </div>
+          </div>
+          <label class="aspect-option" for="keepAspect">
+            <input id="keepAspect" type="checkbox" role="switch" checked />
+            <span>
+              <strong>保持原图比例</strong>
+              <small id="dimensionHint">只填一边时自动计算另一边；两边都填时按边界框完整放入。</small>
+            </span>
+          </label>
+        </fieldset>
+
+        <div class="field quality-field" id="qualityField">
+          <div class="range-label-row">
+            <label for="qualityInput">输出质量</label>
+            <output id="qualityValue" for="qualityInput">85%</output>
+          </div>
+          <input id="qualityInput" type="range" min="1" max="100" value="85" />
+          <p class="helper-text">JPEG 和 WebP 可调；PNG 使用无损编码。</p>
+        </div>
+
+        <div class="field background-field" id="backgroundField">
+          <label for="backgroundColor">JPEG 透明区域背景色</label>
+          <div class="color-input-row">
+            <input id="backgroundColor" type="color" value="#ffffff" />
+            <span class="helper-text">JPEG 不支持透明通道，透明区域会填充此颜色。</span>
+          </div>
+        </div>
+
+        <button class="primary-button convert-button" id="convertImages" type="button" disabled>开始转换</button>
+        <p class="status" id="conversionStatus" role="status" aria-live="polite">请先选择至少一张图片。</p>
+      </section>
+    </section>
+
+    <section class="panel conversion-results" aria-labelledby="results-heading">
+      <div class="section-head results-heading-row">
+        <div>
+          <p class="section-kicker">CONVERTED IMAGES</p>
+          <h2 id="results-heading">转换结果</h2>
+        </div>
+        <div class="results-actions">
+          <span class="count" id="resultCount">0 项</span>
+          <button class="secondary-button" id="downloadAll" type="button" disabled>下载全部</button>
+        </div>
+      </div>
+
+      <div class="empty-state" id="emptyState">转换完成后，可在这里预览并下载每张图片。</div>
+      <div class="image-result-grid" id="resultList" hidden aria-live="polite"></div>
+    </section>
+
+    <section class="info-card" aria-labelledby="image-note-heading">
+      <p class="section-kicker">格式与隐私</p>
+      <h2 id="image-note-heading">原生 Canvas 转换，不上传图片</h2>
+      <p>转换稳定输出 PNG、JPEG 和 WebP。GIF 动图只读取第一帧；EXIF、GPS、拍摄设备等元数据通常不会保留。透明图片转 JPEG 时会使用所选背景色，超大尺寸会因浏览器内存或 Canvas 限制而被拒绝。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
