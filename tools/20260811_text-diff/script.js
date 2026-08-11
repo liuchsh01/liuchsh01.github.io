@@ -176,6 +176,7 @@
   };
 
   const compare = () => {
+    if (compareButton.disabled) return;
     const validationMessage = validateInputs();
 
     if (validationMessage) {

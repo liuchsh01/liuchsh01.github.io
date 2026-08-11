@@ -72,6 +72,7 @@ check_home() {
   check_contains 'index.html' './tools/20260811_uuid-ulid-generator/' 'homepage missing UUID/ULID generator link'
   check_contains 'index.html' './tools/20260811_regex-tester/' 'homepage missing regex tester link'
   check_contains 'index.html' './tools/20260811_text-diff/' 'homepage missing text diff link'
+  check_contains 'index.html' './tools/20260811_cron-expression-tool/' 'homepage missing Cron expression tool link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
 }
 
@@ -168,6 +169,22 @@ check_text_diff() {
   check_contains "$directory/diff-core.js" 'diffSequence' 'text diff missing line comparison algorithm'
   check_contains "$directory/script.js" 'document.createElement' 'text diff must render results safely with DOM APIs'
   check_not_contains "$directory/script.js" 'innerHTML' 'text diff must not inject text as HTML'
+}
+
+check_cron_expression_tool() {
+  local directory='tools/20260811_cron-expression-tool'
+  check_tool_page "$directory"
+  check_file "$directory/cron-core.js"
+  check_contains "$directory/index.html" 'id="cronExpression"' 'Cron tool missing expression input'
+  check_contains "$directory/index.html" 'id="minuteField"' 'Cron tool missing minute field builder'
+  check_contains "$directory/index.html" 'id="startTime"' 'Cron tool missing start-time input'
+  check_contains "$directory/index.html" 'id="previewCount"' 'Cron tool missing preview-count selector'
+  check_contains "$directory/index.html" 'id="scheduleList"' 'Cron tool missing future schedule list'
+  check_contains "$directory/index.html" 'id="copyExpression"' 'Cron tool missing expression copy control'
+  check_contains "$directory/index.html" 'id="copySchedule"' 'Cron tool missing schedule copy control'
+  check_contains "$directory/cron-core.js" 'findNextOccurrences' 'Cron tool missing future occurrence calculation'
+  check_contains "$directory/cron-core.js" 'matchesCron' 'Cron tool missing schedule matching logic'
+  check_not_contains "$directory/script.js" 'innerHTML' 'Cron tool must render dynamic output safely'
 }
 
 check_token_inspector() {
@@ -374,6 +391,9 @@ case "$group" in
   text-diff)
     check_text_diff
     ;;
+  cron)
+    check_cron_expression_tool
+    ;;
   theme)
     check_home
     check_theme_contract
@@ -393,6 +413,7 @@ case "$group" in
     check_identifier_generator
     check_regex_tester
     check_text_diff
+    check_cron_expression_tool
     check_theme_contract
     ;;
   *)
