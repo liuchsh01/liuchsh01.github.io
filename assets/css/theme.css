@@ -455,7 +455,7 @@ svg {
 .eyebrow,
 .section-kicker {
   margin: 0 0 8px;
-  color: var(--teal);
+  color: var(--teal-dark);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.14em;
@@ -594,7 +594,7 @@ textarea {
   display: block;
   width: 100%;
   min-width: 0;
-  border: 1px solid var(--line);
+  border: 1px solid var(--control-line);
   border-radius: var(--radius-control);
   outline: none;
   background: var(--control-bg);
@@ -618,6 +618,7 @@ textarea {
 input:not([type="checkbox"]):not([type="radio"])::placeholder,
 textarea::placeholder {
   color: var(--muted-soft);
+  opacity: 1;
 }
 
 input:not([type="checkbox"]):not([type="radio"]):focus,
@@ -693,6 +694,7 @@ button:focus-visible,
 .tool-card:focus-visible,
 .home-link:focus-visible,
 .back-link:focus-visible,
+summary:focus-visible,
 a:focus-visible {
   outline: 3px solid var(--focus-ring);
   outline-offset: 3px;
@@ -721,7 +723,7 @@ button[type="submit"]:hover:not(:disabled) {
 .secondary-button,
 .copy-all,
 .percent-toggle {
-  border-color: var(--line);
+  border-color: var(--control-line);
   background: var(--paper);
   color: var(--ink-soft);
 }
@@ -747,6 +749,11 @@ button[type="submit"]:hover:not(:disabled) {
   border-color: var(--teal);
   background: var(--teal);
   color: var(--on-accent);
+}
+
+.visually-hidden:focus-visible + .file-select-button {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
 }
 
 .status,

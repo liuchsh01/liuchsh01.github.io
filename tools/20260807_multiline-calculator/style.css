@@ -35,7 +35,7 @@
 .output-window {
   height: 390px;
   overflow: hidden;
-  border: 1px solid var(--line);
+  border: 1px solid var(--control-line);
   border-radius: var(--radius-panel);
   background: var(--control-bg);
 }
@@ -67,7 +67,7 @@
   gap: 10px;
   min-height: 48px;
   padding: 9px 9px 9px 12px;
-  border: 1px solid var(--line);
+  border: 1px solid var(--control-line);
   border-radius: var(--radius-button);
   background: var(--paper);
 }

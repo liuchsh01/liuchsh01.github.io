@@ -247,12 +247,20 @@
   background: var(--success-pale);
 }
 
+.diff-row-added td:first-child {
+  box-shadow: inset 4px 0 0 var(--success);
+}
+
 .diff-row-added .diff-kind {
   color: var(--success);
 }
 
 .diff-row-deleted td {
   background: var(--error-pale);
+}
+
+.diff-row-deleted td:first-child {
+  box-shadow: inset 4px 0 0 var(--error);
 }
 
 .diff-row-deleted .diff-kind {
@@ -263,20 +271,27 @@
   background: var(--teal-pale);
 }
 
+.diff-row-changed td:first-child {
+  box-shadow: inset 4px 0 0 var(--teal);
+}
+
 .diff-row-changed .diff-kind {
   color: var(--teal-dark);
 }
 
 .inline-added {
   border-radius: var(--radius-small);
-  background: var(--success-line);
+  background: var(--success-pale);
   color: var(--ink);
+  font-weight: 750;
+  box-shadow: inset 0 -2px 0 var(--success);
 }
 
 .inline-deleted {
   border-radius: var(--radius-small);
-  background: var(--error-line);
+  background: var(--error-pale);
   color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--error);
   text-decoration: line-through;
   text-decoration-thickness: 1px;
 }

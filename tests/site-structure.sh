@@ -369,6 +369,8 @@ check_theme_contract() {
   check_contains 'assets/css/theme.css' '全站主题入口' 'theme.css must document the global theme entry point'
   check_contains 'assets/css/theme.css' '--ink-soft:' 'theme.css missing semantic text color tokens'
   check_contains 'assets/css/theme.css' '--control-bg:' 'theme.css missing semantic surface tokens'
+  check_contains 'assets/css/theme.css' '--control-line:' 'theme.css missing accessible control boundary tokens'
+  check_contains 'assets/css/theme.css' 'opacity: 1;' 'theme.css must normalize placeholder opacity'
   check_contains 'assets/css/theme.css' '--shadow-card-hover:' 'theme.css missing semantic shadow tokens'
   check_contains 'assets/css/theme.css' '--radius-section:' 'theme.css missing semantic radius tokens'
   check_contains 'assets/css/theme.css' '.info-card {' 'theme.css missing shared info card component'

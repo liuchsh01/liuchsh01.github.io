@@ -101,6 +101,34 @@ const context = vm.createContext({
 
 vm.runInContext(source, context, { filename: 'common.js' });
 
+const extractThemeVariables = selector => {
+  const start = themeCss.indexOf(selector);
+  const end = themeCss.indexOf('\n}', start);
+  assert.notEqual(start, -1, 'missing selector ' + selector);
+  return Object.fromEntries(
+    [...themeCss.slice(start, end).matchAll(/--([a-z0-9-]+):\s*([^;]+);/g)]
+      .map(match => [match[1], match[2].trim()]),
+  );
+};
+const defaultVariables = extractThemeVariables(':root {');
+const resolveVariable = (variables, name) => {
+  const value = variables[name];
+  const reference = value?.match(/^var\(--([a-z0-9-]+)\)$/);
+  return reference ? resolveVariable(variables, reference[1]) : value;
+};
+const relativeLuminance = hex => {
+  const channels = [1, 3, 5].map(index => Number.parseInt(hex.slice(index, index + 2), 16) / 255);
+  const [red, green, blue] = channels.map(channel => (
+    channel <= 0.04045 ? channel / 12.92 : ((channel + 0.055) / 1.055) ** 2.4
+  ));
+  return 0.2126 * red + 0.7152 * green + 0.0722 * blue;
+};
+const contrastRatio = (first, second) => {
+  const light = Math.max(relativeLuminance(first), relativeLuminance(second));
+  const dark = Math.min(relativeLuminance(first), relativeLuminance(second));
+  return (light + 0.05) / (dark + 0.05);
+};
+
 ['ocean', 'sand', 'rose', 'night'].forEach(themeId => {
   const selector = ':root[data-theme="' + themeId + '"]';
   const start = themeCss.indexOf(selector);
@@ -110,6 +138,21 @@ vm.runInContext(source, context, { filename: 'common.js' });
   assert.match(block, /--body-pattern:/, themeId + ' theme must define a background texture');
   assert.match(block, /--radius-card:/, themeId + ' theme must define its radius character');
   assert.match(block, /--font-serif:/, themeId + ' theme must define its display typography');
+});
+
+['jade', 'ocean', 'sand', 'rose', 'night'].forEach(themeId => {
+  const overrides = themeId === 'jade' ? {} : extractThemeVariables(':root[data-theme="' + themeId + '"]');
+  const variables = { ...defaultVariables, ...overrides };
+  const muted = resolveVariable(variables, 'muted-soft');
+  const controlBackground = resolveVariable(variables, 'control-bg');
+  const selectedBackground = resolveVariable(variables, 'teal-pale');
+  const focus = resolveVariable(variables, 'focus-ring');
+  const paper = resolveVariable(variables, 'paper');
+  const controlLine = resolveVariable(variables, 'control-line');
+  assert.ok(contrastRatio(muted, controlBackground) >= 4.5, themeId + ' placeholder contrast is too low');
+  assert.ok(contrastRatio(muted, selectedBackground) >= 4.5, themeId + ' small helper contrast is too low');
+  assert.ok(contrastRatio(focus, paper) >= 3, themeId + ' focus contrast is too low');
+  assert.ok(contrastRatio(controlLine, paper) >= 3, themeId + ' control boundary contrast is too low');
 });
 
 assert.equal(documentElement.dataset.theme, 'sand');
