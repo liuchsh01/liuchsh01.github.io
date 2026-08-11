@@ -296,7 +296,6 @@
   flex: 0 0 210px;
   overflow: hidden;
   place-items: center;
-  padding: 12px;
   border-bottom: 1px solid var(--line);
   background: var(--mist);
   isolation: isolate;
@@ -304,10 +303,12 @@
 
 .result-preview {
   display: block;
-  width: auto;
-  height: auto;
-  max-width: 100%;
-  max-height: 100%;
+  position: absolute;
+  inset: 12px;
+  width: calc(100% - 24px);
+  height: calc(100% - 24px);
+  max-width: none;
+  max-height: none;
   object-fit: contain;
 }
 

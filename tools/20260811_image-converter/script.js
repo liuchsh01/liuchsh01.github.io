@@ -6,8 +6,8 @@
     formatBytes,
     getOutputFilename,
     getOutputMimeType,
+    normalizeLinkedResizeRequest,
     normalizeQuality,
-    normalizeResizeRequest,
     shareAspectRatio,
   } = window.ImageConverterCore;
 
@@ -78,7 +78,7 @@
       return;
     }
 
-    dimensionHint.textContent = '所选图片比例不同，无法填充唯一的对应尺寸；只需填写一边，转换时会逐张计算另一边。';
+    dimensionHint.textContent = `输入框按首张图 ${reference.width} × ${reference.height} 联动显示；批量转换以最后编辑的一边为准，每张图按自身比例计算。`;
   };
 
   const clearDerivedDimension = () => {
@@ -99,11 +99,6 @@
       clearDerivedDimension();
       return;
     }
-    if (selectedImages.length > 1 && !shareAspectRatio(selectedImages)) {
-      clearDerivedDimension();
-      return;
-    }
-
     const sourceInput = sourceDimension === 'height' ? heightInput : widthInput;
     const targetInput = sourceDimension === 'height' ? widthInput : heightInput;
     const targetDimension = sourceDimension === 'height' ? 'width' : 'height';
@@ -413,14 +408,19 @@
     heightInput.removeAttribute('aria-invalid');
     let settings;
     try {
-      normalizeResizeRequest(widthInput.value, heightInput.value, keepAspect.checked);
+      const resizeRequest = normalizeLinkedResizeRequest(
+        widthInput.value,
+        heightInput.value,
+        keepAspect.checked,
+        derivedDimension,
+      );
       settings = {
         background: backgroundColor.value,
         format: outputFormat.value,
-        height: heightInput.value,
+        height: resizeRequest.height ?? '',
         keepAspect: keepAspect.checked,
         quality: normalizeQuality(qualityInput.value),
-        width: widthInput.value,
+        width: resizeRequest.width ?? '',
       };
     } catch (error) {
       widthInput.setAttribute('aria-invalid', 'true');

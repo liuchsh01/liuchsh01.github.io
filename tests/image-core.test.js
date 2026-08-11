@@ -5,6 +5,7 @@ const {
   formatBytes,
   getOutputFilename,
   getOutputMimeType,
+  normalizeLinkedResizeRequest,
   normalizeQuality,
   normalizeResizeRequest,
   shareAspectRatio,
@@ -53,6 +54,21 @@ test('batch aspect-ratio comparison distinguishes shared and mixed ratios', () =
   assert.throws(
     () => shareAspectRatio([{ width: 800, height: 600 }, { width: 0, height: 600 }]),
     /图片尺寸无效/,
+  );
+});
+
+test('linked resize requests ignore the displayed derived side', () => {
+  assert.deepEqual(
+    normalizeLinkedResizeRequest('300', '150', true, 'height'),
+    { height: null, keepAspect: true, width: 300 },
+  );
+  assert.deepEqual(
+    normalizeLinkedResizeRequest('200', '100', true, 'width'),
+    { height: 100, keepAspect: true, width: null },
+  );
+  assert.deepEqual(
+    normalizeLinkedResizeRequest('300', '150', false, 'height'),
+    { height: 150, keepAspect: false, width: 300 },
   );
 });
 

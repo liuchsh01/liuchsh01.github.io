@@ -50,6 +50,18 @@
     return { height, keepAspect: preserveAspect, width };
   };
 
+  const normalizeLinkedResizeRequest = (
+    requestedWidth,
+    requestedHeight,
+    keepAspect,
+    derivedDimension,
+  ) => {
+    const preserveAspect = Boolean(keepAspect);
+    const width = preserveAspect && derivedDimension === 'width' ? '' : requestedWidth;
+    const height = preserveAspect && derivedDimension === 'height' ? '' : requestedHeight;
+    return normalizeResizeRequest(width, height, preserveAspect);
+  };
+
   const calculateOutputDimensions = (
     originalWidth,
     originalHeight,
@@ -144,6 +156,7 @@
     getOutputFilename,
     getOutputMimeType,
     normalizeFormat,
+    normalizeLinkedResizeRequest,
     normalizeQuality,
     normalizeResizeRequest,
     shareAspectRatio,
