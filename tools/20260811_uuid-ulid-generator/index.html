@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地批量生成 UUID v4、UUID v7 和 ULID，支持大小写、UUID 连字符、复制和下载。" />
+  <title>UUID / ULID 生成器｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./identifier-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">UNIQUE IDENTIFIERS</p>
+        <h1>UUID / ULID 生成器</h1>
+      </div>
+      <p class="subtitle">批量生成随机 UUID v4、时间有序 UUID v7 或 ULID。随机数据由浏览器安全随机数提供，全程在本地完成。</p>
+    </header>
+
+    <section class="workspace identifier-workspace" aria-label="UUID 和 ULID 生成工作区">
+      <form class="identifier-panel identifier-form" id="identifierForm" novalidate aria-labelledby="settings-heading">
+        <div class="section-head">
+          <h2 id="settings-heading">生成参数</h2>
+          <span class="count" id="parameterSummary">UUID v4 · 5 个</span>
+        </div>
+
+        <fieldset class="type-fieldset">
+          <legend>标识符类型</legend>
+          <div class="type-options">
+            <label>
+              <input type="radio" name="identifierType" value="uuid-v4" checked />
+              <span>UUID v4</span>
+              <small>完全随机，兼容性最好</small>
+            </label>
+            <label>
+              <input type="radio" name="identifierType" value="uuid-v7" />
+              <span>UUID v7</span>
+              <small>包含毫秒时间，便于排序</small>
+            </label>
+            <label>
+              <input type="radio" name="identifierType" value="ulid" />
+              <span>ULID</span>
+              <small>26 位、紧凑且时间有序</small>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="parameter-grid">
+          <div class="field">
+            <label for="identifierCount">生成数量</label>
+            <input class="mono-input" id="identifierCount" type="number" min="1" max="500" step="1" value="5" inputmode="numeric" />
+            <span class="helper-text">一次最多生成 500 个</span>
+          </div>
+
+          <div class="field">
+            <label for="letterCase">字母大小写</label>
+            <select id="letterCase">
+              <option value="standard">标准格式</option>
+              <option value="upper">全部大写</option>
+              <option value="lower">全部小写</option>
+            </select>
+            <span class="helper-text">标准格式为 UUID 小写、ULID 大写</span>
+          </div>
+        </div>
+
+        <label class="check-option" for="includeHyphens">
+          <input id="includeHyphens" type="checkbox" checked />
+          <span>
+            <strong>保留 UUID 连字符</strong>
+            <small id="hyphenHint">输出标准的 8-4-4-4-12 分组格式</small>
+          </span>
+        </label>
+
+        <div class="actions">
+          <button class="primary-button" id="generateIdentifiers" type="submit">生成标识符</button>
+          <button class="secondary-button" id="resetSettings" type="button">恢复默认</button>
+          <span class="hint">快捷键：⌘ / Ctrl + Enter</span>
+        </div>
+
+        <p class="status" id="formStatus" role="status" aria-live="polite">默认生成 5 个标准格式的 UUID v4。</p>
+      </form>
+
+      <section class="identifier-panel identifier-results" aria-labelledby="results-heading">
+        <div class="section-head results-heading-row">
+          <div>
+            <h2 id="results-heading">生成结果</h2>
+            <span class="count" id="resultCount">0 个</span>
+          </div>
+          <div class="result-actions">
+            <button class="secondary-button compact-button" id="downloadResults" type="button" disabled>下载</button>
+            <button class="secondary-button compact-button" id="copyAll" type="button" disabled>复制全部</button>
+          </div>
+        </div>
+
+        <div class="identifier-output">
+          <div class="empty-state" id="emptyState">选择类型和数量后生成标识符。</div>
+          <ol class="identifier-list" id="resultList" hidden></ol>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="about-title">
+      <p class="section-kicker">格式说明</p>
+      <h2 id="about-title">应该选择哪一种？</h2>
+      <p><strong>UUID v4</strong> 适合通用随机标识；<strong>UUID v7</strong> 和 <strong>ULID</strong> 都包含毫秒级时间信息，更适合作为需要按创建时间排序的数据库主键。ULID 使用不易混淆的 Crockford Base32 字符集。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

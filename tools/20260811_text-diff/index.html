@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地逐行比较两段文本，查看新增、删除和修改内容，支持忽略空白与大小写。" />
+  <title>文本差异对比｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./diff-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">TEXT DIFFERENCE</p>
+        <h1>文本差异对比</h1>
+      </div>
+      <p class="subtitle">逐行比较两段文本，清晰标记新增、删除和修改内容。输入与对比全部在当前浏览器中完成。</p>
+    </header>
+
+    <section class="workspace diff-workspace" aria-label="文本差异对比工作区">
+      <div class="diff-input-grid">
+        <section class="text-column" aria-labelledby="left-heading">
+          <div class="section-head">
+            <h2 id="left-heading">原始文本</h2>
+            <span class="count" id="leftCount">0 行 · 0 字符</span>
+          </div>
+          <label class="field-label" for="leftText">需要作为基准的文本</label>
+          <textarea class="diff-input mono-input" id="leftText" spellcheck="false" placeholder="粘贴原始文本，例如配置、代码或日志……"></textarea>
+        </section>
+
+        <section class="text-column" aria-labelledby="right-heading">
+          <div class="section-head">
+            <h2 id="right-heading">对比文本</h2>
+            <span class="count" id="rightCount">0 行 · 0 字符</span>
+          </div>
+          <label class="field-label" for="rightText">需要检查变化的文本</label>
+          <textarea class="diff-input mono-input" id="rightText" spellcheck="false" placeholder="粘贴修改后的文本……"></textarea>
+        </section>
+      </div>
+
+      <div class="diff-toolbar">
+        <fieldset class="compare-options">
+          <legend>对比选项</legend>
+          <label class="option-control">
+            <input id="ignoreWhitespace" type="checkbox" />
+            <span>忽略空白差异</span>
+          </label>
+          <label class="option-control">
+            <input id="ignoreCase" type="checkbox" />
+            <span>忽略大小写</span>
+          </label>
+        </fieldset>
+
+        <div class="toolbar-actions">
+          <button class="secondary-button" id="swapTexts" type="button">交换文本</button>
+          <button class="secondary-button" id="clearTexts" type="button">清空</button>
+          <button class="primary-button" id="compareTexts" type="button">开始对比</button>
+        </div>
+      </div>
+
+      <div class="status" id="compareStatus" role="status" aria-live="polite">输入两段文本后点击“开始对比”。</div>
+
+      <section class="diff-results" aria-labelledby="result-heading">
+        <div class="section-head result-heading-row">
+          <div>
+            <h2 id="result-heading">对比结果</h2>
+            <span class="count" id="resultSummary" aria-live="polite">等待对比</span>
+          </div>
+          <button class="secondary-button copy-diff" id="copyDiff" type="button" disabled>复制差异</button>
+        </div>
+
+        <ul class="diff-stats" id="diffStats" aria-label="差异统计" hidden>
+          <li><span class="stat-dot stat-changed" aria-hidden="true"></span>修改 <strong id="changedCount">0</strong></li>
+          <li><span class="stat-dot stat-added" aria-hidden="true"></span>新增 <strong id="addedCount">0</strong></li>
+          <li><span class="stat-dot stat-deleted" aria-hidden="true"></span>删除 <strong id="deletedCount">0</strong></li>
+          <li><span class="stat-dot stat-equal" aria-hidden="true"></span>相同 <strong id="equalCount">0</strong></li>
+        </ul>
+
+        <div class="empty-state" id="emptyState">对比结果会按行显示在这里，并在修改行内进一步标记字符差异。</div>
+
+        <div class="diff-scroll" id="diffScroll" hidden tabindex="0" aria-label="文本差异表格，可横向滚动">
+          <table class="diff-table">
+            <thead>
+              <tr>
+                <th class="kind-column" scope="col"><span class="visually-hidden">状态</span></th>
+                <th class="line-column" scope="col">原始行</th>
+                <th scope="col">原始文本</th>
+                <th class="line-column" scope="col">对比行</th>
+                <th scope="col">对比文本</th>
+              </tr>
+            </thead>
+            <tbody id="diffBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="diff-note-heading">
+      <h2 id="diff-note-heading">使用说明</h2>
+      <p>按行寻找最小差异，并对成对修改的行继续标出字符变化。“忽略空白差异”会合并连续空白并忽略行首尾空白；最多比较两侧合计 2,000 行、每侧 50 万字符。快捷键：⌘ / Ctrl + Enter。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

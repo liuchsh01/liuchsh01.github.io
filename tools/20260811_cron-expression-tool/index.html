@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地解析、校验和生成 5 段 Unix Cron 表达式，并预览未来执行时间。" />
+  <title>Cron 表达式工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./cron-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">CRON SCHEDULE</p>
+        <h1>Cron 表达式工具</h1>
+      </div>
+      <p class="subtitle">解析和校验常见的 5 段 Unix Cron 表达式，查看每个字段的含义，并从指定时间开始预览未来执行计划。</p>
+    </header>
+
+    <section class="workspace cron-workspace" aria-label="Cron 表达式工作区">
+      <section class="cron-entry" aria-labelledby="cron-input-heading">
+        <div class="section-head">
+          <h2 id="cron-input-heading">输入与生成</h2>
+          <span class="count">5 段 Unix Cron</span>
+        </div>
+
+        <div class="template-section">
+          <span class="field-label">常用模板</span>
+          <div class="template-list" aria-label="常用 Cron 模板">
+            <button class="template-button" type="button" data-cron="*/5 * * * *">每 5 分钟</button>
+            <button class="template-button" type="button" data-cron="0 * * * *">每小时</button>
+            <button class="template-button" type="button" data-cron="0 9 * * *">每天 09:00</button>
+            <button class="template-button" type="button" data-cron="0 9 * * 1-5">工作日 09:00</button>
+            <button class="template-button" type="button" data-cron="0 9 * * 1">每周一 09:00</button>
+            <button class="template-button" type="button" data-cron="0 9 1 * *">每月 1 日</button>
+          </div>
+        </div>
+
+        <form id="cronForm" novalidate>
+          <div class="field expression-field">
+            <label for="cronExpression">Cron 表达式</label>
+            <input class="mono-input" id="cronExpression" name="cron-expression" type="text" value="0 9 * * 1-5" autocomplete="off" spellcheck="false" aria-describedby="expressionHint cronStatus" />
+            <span class="helper-text" id="expressionHint">顺序：分钟　小时　日期　月份　星期</span>
+          </div>
+
+          <fieldset class="field-builder">
+            <legend>分字段编辑</legend>
+            <label class="builder-field" for="minuteField">
+              <span>分钟</span>
+              <input class="mono-input" id="minuteField" type="text" value="0" autocomplete="off" spellcheck="false" />
+              <small>0–59</small>
+            </label>
+            <label class="builder-field" for="hourField">
+              <span>小时</span>
+              <input class="mono-input" id="hourField" type="text" value="9" autocomplete="off" spellcheck="false" />
+              <small>0–23</small>
+            </label>
+            <label class="builder-field" for="dayOfMonthField">
+              <span>日期</span>
+              <input class="mono-input" id="dayOfMonthField" type="text" value="*" autocomplete="off" spellcheck="false" />
+              <small>1–31</small>
+            </label>
+            <label class="builder-field" for="monthField">
+              <span>月份</span>
+              <input class="mono-input" id="monthField" type="text" value="*" autocomplete="off" spellcheck="false" />
+              <small>1–12</small>
+            </label>
+            <label class="builder-field" for="dayOfWeekField">
+              <span>星期</span>
+              <input class="mono-input" id="dayOfWeekField" type="text" value="1-5" autocomplete="off" spellcheck="false" />
+              <small>0–7</small>
+            </label>
+          </fieldset>
+
+          <div class="preview-options">
+            <div class="field">
+              <label for="startTime">起算时间</label>
+              <div class="inline-control">
+                <input class="mono-input" id="startTime" type="datetime-local" step="60" />
+                <button class="secondary-button" id="fillNow" type="button">使用现在</button>
+              </div>
+            </div>
+            <div class="field">
+              <label for="previewCount">预览数量</label>
+              <select id="previewCount">
+                <option value="5">5 次</option>
+                <option value="10" selected>10 次</option>
+                <option value="20">20 次</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="actions">
+            <button class="primary-button" id="parseCron" type="submit">解析并预览</button>
+            <span class="hint">快捷键：⌘ / Ctrl + Enter</span>
+          </div>
+          <p class="status" id="cronStatus" role="status" aria-live="polite">输入表达式后可查看字段含义与未来执行时间。</p>
+        </form>
+      </section>
+
+      <section class="cron-results" aria-labelledby="cron-result-heading">
+        <div class="section-head result-heading">
+          <h2 id="cron-result-heading">解析结果</h2>
+          <span class="count" id="timeZoneLabel">浏览器本地时区</span>
+        </div>
+
+        <div class="summary-card" id="summaryCard" hidden>
+          <span class="result-label">执行规则</span>
+          <output class="summary-text" id="cronSummary"></output>
+          <div class="normalized-row">
+            <code id="normalizedExpression"></code>
+            <button class="secondary-button compact-button" id="copyExpression" type="button" disabled>复制表达式</button>
+          </div>
+        </div>
+
+        <div class="field-details" id="fieldDetails" aria-label="Cron 字段解析结果"></div>
+
+        <div class="schedule-heading">
+          <h3>未来执行时间</h3>
+          <button class="secondary-button compact-button" id="copySchedule" type="button" disabled>复制全部</button>
+        </div>
+        <div class="empty-state schedule-empty" id="scheduleEmpty">有效表达式的未来执行时间会显示在这里。</div>
+        <ol class="schedule-list" id="scheduleList" hidden aria-live="polite"></ol>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="cron-note-heading">
+      <p class="section-kicker">语法说明</p>
+      <h2 id="cron-note-heading">支持范围与执行规则</h2>
+      <p>支持 <code>*</code> 通配符、<code>,</code> 列表、<code>-</code> 范围、<code>/</code> 步长，以及 <code>JAN–DEC</code>、<code>SUN–SAT</code> 英文缩写。星期中的 0 和 7 都表示周日；日期与星期同时受限时，按传统 Unix Cron 规则，任一条件匹配就会执行。</p>
+      <p>未来时间使用浏览器当前时区计算，起算时间本身不计入结果。本工具不支持 Quartz Cron 的秒、年份、<code>?</code>、<code>L</code>、<code>W</code> 和 <code>#</code> 扩展语法。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

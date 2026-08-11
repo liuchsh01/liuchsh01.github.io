@@ -69,6 +69,9 @@ check_home() {
   check_contains 'index.html' './tools/20260811_token-inspector/' 'homepage missing token inspector link'
   check_contains 'index.html' './tools/20260811_image-converter/' 'homepage missing image converter link'
   check_contains 'index.html' './tools/20260811_encoding-converter/' 'homepage missing encoding converter link'
+  check_contains 'index.html' './tools/20260811_uuid-ulid-generator/' 'homepage missing UUID/ULID generator link'
+  check_contains 'index.html' './tools/20260811_regex-tester/' 'homepage missing regex tester link'
+  check_contains 'index.html' './tools/20260811_text-diff/' 'homepage missing text diff link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
 }
 
@@ -109,6 +112,62 @@ check_encoding_converter() {
   check_contains "$directory/encoding-core.js" 'encodeURIComponent' 'encoding converter missing URL component encoding'
   check_contains "$directory/encoding-core.js" 'encodeHtmlEntities' 'encoding converter missing HTML entity encoding'
   check_not_contains "$directory/script.js" 'innerHTML' 'encoding converter must not inject user output as HTML'
+}
+
+check_identifier_generator() {
+  local directory='tools/20260811_uuid-ulid-generator'
+  check_tool_page "$directory"
+  check_file "$directory/identifier-core.js"
+  check_contains "$directory/index.html" 'value="uuid-v4" checked' 'identifier generator must default to UUID v4'
+  check_contains "$directory/index.html" 'value="uuid-v7"' 'identifier generator missing UUID v7 option'
+  check_contains "$directory/index.html" 'value="ulid"' 'identifier generator missing ULID option'
+  check_contains "$directory/index.html" 'id="identifierCount"' 'identifier generator missing count input'
+  check_contains "$directory/index.html" 'id="letterCase"' 'identifier generator missing letter-case selector'
+  check_contains "$directory/index.html" 'id="includeHyphens"' 'identifier generator missing UUID hyphen option'
+  check_contains "$directory/index.html" 'id="copyAll"' 'identifier generator missing copy-all control'
+  check_contains "$directory/index.html" 'id="downloadResults"' 'identifier generator missing download control'
+  check_contains "$directory/identifier-core.js" 'generateUuidV4' 'identifier generator missing UUID v4 core'
+  check_contains "$directory/identifier-core.js" 'generateUuidV7' 'identifier generator missing UUID v7 core'
+  check_contains "$directory/identifier-core.js" 'generateUlid' 'identifier generator missing ULID core'
+  check_contains "$directory/identifier-core.js" 'getRandomValues' 'identifier generator must use cryptographic randomness'
+  check_not_contains "$directory/script.js" 'innerHTML' 'identifier generator must render results safely'
+}
+
+check_regex_tester() {
+  local directory='tools/20260811_regex-tester'
+  check_tool_page "$directory"
+  check_file "$directory/regex-core.js"
+  check_contains "$directory/index.html" 'id="patternInput"' 'regex tester missing pattern input'
+  check_contains "$directory/index.html" 'id="testText"' 'regex tester missing test text input'
+  check_contains "$directory/index.html" 'value="g" checked' 'regex tester must enable global matching by default'
+  check_contains "$directory/index.html" 'value="i"' 'regex tester missing ignore-case flag'
+  check_contains "$directory/index.html" 'value="m"' 'regex tester missing multiline flag'
+  check_contains "$directory/index.html" 'value="s"' 'regex tester missing dot-all flag'
+  check_contains "$directory/index.html" 'value="u"' 'regex tester missing Unicode flag'
+  check_contains "$directory/index.html" 'id="highlightOutput"' 'regex tester missing highlight output'
+  check_contains "$directory/index.html" 'id="matchList"' 'regex tester missing capture details'
+  check_contains "$directory/index.html" 'id="replacementOutput"' 'regex tester missing replacement preview'
+  check_contains "$directory/index.html" 'id="copyReplacement"' 'regex tester missing replacement copy control'
+  check_contains "$directory/regex-core.js" 'advanceStringIndex' 'regex tester missing zero-width match protection'
+  check_contains "$directory/script.js" 'document.createElement' 'regex tester must render matches safely with DOM APIs'
+  check_not_contains "$directory/script.js" 'innerHTML' 'regex tester must not inject user input as HTML'
+  check_not_contains "$directory/regex-core.js" 'eval\(|new Function' 'regex tester must not execute user input'
+}
+
+check_text_diff() {
+  local directory='tools/20260811_text-diff'
+  check_tool_page "$directory"
+  check_file "$directory/diff-core.js"
+  check_contains "$directory/index.html" 'id="leftText"' 'text diff missing original text input'
+  check_contains "$directory/index.html" 'id="rightText"' 'text diff missing comparison text input'
+  check_contains "$directory/index.html" 'id="ignoreWhitespace"' 'text diff missing whitespace option'
+  check_contains "$directory/index.html" 'id="ignoreCase"' 'text diff missing case option'
+  check_contains "$directory/index.html" 'id="swapTexts"' 'text diff missing swap control'
+  check_contains "$directory/index.html" 'id="copyDiff"' 'text diff missing copy control'
+  check_contains "$directory/index.html" 'id="diffBody"' 'text diff missing result table'
+  check_contains "$directory/diff-core.js" 'diffSequence' 'text diff missing line comparison algorithm'
+  check_contains "$directory/script.js" 'document.createElement' 'text diff must render results safely with DOM APIs'
+  check_not_contains "$directory/script.js" 'innerHTML' 'text diff must not inject text as HTML'
 }
 
 check_token_inspector() {
@@ -306,6 +365,15 @@ case "$group" in
   encoding)
     check_encoding_converter
     ;;
+  identifier)
+    check_identifier_generator
+    ;;
+  regex)
+    check_regex_tester
+    ;;
+  text-diff)
+    check_text_diff
+    ;;
   theme)
     check_home
     check_theme_contract
@@ -322,6 +390,9 @@ case "$group" in
     check_token_inspector
     check_image_converter
     check_encoding_converter
+    check_identifier_generator
+    check_regex_tester
+    check_text_diff
     check_theme_contract
     ;;
   *)
