@@ -66,7 +66,25 @@ check_home() {
   check_contains 'index.html' './tools/20260810_random-password-generator/' 'homepage missing random password generator link'
   check_contains 'index.html' './tools/20260810_json-formatter/' 'homepage missing JSON formatter link'
   check_contains 'index.html' './tools/20260810_timestamp-converter/' 'homepage missing timestamp converter link'
+  check_contains 'index.html' './tools/20260811_token-inspector/' 'homepage missing token inspector link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
+}
+
+check_token_inspector() {
+  local directory='tools/20260811_token-inspector'
+  check_tool_page "$directory"
+  check_file "$directory/token-core.js"
+  check_contains "$directory/index.html" 'id="tokenInput"' 'token inspector missing token input'
+  check_contains "$directory/index.html" 'id="parseToken"' 'token inspector missing parse control'
+  check_contains "$directory/index.html" 'id="keyInput"' 'token inspector missing verification/decryption key input'
+  check_contains "$directory/index.html" 'id="verifyToken"' 'token inspector missing cryptographic validation control'
+  check_contains "$directory/index.html" 'id="headerOutput"' 'token inspector missing header output'
+  check_contains "$directory/index.html" 'id="payloadOutput"' 'token inspector missing payload output'
+  check_contains "$directory/index.html" 'id="copyHeader"' 'token inspector missing header copy control'
+  check_contains "$directory/index.html" 'id="copyPayload"' 'token inspector missing payload copy control'
+  check_contains "$directory/token-core.js" 'crypto.subtle' 'token inspector must use Web Crypto for verification and decryption'
+  check_not_contains "$directory/script.js" 'innerHTML' 'token inspector must not inject token content as HTML'
+  check_not_contains "$directory/token-core.js" 'eval\(|new Function' 'token inspector must not execute token content'
 }
 
 check_timestamp_converter() {
@@ -238,6 +256,9 @@ case "$group" in
   timestamp)
     check_timestamp_converter
     ;;
+  token)
+    check_token_inspector
+    ;;
   theme)
     check_home
     check_theme_contract
@@ -251,6 +272,7 @@ case "$group" in
     check_password_generator
     check_json_formatter
     check_timestamp_converter
+    check_token_inspector
     check_theme_contract
     ;;
   *)

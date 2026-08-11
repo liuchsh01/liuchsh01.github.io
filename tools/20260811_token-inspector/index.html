@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地解析 JWT/JWE Token，分开展示 Header 和 Payload，并执行声明校验、签名验证或 JWE 解密。" />
+  <title>JWT / JWE 解析校验工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./token-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">TOKEN INSPECTOR</p>
+        <h1>JWT / JWE 解析校验</h1>
+      </div>
+      <p class="subtitle">拆分 Compact JWT/JWE 的 Header 与 Payload，检查声明和结构；提供密钥时可验证签名或解密常见 JWE。</p>
+    </header>
+
+    <section class="panel token-input-panel" aria-labelledby="token-input-heading">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">TOKEN INPUT</p>
+          <h2 id="token-input-heading">输入 Compact Token</h2>
+        </div>
+        <span class="token-type-badge" id="tokenType">等待解析</span>
+      </div>
+
+      <div class="field">
+        <label for="tokenInput">JWT 或 JWE Token</label>
+        <textarea class="token-input mono-input" id="tokenInput" spellcheck="false" autocomplete="off" placeholder="粘贴 3 段 JWT/JWS 或 5 段 Compact JWE"></textarea>
+      </div>
+      <div class="actions">
+        <button class="primary-button" id="parseToken" type="button">解析并检查</button>
+        <button class="secondary-button" id="clearToken" type="button">清空</button>
+        <span class="hint">快捷键：⌘ / Ctrl + Enter</span>
+      </div>
+      <p class="status" id="parseStatus" role="status" aria-live="polite">Token 只在当前浏览器中处理。</p>
+    </section>
+
+    <section class="token-output-grid" aria-label="Token 解析结果">
+      <section class="token-output-card" aria-labelledby="header-heading">
+        <div class="section-head output-heading">
+          <div>
+            <p class="section-kicker">PROTECTED HEADER</p>
+            <h2 id="header-heading">Header</h2>
+          </div>
+          <button class="secondary-button output-copy" id="copyHeader" type="button" disabled>复制</button>
+        </div>
+        <pre class="token-output" id="headerOutput" tabindex="0">解析后显示 Header</pre>
+      </section>
+
+      <section class="token-output-card" aria-labelledby="payload-heading">
+        <div class="section-head output-heading">
+          <div>
+            <p class="section-kicker">TOKEN PAYLOAD</p>
+            <h2 id="payload-heading">Payload</h2>
+          </div>
+          <div class="payload-heading-actions">
+            <span class="payload-state" id="payloadState">等待解析</span>
+            <button class="secondary-button output-copy" id="copyPayload" type="button" disabled>复制</button>
+          </div>
+        </div>
+        <pre class="token-output" id="payloadOutput" tabindex="0">JWT Payload 或解密后的 JWE Payload 会显示在这里</pre>
+      </section>
+    </section>
+
+    <section class="workspace validation-workspace" aria-label="Token 校验工作区">
+      <section class="validation-panel" aria-labelledby="validation-heading">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">VALIDATION</p>
+            <h2 id="validation-heading">结构与声明检查</h2>
+          </div>
+          <span class="validation-summary" id="validationSummary">尚未检查</span>
+        </div>
+        <ul class="validation-list" id="validationList">
+          <li class="validation-placeholder">解析 Token 后显示检查结果。</li>
+        </ul>
+      </section>
+
+      <section class="credential-panel" aria-labelledby="credential-heading">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">CRYPTOGRAPHIC CHECK</p>
+            <h2 id="credential-heading">签名验证 / JWE 解密</h2>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="keyFormat">密钥格式</label>
+          <select id="keyFormat">
+            <option value="auto">自动识别</option>
+            <option value="utf8">UTF-8 文本（HMAC）</option>
+            <option value="base64url">Base64URL（对称密钥）</option>
+            <option value="jwk">JWK JSON</option>
+            <option value="pem">PEM</option>
+          </select>
+        </div>
+
+        <div class="field key-field">
+          <label for="keyInput">校验或解密密钥</label>
+          <textarea class="key-input mono-input" id="keyInput" spellcheck="false" autocomplete="off" placeholder="解析 Token 后会提示需要的密钥类型"></textarea>
+          <p class="helper-text" id="keyHint">JWT 解码本身不代表可信；只有签名验证成功才能确认完整性。</p>
+        </div>
+
+        <button class="primary-button verify-button" id="verifyToken" type="button" disabled>请先解析 Token</button>
+        <p class="status crypto-status" id="cryptoStatus" role="status" aria-live="polite">尚未执行密码学校验。</p>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="token-note-heading">
+      <p class="section-kicker">安全说明</p>
+      <h2 id="token-note-heading">解码不等于验证，JWE Payload 默认不可见</h2>
+      <p>JWT 支持 HS256/384/512、RS256/384/512、PS256/384/512 和 ES256/384/512 验签。JWE 支持 <code>dir</code>、<code>RSA-OAEP</code>、<code>RSA-OAEP-256</code> 搭配 A128/192/256GCM 解密。密钥、Token 和解析结果不会由本工具上传。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

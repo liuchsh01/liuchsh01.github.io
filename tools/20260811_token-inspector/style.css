@@ -1,0 +1,246 @@
+.token-input-panel {
+  margin-bottom: 20px;
+}
+
+.token-input {
+  min-height: 150px;
+  word-break: break-all;
+}
+
+.token-type-badge,
+.payload-state,
+.validation-summary {
+  display: inline-flex;
+  min-height: 28px;
+  align-items: center;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  background: var(--mist);
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.token-type-badge.is-detected,
+.payload-state.is-ready,
+.validation-summary.is-valid {
+  border-color: var(--success-line);
+  background: var(--success-pale);
+  color: var(--success);
+}
+
+.payload-state.is-encrypted,
+.validation-summary.is-warning {
+  border-color: var(--teal-line);
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+}
+
+.validation-summary.is-invalid {
+  border-color: var(--error-line);
+  background: var(--error-pale);
+  color: var(--error);
+}
+
+.token-output-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.token-output-card {
+  min-width: 0;
+  padding: 24px;
+  border: 1px solid var(--panel-line);
+  border-radius: var(--radius-card);
+  background: var(--paper);
+  box-shadow: var(--shadow-soft);
+}
+
+.output-heading {
+  align-items: flex-start;
+}
+
+.output-heading .section-kicker {
+  margin-bottom: 3px;
+  font-size: 10px;
+}
+
+.output-heading h2 {
+  font-size: 18px;
+}
+
+.payload-heading-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 7px;
+}
+
+.output-copy {
+  min-height: 44px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.token-output {
+  min-height: 330px;
+  max-height: 520px;
+  margin: 0;
+  padding: 16px;
+  overflow: auto;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  outline: none;
+  background: var(--control-bg);
+  color: var(--ink-code);
+  font: 12px/1.7 var(--font-mono);
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.token-output:focus-visible {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 4px var(--focus-ring-control);
+}
+
+.validation-workspace {
+  grid-template-columns: minmax(0, 1.05fr) minmax(340px, 0.95fr);
+}
+
+.validation-panel,
+.credential-panel {
+  min-width: 0;
+  padding: 28px;
+}
+
+.validation-list {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.validation-group-title {
+  margin-top: 5px;
+  color: var(--muted);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.validation-group-title:first-child {
+  margin-top: 0;
+}
+
+.validation-item,
+.validation-placeholder {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 9px;
+  padding: 11px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-button);
+  background: var(--control-bg);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.validation-placeholder {
+  display: block;
+}
+
+.check-mark {
+  display: grid;
+  width: 21px;
+  height: 21px;
+  place-items: center;
+  border-radius: var(--radius-round);
+  background: var(--mist);
+  color: var(--muted);
+  font: 800 11px/1 var(--font-mono);
+}
+
+.validation-item.is-pass .check-mark {
+  background: var(--success-pale);
+  color: var(--success);
+}
+
+.validation-item.is-error {
+  border-color: var(--error-line);
+  background: var(--error-pale);
+  color: var(--error);
+}
+
+.validation-item.is-error .check-mark {
+  background: var(--paper);
+  color: var(--error);
+}
+
+.validation-item.is-warning .check-mark {
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+}
+
+.key-field {
+  margin-top: 16px;
+}
+
+.key-input {
+  min-height: 150px;
+}
+
+.key-field .helper-text {
+  margin: 0;
+  line-height: 1.6;
+}
+
+.verify-button {
+  width: 100%;
+  margin-top: 16px;
+}
+
+.crypto-status {
+  margin-bottom: 0;
+}
+
+@media (max-width: 820px) {
+  .token-output-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .validation-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .token-output {
+    min-height: 250px;
+  }
+}
+
+@media (max-width: 520px) {
+  .token-output-card {
+    padding: 20px;
+    border-radius: var(--radius-section);
+  }
+
+  .output-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .payload-heading-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+}
