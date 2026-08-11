@@ -1,7 +1,47 @@
 (() => {
   'use strict';
 
+  const THEME_STORAGE_KEY = 'toolbox-theme';
+  const DEFAULT_THEME = 'jade';
+  const THEMES = Object.freeze([
+    { id: 'jade', label: '翡翠青', colorScheme: 'light', accent: '#0f766e' },
+    { id: 'ocean', label: '海雾蓝', colorScheme: 'light', accent: '#256f86' },
+    { id: 'sand', label: '暖砂金', colorScheme: 'light', accent: '#9a6c2f' },
+    { id: 'rose', label: '雾玫瑰', colorScheme: 'light', accent: '#9a5d6c' },
+    { id: 'night', label: '深林夜色', colorScheme: 'dark', accent: '#63c7b1' },
+  ]);
+  const themeMap = new Map(THEMES.map(theme => [theme.id, theme]));
   let toastTimer;
+  let activeTheme = DEFAULT_THEME;
+
+  const normalizeTheme = themeId => themeMap.has(themeId) ? themeId : DEFAULT_THEME;
+
+  const readStoredTheme = () => {
+    try {
+      return normalizeTheme(window.localStorage.getItem(THEME_STORAGE_KEY));
+    } catch (error) {
+      return DEFAULT_THEME;
+    }
+  };
+
+  const persistTheme = themeId => {
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, themeId);
+    } catch (error) {
+      // file:// 或隐私模式可能禁用存储；当前页面仍然可以正常切换主题。
+    }
+  };
+
+  const updateThemeControls = () => {
+    document.querySelectorAll('[data-theme-select]').forEach(select => {
+      if (select.value !== activeTheme) select.value = activeTheme;
+    });
+  };
+
+  const updateThemeColor = theme => {
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme.accent);
+  };
 
   const getToast = () => {
     let toast = document.querySelector('[data-toast]');
@@ -27,6 +67,32 @@
     void toast.offsetWidth;
     toast.classList.add('show');
     toastTimer = window.setTimeout(() => toast.classList.remove('show'), 1800);
+  };
+
+  const applyTheme = (themeId, options = {}) => {
+    const { persist = true, announce = false } = options;
+    const normalized = normalizeTheme(themeId);
+    const theme = themeMap.get(normalized);
+    activeTheme = normalized;
+    document.documentElement.dataset.theme = normalized;
+    document.documentElement.style.colorScheme = theme.colorScheme;
+    updateThemeColor(theme);
+    updateThemeControls();
+    if (persist) persistTheme(normalized);
+    if (announce && document.body) showToast('已切换为' + theme.label + '主题');
+    window.dispatchEvent(new CustomEvent('toolbox-theme-change', {
+      detail: { id: normalized, label: theme.label, colorScheme: theme.colorScheme },
+    }));
+    return normalized;
+  };
+
+  const setupThemeControls = () => {
+    updateThemeControls();
+    document.querySelectorAll('[data-theme-select]').forEach(select => {
+      select.addEventListener('change', () => {
+        applyTheme(select.value, { persist: true, announce: true });
+      });
+    });
   };
 
   const copyWithFallback = (value) => {
@@ -72,5 +138,26 @@
     showToast(successMessage);
   };
 
-  window.Toolbox = { showToast, copyText };
+  activeTheme = readStoredTheme();
+  applyTheme(activeTheme, { persist: false });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupThemeControls, { once: true });
+  } else {
+    setupThemeControls();
+  }
+
+  window.addEventListener('storage', event => {
+    if (event.key === THEME_STORAGE_KEY && event.newValue) {
+      applyTheme(event.newValue, { persist: false });
+    }
+  });
+
+  window.Toolbox = {
+    showToast,
+    copyText,
+    themes: THEMES,
+    getTheme: () => activeTheme,
+    setTheme: themeId => applyTheme(themeId, { persist: true }),
+  };
 })();

@@ -4,6 +4,7 @@ const {
   aggregateResults,
   buildRequestUrls,
   classifyIp,
+  getDisplayFields,
   normalizeProviderResponse,
   validateIp,
 } = require('../tools/20260811_ip-info-lookup/ip-core.js');
@@ -62,6 +63,7 @@ test('normalizes IPWhois, GeoJS and DB-IP responses', () => {
   assert.equal(ipwhois.timezone, 'America/Los_Angeles');
   assert.equal(geojs.organization, 'Google LLC');
   assert.equal(dbip.region, 'California');
+  assert.equal(getDisplayFields(dbip).coordinates, '');
 });
 
 test('normalizes RIPEstat combined responses', () => {

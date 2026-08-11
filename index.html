@@ -7,7 +7,7 @@
   <meta name="description" content="一组轻量、无需登录、在浏览器本地处理的日常实用工具。" />
   <title>实用工具集</title>
   <link rel="stylesheet" href="./assets/css/theme.css" />
-  <script src="./assets/js/common.js" defer></script>
+  <script src="./assets/js/common.js"></script>
 </head>
 <body class="home-page">
   <main class="shell">
@@ -16,7 +16,19 @@
         <p class="eyebrow">EVERYDAY TOOLBOX</p>
         <h1>实用工具集</h1>
       </div>
-      <p class="subtitle">为日常计算、文本处理和开发工作准备的小工具，打开页面即可使用。</p>
+      <div class="masthead-side">
+        <p class="subtitle">为日常计算、文本处理和开发工作准备的小工具，打开页面即可使用。</p>
+        <label class="theme-picker" for="themeSelect">
+          <span>主题</span>
+          <select id="themeSelect" data-theme-select>
+            <option value="jade">翡翠青（默认）</option>
+            <option value="ocean">海雾蓝</option>
+            <option value="sand">暖砂金</option>
+            <option value="rose">雾玫瑰</option>
+            <option value="night">深林夜色</option>
+          </select>
+        </label>
+      </div>
     </header>
 
     <section class="site-intro" aria-labelledby="intro-title">

@@ -314,6 +314,10 @@
   };
 
   const formatCoordinates = result => {
+    if (cleanValue(result.latitude) === '' || cleanValue(result.longitude) === '') {
+      return '';
+    }
+
     const latitude = Number(result.latitude);
     const longitude = Number(result.longitude);
     if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return '';

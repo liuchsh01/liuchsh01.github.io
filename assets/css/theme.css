@@ -78,6 +78,250 @@
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
 }
 
+/*
+ * 可选主题只覆盖语义颜色与阴影，不改变组件尺寸、排版和交互规则。
+ * common.js 会在 <html> 上设置 data-theme，并在所有页面间持久化选择。
+ */
+:root[data-theme="ocean"] {
+  color-scheme: light;
+  --ink: #17262e;
+  --ink-soft: #344750;
+  --ink-control: #263a43;
+  --ink-code: #16485a;
+  --muted: #627781;
+  --muted-soft: #92a5ad;
+  --muted-empty: #7d929b;
+  --line: #d8e5e9;
+  --paper: #ffffff;
+  --mist: #f3f8fa;
+  --control-bg: #fafcfd;
+  --surface-hover: #f4fbfd;
+  --surface-drop: #f7fbfc;
+  --surface-glass-strong: rgba(255, 255, 255, 0.82);
+  --surface-glass-soft: rgba(255, 255, 255, 0.58);
+  --on-accent: #ffffff;
+  --teal: #256f86;
+  --teal-dark: #1c596d;
+  --teal-pale: #e2f1f5;
+  --teal-line: #b9d8e1;
+  --teal-gradient-end: #8cb8c7;
+  --panel-line: rgba(37, 111, 134, 0.12);
+  --card-line: rgba(37, 111, 134, 0.15);
+  --teal-line-hover: rgba(37, 111, 134, 0.42);
+  --teal-line-strong: rgba(37, 111, 134, 0.5);
+  --teal-inset: rgba(37, 111, 134, 0.05);
+  --focus-ring: rgba(37, 111, 134, 0.24);
+  --focus-ring-soft: rgba(37, 111, 134, 0.18);
+  --focus-ring-control: rgba(37, 111, 134, 0.11);
+  --error: #b94a4a;
+  --error-pale: #fff1f0;
+  --error-line: #edc9c7;
+  --success: #2e7567;
+  --success-pale: #e9f6f2;
+  --success-line: #cde7df;
+  --syntax-key: var(--teal-dark);
+  --syntax-string: var(--success);
+  --syntax-number: #8a5f2b;
+  --syntax-boolean: #426f77;
+  --syntax-null: #74777a;
+  --syntax-punctuation: var(--muted);
+  --switch-line: #aab9be;
+  --switch-bg: #dce5e8;
+  --toast-bg: #19343e;
+  --body-glow-start: #dfeff4;
+  --body-glow-end: #e7f1f5;
+  --shadow: 0 18px 50px rgba(24, 58, 70, 0.12);
+  --shadow-soft: 0 10px 30px rgba(24, 58, 70, 0.07);
+  --shadow-tab: 0 4px 12px rgba(24, 58, 70, 0.08);
+  --shadow-card-rest: 0 6px 18px rgba(24, 58, 70, 0.04);
+  --shadow-card-hover: 0 14px 30px rgba(24, 58, 70, 0.1);
+  --shadow-dropdown: 0 16px 36px rgba(24, 58, 70, 0.17);
+  --shadow-button: 0 7px 16px rgba(37, 111, 134, 0.23);
+  --shadow-switch: 0 2px 6px rgba(32, 67, 78, 0.22);
+  --shadow-drag: 0 24px 58px rgba(24, 58, 70, 0.26);
+  --shadow-toast: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+:root[data-theme="sand"] {
+  color-scheme: light;
+  --ink: #2c251b;
+  --ink-soft: #4d4232;
+  --ink-control: #3c3124;
+  --ink-code: #5a421e;
+  --muted: #776b59;
+  --muted-soft: #a49988;
+  --muted-empty: #8f8371;
+  --line: #e8dfd1;
+  --paper: #fffefa;
+  --mist: #faf7f0;
+  --control-bg: #fdfbf7;
+  --surface-hover: #fffaf0;
+  --surface-drop: #fcf8ef;
+  --surface-glass-strong: rgba(255, 254, 250, 0.84);
+  --surface-glass-soft: rgba(255, 254, 250, 0.62);
+  --on-accent: #ffffff;
+  --teal: #9a6c2f;
+  --teal-dark: #754f1f;
+  --teal-pale: #f5ead8;
+  --teal-line: #ddc69e;
+  --teal-gradient-end: #c5a46c;
+  --panel-line: rgba(154, 108, 47, 0.13);
+  --card-line: rgba(154, 108, 47, 0.16);
+  --teal-line-hover: rgba(154, 108, 47, 0.42);
+  --teal-line-strong: rgba(154, 108, 47, 0.5);
+  --teal-inset: rgba(154, 108, 47, 0.06);
+  --focus-ring: rgba(154, 108, 47, 0.24);
+  --focus-ring-soft: rgba(154, 108, 47, 0.18);
+  --focus-ring-control: rgba(154, 108, 47, 0.11);
+  --error: #b94a42;
+  --error-pale: #fff1ee;
+  --error-line: #edcac3;
+  --success: #55745f;
+  --success-pale: #edf5ef;
+  --success-line: #d2e3d6;
+  --syntax-key: var(--teal-dark);
+  --syntax-string: var(--success);
+  --syntax-number: #98632c;
+  --syntax-boolean: #67745b;
+  --syntax-null: #7c7062;
+  --syntax-punctuation: var(--muted);
+  --switch-line: #b9ad9a;
+  --switch-bg: #e9e1d5;
+  --toast-bg: #3b3022;
+  --body-glow-start: #f2e5cc;
+  --body-glow-end: #f3ead9;
+  --shadow: 0 18px 50px rgba(72, 55, 31, 0.12);
+  --shadow-soft: 0 10px 30px rgba(72, 55, 31, 0.07);
+  --shadow-tab: 0 4px 12px rgba(72, 55, 31, 0.08);
+  --shadow-card-rest: 0 6px 18px rgba(72, 55, 31, 0.04);
+  --shadow-card-hover: 0 14px 30px rgba(72, 55, 31, 0.1);
+  --shadow-dropdown: 0 16px 36px rgba(72, 55, 31, 0.17);
+  --shadow-button: 0 7px 16px rgba(154, 108, 47, 0.23);
+  --shadow-switch: 0 2px 6px rgba(74, 59, 38, 0.22);
+  --shadow-drag: 0 24px 58px rgba(72, 55, 31, 0.26);
+  --shadow-toast: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+:root[data-theme="rose"] {
+  color-scheme: light;
+  --ink: #2b2024;
+  --ink-soft: #4b383f;
+  --ink-control: #3c2930;
+  --ink-code: #5c3542;
+  --muted: #76656b;
+  --muted-soft: #a49298;
+  --muted-empty: #8e7b82;
+  --line: #eadce1;
+  --paper: #ffffff;
+  --mist: #faf5f7;
+  --control-bg: #fdfafb;
+  --surface-hover: #fff7fa;
+  --surface-drop: #fcf7f9;
+  --surface-glass-strong: rgba(255, 255, 255, 0.82);
+  --surface-glass-soft: rgba(255, 255, 255, 0.58);
+  --on-accent: #ffffff;
+  --teal: #9a5d6c;
+  --teal-dark: #784452;
+  --teal-pale: #f5e5e9;
+  --teal-line: #ddbfc8;
+  --teal-gradient-end: #c595a2;
+  --panel-line: rgba(154, 93, 108, 0.13);
+  --card-line: rgba(154, 93, 108, 0.16);
+  --teal-line-hover: rgba(154, 93, 108, 0.42);
+  --teal-line-strong: rgba(154, 93, 108, 0.5);
+  --teal-inset: rgba(154, 93, 108, 0.06);
+  --focus-ring: rgba(154, 93, 108, 0.24);
+  --focus-ring-soft: rgba(154, 93, 108, 0.18);
+  --focus-ring-control: rgba(154, 93, 108, 0.11);
+  --error: #b83f4b;
+  --error-pale: #fff0f1;
+  --error-line: #edc6ca;
+  --success: #527468;
+  --success-pale: #ebf5f1;
+  --success-line: #d0e4dc;
+  --syntax-key: var(--teal-dark);
+  --syntax-string: var(--success);
+  --syntax-number: #91602f;
+  --syntax-boolean: #5f6f76;
+  --syntax-null: #7c6d72;
+  --syntax-punctuation: var(--muted);
+  --switch-line: #baa9af;
+  --switch-bg: #e9dfe2;
+  --toast-bg: #3c2930;
+  --body-glow-start: #f3e1e7;
+  --body-glow-end: #f2e8eb;
+  --shadow: 0 18px 50px rgba(70, 42, 51, 0.12);
+  --shadow-soft: 0 10px 30px rgba(70, 42, 51, 0.07);
+  --shadow-tab: 0 4px 12px rgba(70, 42, 51, 0.08);
+  --shadow-card-rest: 0 6px 18px rgba(70, 42, 51, 0.04);
+  --shadow-card-hover: 0 14px 30px rgba(70, 42, 51, 0.1);
+  --shadow-dropdown: 0 16px 36px rgba(70, 42, 51, 0.17);
+  --shadow-button: 0 7px 16px rgba(154, 93, 108, 0.23);
+  --shadow-switch: 0 2px 6px rgba(73, 47, 56, 0.22);
+  --shadow-drag: 0 24px 58px rgba(70, 42, 51, 0.26);
+  --shadow-toast: 0 8px 25px rgba(0, 0, 0, 0.18);
+}
+
+:root[data-theme="night"] {
+  color-scheme: dark;
+  --ink: #e5f2ed;
+  --ink-soft: #c4d8d1;
+  --ink-control: #d8e8e2;
+  --ink-code: #a8dfd1;
+  --muted: #95aaa2;
+  --muted-soft: #6f8880;
+  --muted-empty: #81978f;
+  --line: #2e4942;
+  --paper: #14231f;
+  --mist: #0b1714;
+  --control-bg: #182a25;
+  --surface-hover: #1b302a;
+  --surface-drop: #11201c;
+  --surface-glass-strong: rgba(20, 35, 31, 0.9);
+  --surface-glass-soft: rgba(20, 35, 31, 0.7);
+  --on-accent: #09221c;
+  --teal: #63c7b1;
+  --teal-dark: #8cddc9;
+  --teal-pale: #203d36;
+  --teal-line: #376d61;
+  --teal-gradient-end: #4a8f80;
+  --panel-line: rgba(99, 199, 177, 0.16);
+  --card-line: rgba(99, 199, 177, 0.2);
+  --teal-line-hover: rgba(99, 199, 177, 0.46);
+  --teal-line-strong: rgba(99, 199, 177, 0.58);
+  --teal-inset: rgba(99, 199, 177, 0.08);
+  --focus-ring: rgba(99, 199, 177, 0.32);
+  --focus-ring-soft: rgba(99, 199, 177, 0.24);
+  --focus-ring-control: rgba(99, 199, 177, 0.18);
+  --error: #f08b86;
+  --error-pale: #3a2323;
+  --error-line: #72413f;
+  --success: #78cfaa;
+  --success-pale: #1b382e;
+  --success-line: #35604e;
+  --syntax-key: var(--teal-dark);
+  --syntax-string: var(--success);
+  --syntax-number: #e4b97d;
+  --syntax-boolean: #9ec8be;
+  --syntax-null: #b3a5a1;
+  --syntax-punctuation: var(--muted);
+  --switch-line: #49655d;
+  --switch-bg: #263b35;
+  --toast-bg: #dceee8;
+  --body-glow-start: #12332b;
+  --body-glow-end: #172921;
+  --shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
+  --shadow-soft: 0 10px 30px rgba(0, 0, 0, 0.24);
+  --shadow-tab: 0 4px 12px rgba(0, 0, 0, 0.25);
+  --shadow-card-rest: 0 6px 18px rgba(0, 0, 0, 0.18);
+  --shadow-card-hover: 0 14px 30px rgba(0, 0, 0, 0.32);
+  --shadow-dropdown: 0 16px 36px rgba(0, 0, 0, 0.42);
+  --shadow-button: 0 7px 16px rgba(0, 0, 0, 0.3);
+  --shadow-switch: 0 2px 6px rgba(0, 0, 0, 0.34);
+  --shadow-drag: 0 24px 58px rgba(0, 0, 0, 0.5);
+  --shadow-toast: 0 8px 25px rgba(0, 0, 0, 0.46);
+}
+
 * {
   box-sizing: border-box;
 }
@@ -662,8 +906,34 @@ button[type="submit"]:hover:not(:disabled) {
   margin-bottom: 18px;
 }
 
+.home-page .masthead-side {
+  display: grid;
+  justify-items: end;
+  gap: 8px;
+}
+
 .home-page h1 {
   font-size: clamp(34px, 4vw, 46px);
+}
+
+.theme-picker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.theme-picker select {
+  width: auto;
+  min-width: 156px;
+  min-height: 38px;
+  padding-top: 6px;
+  padding-bottom: 6px;
+  background: var(--paper);
+  color: var(--ink-control);
+  font-size: 12px;
 }
 
 .home-page .site-intro {
@@ -823,6 +1093,15 @@ button[type="submit"]:hover:not(:disabled) {
 
   .home-page .masthead {
     margin-bottom: 16px;
+  }
+
+  .home-page .masthead-side {
+    justify-items: start;
+    margin-top: 14px;
+  }
+
+  .home-page .masthead-side .subtitle {
+    margin-top: 0;
   }
 
   .home-page .site-intro {
