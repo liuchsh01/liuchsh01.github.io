@@ -38,7 +38,9 @@
 
   let selectedImages = [];
   let conversionResults = [];
+  let derivedDimension = null;
   let isBusy = false;
+  let lastEditedDimension = 'width';
   let nextImageId = 1;
 
   const makeText = (tagName, className, value) => {
@@ -51,6 +53,73 @@
   const setStatus = (message, type = '') => {
     conversionStatus.textContent = message;
     conversionStatus.className = `status${type ? ` is-${type}` : ''}`;
+  };
+
+  const updateDimensionHint = () => {
+    if (!keepAspect.checked) {
+      dimensionHint.textContent = '关闭等比例后必须同时填写宽度和高度，图片会拉伸到精确尺寸。';
+      return;
+    }
+
+    const reference = selectedImages[0];
+    if (!reference) {
+      dimensionHint.textContent = '选择图片后，输入宽度或高度会按原图比例自动填充另一边。';
+      return;
+    }
+
+    if (selectedImages.length === 1) {
+      dimensionHint.textContent = `按原图 ${reference.width} × ${reference.height} 的比例自动联动宽高。`;
+      return;
+    }
+
+    dimensionHint.textContent = `输入框按首张图 ${reference.width} × ${reference.height} 的比例联动；转换时每张图都会保持自身比例。`;
+  };
+
+  const clearDerivedDimension = () => {
+    if (derivedDimension === 'width') widthInput.value = '';
+    if (derivedDimension === 'height') heightInput.value = '';
+    derivedDimension = null;
+  };
+
+  const syncAspectDimensions = (sourceDimension) => {
+    updateDimensionHint();
+    if (!keepAspect.checked) {
+      derivedDimension = null;
+      return;
+    }
+
+    const reference = selectedImages[0];
+    if (!reference) {
+      clearDerivedDimension();
+      return;
+    }
+
+    const sourceInput = sourceDimension === 'height' ? heightInput : widthInput;
+    const targetInput = sourceDimension === 'height' ? widthInput : heightInput;
+    const targetDimension = sourceDimension === 'height' ? 'width' : 'height';
+    const sourceValue = sourceInput.value.trim();
+
+    if (!/^\d+$/.test(sourceValue) || Number(sourceValue) < 1) {
+      if (derivedDimension === targetDimension) {
+        targetInput.value = '';
+        derivedDimension = null;
+      }
+      return;
+    }
+
+    try {
+      const dimensions = sourceDimension === 'height'
+        ? calculateOutputDimensions(reference.width, reference.height, '', sourceValue, true)
+        : calculateOutputDimensions(reference.width, reference.height, sourceValue, '', true);
+      targetInput.value = String(dimensions[targetDimension]);
+      targetInput.removeAttribute('aria-invalid');
+      derivedDimension = targetDimension;
+    } catch (error) {
+      if (derivedDimension === targetDimension) {
+        targetInput.value = '';
+        derivedDimension = null;
+      }
+    }
   };
 
   const revokeResults = () => {
@@ -205,6 +274,7 @@
 
     invalidateResults('图片列表已修改，请重新转换。');
     renderFiles();
+    syncAspectDimensions(lastEditedDimension);
     if (rejected.length) {
       setStatus(`已选择 ${selectedImages.length} 张图片；${rejected.length} 张未加入。${rejected[0]}`, 'error');
     } else {
@@ -409,6 +479,7 @@
     selectedImages = selectedImages.filter(image => image.id !== id);
     invalidateResults('图片列表已修改，请重新转换。');
     renderFiles();
+    syncAspectDimensions(lastEditedDimension);
     setStatus(selectedImages.length ? `剩余 ${selectedImages.length} 张图片。` : '请先选择至少一张图片。');
   });
 
@@ -419,6 +490,7 @@
     imageInput.value = '';
     resetResults();
     renderFiles();
+    syncAspectDimensions(lastEditedDimension);
     setStatus('图片和转换结果已清空。');
   });
 
@@ -426,14 +498,25 @@
     syncFormatControls();
     invalidateResults('输出格式已修改，请重新转换。');
   });
-  [widthInput, heightInput].forEach(input => input.addEventListener('input', () => {
-    input.removeAttribute('aria-invalid');
+  widthInput.addEventListener('input', () => {
+    lastEditedDimension = 'width';
+    widthInput.removeAttribute('aria-invalid');
+    syncAspectDimensions('width');
     invalidateResults('输出尺寸已修改，请重新转换。');
-  }));
+  });
+  heightInput.addEventListener('input', () => {
+    lastEditedDimension = 'height';
+    heightInput.removeAttribute('aria-invalid');
+    syncAspectDimensions('height');
+    invalidateResults('输出尺寸已修改，请重新转换。');
+  });
   keepAspect.addEventListener('change', () => {
-    dimensionHint.textContent = keepAspect.checked
-      ? '只填一边时自动计算另一边；两边都填时按边界框完整放入。'
-      : '关闭等比例后必须同时填写宽度和高度，图片会拉伸到精确尺寸。';
+    if (keepAspect.checked) {
+      syncAspectDimensions(lastEditedDimension);
+    } else {
+      derivedDimension = null;
+      updateDimensionHint();
+    }
     invalidateResults('缩放方式已修改，请重新转换。');
   });
   qualityInput.addEventListener('input', () => {
@@ -463,4 +546,5 @@
 
   renderFiles();
   syncFormatControls();
+  updateDimensionHint();
 })();

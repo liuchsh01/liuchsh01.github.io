@@ -49,6 +49,7 @@
   --switch-line: #a8b9b2;
   --switch-bg: #dce4e0;
   --toast-bg: #18352f;
+  --body-pattern: none;
   --body-glow-start: #dff4ec;
   --body-glow-end: #e9f4ed;
   --shadow: 0 18px 50px rgba(17, 52, 44, 0.11);
@@ -76,6 +77,9 @@
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-serif: Georgia, "Songti SC", serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --heading-letter-spacing: -0.045em;
+  --heading-weight: 700;
+  --card-heading-letter-spacing: -0.025em;
 }
 
 /*
@@ -128,6 +132,7 @@
   --switch-line: #aab9be;
   --switch-bg: #dce5e8;
   --toast-bg: #19343e;
+  --body-pattern: repeating-linear-gradient(135deg, rgba(37, 111, 134, 0.035) 0 1px, transparent 1px 26px);
   --body-glow-start: #dfeff4;
   --body-glow-end: #e7f1f5;
   --shadow: 0 18px 50px rgba(24, 58, 70, 0.12);
@@ -140,6 +145,19 @@
   --shadow-switch: 0 2px 6px rgba(32, 67, 78, 0.22);
   --shadow-drag: 0 24px 58px rgba(24, 58, 70, 0.26);
   --shadow-toast: 0 8px 25px rgba(0, 0, 0, 0.18);
+  --radius-card: 18px;
+  --radius-note: 16px;
+  --radius-section: 14px;
+  --radius-soft: 12px;
+  --radius-tab: 11px;
+  --radius-panel: 10px;
+  --radius-control: 9px;
+  --radius-button: 8px;
+  --font-sans: "Avenir Next", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-serif: "Avenir Next", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --heading-letter-spacing: -0.032em;
+  --heading-weight: 760;
+  --card-heading-letter-spacing: -0.018em;
 }
 
 :root[data-theme="sand"] {
@@ -188,6 +206,7 @@
   --switch-line: #b9ad9a;
   --switch-bg: #e9e1d5;
   --toast-bg: #3b3022;
+  --body-pattern: repeating-linear-gradient(0deg, rgba(154, 108, 47, 0.025) 0 1px, transparent 1px 5px);
   --body-glow-start: #f2e5cc;
   --body-glow-end: #f3ead9;
   --shadow: 0 18px 50px rgba(72, 55, 31, 0.12);
@@ -200,6 +219,18 @@
   --shadow-switch: 0 2px 6px rgba(74, 59, 38, 0.22);
   --shadow-drag: 0 24px 58px rgba(72, 55, 31, 0.26);
   --shadow-toast: 0 8px 25px rgba(0, 0, 0, 0.18);
+  --radius-card: 14px;
+  --radius-note: 12px;
+  --radius-section: 10px;
+  --radius-soft: 9px;
+  --radius-tab: 8px;
+  --radius-panel: 7px;
+  --radius-control: 6px;
+  --radius-button: 6px;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", "Songti SC", "STSong", serif;
+  --heading-letter-spacing: -0.018em;
+  --heading-weight: 700;
+  --card-heading-letter-spacing: -0.012em;
 }
 
 :root[data-theme="rose"] {
@@ -248,6 +279,7 @@
   --switch-line: #baa9af;
   --switch-bg: #e9dfe2;
   --toast-bg: #3c2930;
+  --body-pattern: radial-gradient(circle, rgba(154, 93, 108, 0.075) 0 1px, transparent 1.5px) 0 0 / 24px 24px;
   --body-glow-start: #f3e1e7;
   --body-glow-end: #f2e8eb;
   --shadow: 0 18px 50px rgba(70, 42, 51, 0.12);
@@ -260,6 +292,19 @@
   --shadow-switch: 0 2px 6px rgba(73, 47, 56, 0.22);
   --shadow-drag: 0 24px 58px rgba(70, 42, 51, 0.26);
   --shadow-toast: 0 8px 25px rgba(0, 0, 0, 0.18);
+  --radius-card: 28px;
+  --radius-note: 22px;
+  --radius-section: 20px;
+  --radius-soft: 18px;
+  --radius-tab: 16px;
+  --radius-panel: 15px;
+  --radius-control: 14px;
+  --radius-button: 13px;
+  --font-sans: "Trebuchet MS", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-serif: "Trebuchet MS", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --heading-letter-spacing: -0.035em;
+  --heading-weight: 800;
+  --card-heading-letter-spacing: -0.022em;
 }
 
 :root[data-theme="night"] {
@@ -308,6 +353,9 @@
   --switch-line: #49655d;
   --switch-bg: #263b35;
   --toast-bg: #dceee8;
+  --body-pattern:
+    linear-gradient(rgba(99, 199, 177, 0.04) 1px, transparent 1px) 0 0 / 28px 28px,
+    linear-gradient(90deg, rgba(99, 199, 177, 0.04) 1px, transparent 1px) 0 0 / 28px 28px;
   --body-glow-start: #12332b;
   --body-glow-end: #172921;
   --shadow: 0 18px 50px rgba(0, 0, 0, 0.34);
@@ -320,6 +368,18 @@
   --shadow-switch: 0 2px 6px rgba(0, 0, 0, 0.34);
   --shadow-drag: 0 24px 58px rgba(0, 0, 0, 0.5);
   --shadow-toast: 0 8px 25px rgba(0, 0, 0, 0.46);
+  --radius-card: 12px;
+  --radius-note: 10px;
+  --radius-section: 9px;
+  --radius-soft: 8px;
+  --radius-tab: 7px;
+  --radius-panel: 6px;
+  --radius-control: 5px;
+  --radius-button: 5px;
+  --font-serif: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+  --heading-letter-spacing: -0.02em;
+  --heading-weight: 700;
+  --card-heading-letter-spacing: -0.01em;
 }
 
 * {
@@ -334,6 +394,7 @@ body {
   min-height: 100vh;
   margin: 0;
   background:
+    var(--body-pattern),
     radial-gradient(circle at 6% 0%, var(--body-glow-start) 0, transparent 28rem),
     radial-gradient(circle at 100% 100%, var(--body-glow-end) 0, transparent 30rem),
     var(--mist);
@@ -401,8 +462,8 @@ h1 {
   margin: 0;
   font-family: var(--font-serif);
   font-size: clamp(34px, 5vw, 52px);
-  font-weight: 700;
-  letter-spacing: -0.045em;
+  font-weight: var(--heading-weight);
+  letter-spacing: var(--heading-letter-spacing);
   line-height: 1;
 }
 
@@ -852,7 +913,7 @@ button[type="submit"]:hover:not(:disabled) {
   margin: 0 0 7px;
   font-family: var(--font-serif);
   font-size: 22px;
-  letter-spacing: -0.025em;
+  letter-spacing: var(--card-heading-letter-spacing);
   line-height: 1.25;
 }
 

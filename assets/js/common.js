@@ -148,8 +148,8 @@
   }
 
   window.addEventListener('storage', event => {
-    if (event.key === THEME_STORAGE_KEY && event.newValue) {
-      applyTheme(event.newValue, { persist: false });
+    if (event.key === THEME_STORAGE_KEY) {
+      applyTheme(event.newValue || DEFAULT_THEME, { persist: false });
     }
   });
 

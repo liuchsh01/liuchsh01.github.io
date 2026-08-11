@@ -41,6 +41,7 @@ check_tool_page() {
   check_file "$directory/script.js"
   check_contains "$directory/index.html" '../../assets/css/theme.css' "$directory must load the shared theme"
   check_contains "$directory/index.html" '../../assets/js/common.js' "$directory must load common.js"
+  check_not_contains "$directory/index.html" 'assets/js/common.js" defer' "$directory must initialize the saved theme before first paint"
   check_contains "$directory/index.html" '../../index.html' "$directory must link back to the homepage"
   check_contains "$directory/index.html" 'lang="zh-CN"' "$directory must declare zh-CN"
   check_not_contains "$directory/index.html" 'on(click|input|change|submit)=' "$directory must not use inline event handlers"
@@ -56,6 +57,8 @@ check_home() {
   check_file 'assets/css/theme.css'
   check_file 'assets/js/common.js'
   check_contains 'index.html' './assets/css/theme.css' 'homepage must load the shared theme'
+  check_contains 'index.html' 'data-theme-select' 'homepage missing theme selector'
+  check_not_contains 'index.html' 'assets/js/common.js" defer' 'homepage must initialize the saved theme before first paint'
   check_contains 'index.html' '实用工具集' 'homepage must identify the toolbox'
   check_contains 'index.html' './tools/20260807_multiline-calculator/' 'homepage missing multiline calculator link'
   check_contains 'index.html' './tools/20260311_rsa-encrypt/' 'homepage missing RSA link'
@@ -100,6 +103,8 @@ check_image_converter() {
   check_contains "$directory/script.js" 'createImageBitmap' 'image converter missing local image decoding'
   check_contains "$directory/script.js" 'canvas.toBlob' 'image converter missing Canvas encoding'
   check_contains "$directory/script.js" 'URL.createObjectURL' 'image converter missing local preview/download URLs'
+  check_contains "$directory/script.js" 'syncAspectDimensions' 'image converter missing linked aspect-ratio inputs'
+  check_contains "$directory/style.css" 'isolation: isolate' 'image converter preview must not cover result controls'
   check_not_contains "$directory/script.js" 'innerHTML' 'image converter must render file data safely'
 }
 
@@ -366,6 +371,14 @@ check_theme_contract() {
   check_contains 'assets/css/theme.css' '--radius-section:' 'theme.css missing semantic radius tokens'
   check_contains 'assets/css/theme.css' '.info-card {' 'theme.css missing shared info card component'
   check_contains 'assets/css/theme.css' '.form-message,' 'theme.css missing shared form message component'
+  check_contains 'assets/css/theme.css' ':root[data-theme="ocean"]' 'theme.css missing ocean theme'
+  check_contains 'assets/css/theme.css' ':root[data-theme="sand"]' 'theme.css missing sand theme'
+  check_contains 'assets/css/theme.css' ':root[data-theme="rose"]' 'theme.css missing rose theme'
+  check_contains 'assets/css/theme.css' ':root[data-theme="night"]' 'theme.css missing night theme'
+  check_contains 'assets/js/common.js' "DEFAULT_THEME = 'jade'" 'common.js missing default jade theme'
+  check_contains 'assets/js/common.js' "THEME_STORAGE_KEY = 'toolbox-theme'" 'common.js missing theme persistence key'
+  check_contains 'assets/js/common.js' 'document.documentElement.dataset.theme' 'common.js must apply theme on the document root'
+  check_contains 'assets/js/common.js' 'window.localStorage.setItem' 'common.js must persist the selected theme'
 
   local css_file
   while IFS= read -r css_file; do
