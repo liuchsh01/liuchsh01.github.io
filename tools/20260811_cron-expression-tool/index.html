@@ -134,7 +134,7 @@
     <section class="info-card" aria-labelledby="cron-note-heading">
       <p class="section-kicker">语法说明</p>
       <h2 id="cron-note-heading">支持范围与执行规则</h2>
-      <p>支持 <code>*</code> 通配符、<code>,</code> 列表、<code>-</code> 范围、<code>/</code> 步长，以及 <code>JAN–DEC</code>、<code>SUN–SAT</code> 英文缩写。星期中的 0 和 7 都表示周日；日期与星期同时受限时，按传统 Unix Cron 规则，任一条件匹配就会执行。</p>
+      <p>支持 <code>*</code> 通配符、<code>,</code> 列表、<code>-</code> 范围、<code>/</code> 步长，<code>JAN–DEC</code>、<code>SUN–SAT</code> 英文缩写，以及 <code>@hourly</code>、<code>@daily</code>、<code>@weekly</code> 等常用别名。星期中的 0 和 7 都表示周日；日期与星期同时受限时，按传统 Unix Cron 规则，任一条件匹配就会执行。</p>
       <p>未来时间使用浏览器当前时区计算，起算时间本身不计入结果。本工具不支持 Quartz Cron 的秒、年份、<code>?</code>、<code>L</code>、<code>W</code> 和 <code>#</code> 扩展语法。</p>
     </section>
   </main>

@@ -77,6 +77,16 @@ test('reports impossible date and month combinations within the search window', 
   );
 });
 
+test('handles leap-day schedules across multiple years', () => {
+  const start = new Date(2025, 0, 1, 0, 0, 0);
+  const results = findNextOccurrences('0 0 29 2 *', start, 2);
+
+  assert.deepEqual(
+    results.map(date => [date.getFullYear(), date.getMonth() + 1, date.getDate()]),
+    [[2028, 2, 29], [2032, 2, 29]],
+  );
+});
+
 test('creates concise Chinese descriptions for common schedules', () => {
   assert.equal(describeCron('* * * * *'), '每分钟执行一次。');
   assert.equal(describeCron('*/5 * * * *'), '每 5 分钟执行一次。');

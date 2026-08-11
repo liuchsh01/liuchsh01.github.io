@@ -210,7 +210,7 @@
       throw new Error('执行时间数量必须是 1 到 100 之间的整数。');
     }
 
-    const maxYears = Number(options.maxYears ?? Math.max(8, count + 2));
+    const maxYears = Number(options.maxYears ?? Math.min(100, Math.max(8, count * 5)));
     if (!Number.isInteger(maxYears) || maxYears < 1 || maxYears > 100) {
       throw new Error('搜索年份范围必须是 1 到 100 之间的整数。');
     }
@@ -291,7 +291,7 @@
   const summarizeField = (fieldName, field) => {
     if (field.wildcard) return '不限制';
     const stepMatch = field.source.match(/^\*\/(\d+)$/);
-    if (stepMatch) return `每 ${stepMatch[1]} 个单位`;
+    if (stepMatch) return `每 ${stepMatch[1]} ${FIELD_DEFINITIONS[fieldName].label}`;
     return formatFieldValues(fieldName, field);
   };
 
