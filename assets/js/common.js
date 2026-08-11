@@ -125,17 +125,23 @@
   const copyText = async (value, successMessage = '已复制') => {
     const text = String(value);
 
-    if (navigator.clipboard?.writeText) {
-      try {
-        await navigator.clipboard.writeText(text);
-      } catch (error) {
+    try {
+      if (navigator.clipboard?.writeText) {
+        try {
+          await navigator.clipboard.writeText(text);
+        } catch (error) {
+          copyWithFallback(text);
+        }
+      } else {
         copyWithFallback(text);
       }
-    } else {
-      copyWithFallback(text);
-    }
 
-    showToast(successMessage);
+      showToast(successMessage);
+      return true;
+    } catch (error) {
+      showToast('复制失败，请手动选择并复制');
+      return false;
+    }
   };
 
   activeTheme = readStoredTheme();

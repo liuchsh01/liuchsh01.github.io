@@ -3,6 +3,7 @@
 const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const path = require('node:path');
+const test = require('node:test');
 const vm = require('node:vm');
 
 const source = fs.readFileSync(path.join(__dirname, '../assets/js/common.js'), 'utf8');
@@ -179,5 +180,13 @@ assert.equal(storedValues.get('toolbox-theme'), 'jade');
 windowListeners.get('storage')({ key: 'toolbox-theme', newValue: 'ocean' });
 assert.equal(documentElement.dataset.theme, 'ocean');
 assert.equal(storedValues.get('toolbox-theme'), 'jade');
+
+test('copyText converts a denied fallback into accessible feedback', async () => {
+  document.execCommand = () => false;
+  const copied = await windowObject.Toolbox.copyText('copy test');
+
+  assert.equal(copied, false);
+  assert.equal(toast.textContent, '复制失败，请手动选择并复制');
+});
 
 console.log('PASS: theme switcher tests');
