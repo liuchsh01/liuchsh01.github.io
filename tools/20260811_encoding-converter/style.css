@@ -1,0 +1,186 @@
+.codec-workspace {
+  display: block;
+  overflow: hidden;
+  padding: 0;
+}
+
+.codec-toolbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--line);
+  background: var(--surface-glass-soft);
+}
+
+.codec-tabs {
+  display: inline-grid;
+  grid-template-columns: repeat(3, minmax(0, auto));
+  gap: 7px;
+  padding: 5px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-soft);
+  background: var(--mist);
+}
+
+.codec-tab {
+  min-height: 40px;
+  padding: 0 16px;
+  border-color: transparent;
+  border-radius: var(--radius-button);
+  background: transparent;
+  color: var(--muted);
+  box-shadow: none;
+  white-space: nowrap;
+}
+
+.codec-tab:hover {
+  color: var(--teal-dark);
+  background: var(--surface-hover);
+}
+
+.codec-tab[aria-selected="true"] {
+  border-color: var(--teal-line);
+  background: var(--paper);
+  color: var(--teal-dark);
+  box-shadow: var(--shadow-tab);
+}
+
+.codec-options {
+  width: min(310px, 100%);
+  min-width: 240px;
+}
+
+.codec-option-note {
+  display: grid;
+  gap: 2px;
+  min-height: 55px;
+  align-content: center;
+  padding: 8px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-control);
+  background: var(--control-bg);
+}
+
+.codec-option-note strong {
+  color: var(--ink-soft);
+  font-size: 12px;
+}
+
+.codec-option-note span {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.45;
+}
+
+.compact-field {
+  gap: 5px;
+}
+
+.compact-field label {
+  font-size: 11px;
+}
+
+.compact-field select {
+  min-height: 38px;
+  padding-top: 7px;
+  padding-bottom: 7px;
+}
+
+.codec-editor {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  padding: 0;
+  border-top: 0;
+  border-left: 0;
+}
+
+.codec-panel {
+  min-width: 0;
+  padding: 28px;
+}
+
+.input-panel {
+  border-right: 1px solid var(--line);
+}
+
+.codec-textarea {
+  min-height: 360px;
+  margin-top: 8px;
+  resize: vertical;
+  overflow-wrap: normal;
+  white-space: pre;
+}
+
+.output-textarea {
+  background: var(--mist);
+}
+
+.input-actions,
+.output-actions {
+  min-height: 44px;
+}
+
+.shortcut-hint {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.output-panel .status {
+  min-height: 46px;
+  margin-top: 14px;
+}
+
+@media (max-width: 760px) {
+  .codec-toolbar {
+    display: block;
+    padding: 20px;
+  }
+
+  .codec-tabs {
+    width: 100%;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .codec-tab {
+    padding: 0 8px;
+  }
+
+  .codec-options {
+    width: 100%;
+    min-width: 0;
+    margin-top: 14px;
+  }
+
+  .codec-editor {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .codec-panel {
+    padding: 20px;
+  }
+
+  .input-panel {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .codec-textarea {
+    min-height: 280px;
+  }
+}
+
+@media (max-width: 420px) {
+  .codec-tab {
+    min-height: 44px;
+    font-size: 12px;
+  }
+
+  .input-actions,
+  .output-actions {
+    align-items: stretch;
+  }
+}

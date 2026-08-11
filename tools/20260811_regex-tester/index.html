@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地测试 JavaScript 正则表达式，实时高亮匹配内容，查看捕获组并预览替换结果。" />
+  <title>正则表达式测试器｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./regex-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">REGULAR EXPRESSION</p>
+        <h1>正则表达式测试器</h1>
+      </div>
+      <p class="subtitle">使用浏览器原生 JavaScript RegExp 实时测试表达式，高亮匹配范围，检查捕获组并预览替换结果。</p>
+    </header>
+
+    <section class="workspace regex-workspace" aria-label="正则表达式测试工作区">
+      <form class="regex-panel input-panel" id="regexForm" novalidate>
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">PATTERN &amp; TEXT</p>
+            <h2 id="pattern-heading">表达式与测试文本</h2>
+          </div>
+          <span class="count" id="textCount">0 字符</span>
+        </div>
+
+        <div class="field">
+          <label for="patternInput">正则表达式</label>
+          <div class="pattern-control">
+            <span class="pattern-delimiter" aria-hidden="true">/</span>
+            <input class="mono-input pattern-input" id="patternInput" type="text" autocomplete="off" spellcheck="false" aria-describedby="patternHelp" value="(?&lt;name&gt;[A-Za-z]+)@(?&lt;domain&gt;[A-Za-z0-9.-]+\.[A-Za-z]{2,})" />
+            <span class="pattern-delimiter" aria-hidden="true">/</span>
+          </div>
+          <p class="helper-text" id="patternHelp">只填写两个斜杠之间的表达式内容，flags 在下方选择。</p>
+        </div>
+
+        <fieldset class="flag-fieldset">
+          <legend>匹配选项</legend>
+          <div class="flag-options">
+            <label class="flag-option">
+              <input type="checkbox" name="regexFlag" value="g" checked />
+              <span><code>g</code> 全局</span>
+            </label>
+            <label class="flag-option">
+              <input type="checkbox" name="regexFlag" value="i" />
+              <span><code>i</code> 忽略大小写</span>
+            </label>
+            <label class="flag-option">
+              <input type="checkbox" name="regexFlag" value="m" />
+              <span><code>m</code> 多行模式</span>
+            </label>
+            <label class="flag-option">
+              <input type="checkbox" name="regexFlag" value="s" />
+              <span><code>s</code> 点匹配换行</span>
+            </label>
+            <label class="flag-option">
+              <input type="checkbox" name="regexFlag" value="u" />
+              <span><code>u</code> Unicode</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="field test-text-field">
+          <label for="testText">测试文本</label>
+          <textarea class="mono-input test-text" id="testText" spellcheck="false" placeholder="输入需要匹配的单行或多行文本">alice@example.com
+客服邮箱：support@example.cn
+无效内容：hello@</textarea>
+        </div>
+
+        <div class="field replacement-field">
+          <label for="replacementInput">替换内容</label>
+          <input class="mono-input" id="replacementInput" type="text" autocomplete="off" spellcheck="false" value="$&lt;name&gt;（$&lt;domain&gt;）" aria-describedby="replacementHelp" />
+          <p class="helper-text" id="replacementHelp">支持 <code>$&amp;</code>、<code>$1</code>、<code>$&lt;name&gt;</code> 等 JavaScript 替换语法。</p>
+        </div>
+
+        <div class="actions">
+          <button class="primary-button" type="submit">测试表达式</button>
+          <button class="secondary-button" id="clearAll" type="button">清空</button>
+          <span class="hint">输入后自动更新 · ⌘ / Ctrl + Enter</span>
+        </div>
+        <p class="status" id="regexStatus" role="status" aria-live="polite">正在准备示例结果。</p>
+      </form>
+
+      <section class="regex-panel results-panel" aria-labelledby="result-heading">
+        <div class="section-head result-heading-row">
+          <div>
+            <p class="section-kicker">MATCH RESULT</p>
+            <h2 id="result-heading">测试结果</h2>
+          </div>
+          <span class="match-summary" id="matchSummary" aria-live="polite">等待测试</span>
+        </div>
+
+        <div class="result-toolbar">
+          <div class="result-tabs" role="tablist" aria-label="结果视图">
+            <button class="result-tab" id="previewTab" type="button" role="tab" aria-selected="true" aria-controls="previewPanel" tabindex="0" data-view="preview">匹配高亮</button>
+            <button class="result-tab" id="detailsTab" type="button" role="tab" aria-selected="false" aria-controls="detailsPanel" tabindex="-1" data-view="details">捕获详情</button>
+            <button class="result-tab" id="replaceTab" type="button" role="tab" aria-selected="false" aria-controls="replacePanel" tabindex="-1" data-view="replace">替换预览</button>
+          </div>
+          <button class="secondary-button copy-replacement" id="copyReplacement" type="button" disabled>复制替换结果</button>
+        </div>
+
+        <div class="result-window">
+          <section class="result-view" id="previewPanel" role="tabpanel" aria-labelledby="previewTab" tabindex="0">
+            <div class="empty-state" id="previewEmpty">输入表达式和测试文本后，将在这里高亮匹配范围。</div>
+            <pre class="highlight-output" id="highlightOutput" hidden></pre>
+          </section>
+
+          <section class="result-view" id="detailsPanel" role="tabpanel" aria-labelledby="detailsTab" tabindex="0" hidden>
+            <div class="empty-state" id="detailsEmpty">匹配成功后，将在这里显示索引、捕获组和命名组。</div>
+            <ol class="match-list" id="matchList" hidden></ol>
+          </section>
+
+          <section class="result-view" id="replacePanel" role="tabpanel" aria-labelledby="replaceTab" tabindex="0" hidden>
+            <div class="empty-state" id="replaceEmpty">测试完成后，将在这里显示替换结果。</div>
+            <pre class="replacement-output" id="replacementOutput" hidden></pre>
+          </section>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="regex-note-heading">
+      <p class="section-kicker">使用说明</p>
+      <h2 id="regex-note-heading">按 JavaScript RegExp 规则执行</h2>
+      <p>工具支持全局、忽略大小写、多行、点匹配换行和 Unicode 模式。为避免复杂表达式产生过多页面元素，单次最多收集 1000 个匹配、展示前 200 条详情；所有文本都只在当前浏览器中处理。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

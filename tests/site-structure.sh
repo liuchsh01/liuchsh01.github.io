@@ -68,6 +68,7 @@ check_home() {
   check_contains 'index.html' './tools/20260810_timestamp-converter/' 'homepage missing timestamp converter link'
   check_contains 'index.html' './tools/20260811_token-inspector/' 'homepage missing token inspector link'
   check_contains 'index.html' './tools/20260811_image-converter/' 'homepage missing image converter link'
+  check_contains 'index.html' './tools/20260811_encoding-converter/' 'homepage missing encoding converter link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
 }
 
@@ -90,6 +91,24 @@ check_image_converter() {
   check_contains "$directory/script.js" 'canvas.toBlob' 'image converter missing Canvas encoding'
   check_contains "$directory/script.js" 'URL.createObjectURL' 'image converter missing local preview/download URLs'
   check_not_contains "$directory/script.js" 'innerHTML' 'image converter must render file data safely'
+}
+
+check_encoding_converter() {
+  local directory='tools/20260811_encoding-converter'
+  check_tool_page "$directory"
+  check_file "$directory/encoding-core.js"
+  check_contains "$directory/index.html" 'data-codec="base64"' 'encoding converter missing Base64 mode'
+  check_contains "$directory/index.html" 'data-codec="url"' 'encoding converter missing URL mode'
+  check_contains "$directory/index.html" 'data-codec="html"' 'encoding converter missing HTML mode'
+  check_contains "$directory/index.html" 'id="sourceInput"' 'encoding converter missing input textarea'
+  check_contains "$directory/index.html" 'id="resultOutput"' 'encoding converter missing output textarea'
+  check_contains "$directory/index.html" 'id="encodeButton"' 'encoding converter missing encode control'
+  check_contains "$directory/index.html" 'id="decodeButton"' 'encoding converter missing decode control'
+  check_contains "$directory/index.html" 'id="copyOutput"' 'encoding converter missing copy control'
+  check_contains "$directory/encoding-core.js" 'TextEncoder' 'encoding converter must encode Base64 as UTF-8'
+  check_contains "$directory/encoding-core.js" 'encodeURIComponent' 'encoding converter missing URL component encoding'
+  check_contains "$directory/encoding-core.js" 'encodeHtmlEntities' 'encoding converter missing HTML entity encoding'
+  check_not_contains "$directory/script.js" 'innerHTML' 'encoding converter must not inject user output as HTML'
 }
 
 check_token_inspector() {
@@ -284,6 +303,9 @@ case "$group" in
   image)
     check_image_converter
     ;;
+  encoding)
+    check_encoding_converter
+    ;;
   theme)
     check_home
     check_theme_contract
@@ -299,6 +321,7 @@ case "$group" in
     check_timestamp_converter
     check_token_inspector
     check_image_converter
+    check_encoding_converter
     check_theme_contract
     ;;
   *)

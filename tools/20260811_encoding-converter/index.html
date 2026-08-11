@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地完成 Base64、URL 和 HTML 实体的编码与解码，支持 UTF-8 中文和常用转换选项。" />
+  <title>Base64 / URL / HTML 编码解码｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./encoding-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">TEXT CODEC</p>
+        <h1>编码解码工具</h1>
+      </div>
+      <p class="subtitle">集中处理 Base64、URL 和 HTML 实体编码。支持中文与多行文本，所有内容仅在当前浏览器中转换。</p>
+    </header>
+
+    <section class="workspace codec-workspace" aria-label="编码解码工作区">
+      <div class="codec-toolbar">
+        <div class="codec-tabs" role="tablist" aria-label="编码类型">
+          <button class="codec-tab" id="base64Tab" type="button" role="tab" aria-selected="true" aria-controls="codecEditor" data-codec="base64">Base64</button>
+          <button class="codec-tab" id="urlTab" type="button" role="tab" aria-selected="false" aria-controls="codecEditor" data-codec="url" tabindex="-1">URL</button>
+          <button class="codec-tab" id="htmlTab" type="button" role="tab" aria-selected="false" aria-controls="codecEditor" data-codec="html" tabindex="-1">HTML 实体</button>
+        </div>
+
+        <div class="codec-options">
+          <div class="codec-option-note" data-codec-option="base64">
+            <strong>UTF-8 文本</strong>
+            <span>解码时兼容标准 Base64 与 Base64URL 字符。</span>
+          </div>
+
+          <div class="field compact-field" data-codec-option="url" hidden>
+            <label for="urlMode">URL 处理范围</label>
+            <select id="urlMode">
+              <option value="component">参数或路径片段</option>
+              <option value="full">完整网址</option>
+            </select>
+          </div>
+
+          <div class="field compact-field" data-codec-option="html" hidden>
+            <label for="htmlMode">HTML 编码范围</label>
+            <select id="htmlMode">
+              <option value="special">仅特殊字符 &amp; &lt; &gt; &quot; '</option>
+              <option value="ascii">特殊字符与非 ASCII 字符</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="codec-editor" id="codecEditor" role="tabpanel" aria-labelledby="base64Tab">
+        <section class="codec-panel input-panel" aria-labelledby="inputHeading">
+          <div class="section-head">
+            <h2 id="inputHeading">待转换内容</h2>
+            <span class="count" id="inputCount">0 字符 · 0 字节</span>
+          </div>
+
+          <label class="field-label" for="sourceInput">输入文本</label>
+          <textarea class="codec-textarea mono-input" id="sourceInput" spellcheck="false" placeholder="输入需要进行 Base64 编码或解码的 UTF-8 文本"></textarea>
+
+          <div class="actions input-actions">
+            <button class="primary-button" id="encodeButton" type="button">编码</button>
+            <button class="secondary-button" id="decodeButton" type="button">解码</button>
+            <button class="secondary-button" id="clearButton" type="button">清空</button>
+          </div>
+          <p class="shortcut-hint">快捷键：⌘ / Ctrl + Enter 执行上一次操作，默认执行编码</p>
+        </section>
+
+        <section class="codec-panel output-panel" aria-labelledby="outputHeading">
+          <div class="section-head">
+            <h2 id="outputHeading">转换结果</h2>
+            <span class="count" id="outputCount">0 字符 · 0 字节</span>
+          </div>
+
+          <label class="field-label" for="resultOutput">输出文本</label>
+          <textarea class="codec-textarea output-textarea mono-input" id="resultOutput" readonly placeholder="转换结果会显示在这里"></textarea>
+
+          <div class="actions output-actions">
+            <button class="secondary-button" id="copyOutput" type="button" disabled>复制结果</button>
+            <button class="secondary-button" id="useAsInput" type="button" disabled>结果作为输入</button>
+          </div>
+
+          <div class="status" id="conversionStatus" role="status" aria-live="polite">选择编码类型，输入内容后点击“编码”或“解码”。</div>
+        </section>
+      </div>
+    </section>
+
+    <section class="info-card" aria-labelledby="codec-note-heading">
+      <h2 id="codec-note-heading">使用说明</h2>
+      <p>Base64 按 UTF-8 文本处理；URL 的“参数或路径片段”会编码保留字符，“完整网址”会保留协议、斜杠和查询结构；HTML 解码支持浏览器可识别的命名实体与数字实体。</p>
+      <p>HTML 实体解码只还原字符，不会对内容做安全过滤。需要放入网页时，仍应根据实际上下文进行转义和安全校验。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
