@@ -42,6 +42,7 @@ check_tool_page() {
   check_contains "$directory/index.html" '../../assets/css/theme.css' "$directory must load the shared theme"
   check_contains "$directory/index.html" '../../assets/js/common.js' "$directory must load common.js"
   check_not_contains "$directory/index.html" 'assets/js/common.js" defer' "$directory must initialize the saved theme before first paint"
+  check_not_contains "$directory/index.html" '<(script|link|img|source|audio|video)[^>]+(src|href)="https?://' "$directory must not load runtime files from external URLs"
   check_contains "$directory/index.html" '../../index.html' "$directory must link back to the homepage"
   check_contains "$directory/index.html" 'lang="zh-CN"' "$directory must declare zh-CN"
   check_not_contains "$directory/index.html" 'on(click|input|change|submit)=' "$directory must not use inline event handlers"
@@ -57,6 +58,7 @@ check_home() {
   check_file 'assets/css/theme.css'
   check_file 'assets/js/common.js'
   check_contains 'index.html' './assets/css/theme.css' 'homepage must load the shared theme'
+  check_not_contains 'index.html' '<(script|link|img|source|audio|video)[^>]+(src|href)="https?://' 'homepage must not load runtime files from external URLs'
   check_contains 'index.html' 'data-theme-select' 'homepage missing theme selector'
   check_not_contains 'index.html' 'assets/js/common.js" defer' 'homepage must initialize the saved theme before first paint'
   check_contains 'index.html' '实用工具集' 'homepage must identify the toolbox'
@@ -132,7 +134,10 @@ check_json_yaml_converter() {
   local directory='tools/20260811_json-yaml-converter'
   check_tool_page "$directory"
   check_file "$directory/json-yaml-core.js"
-  check_contains "$directory/index.html" 'js-yaml@4.1.0' 'JSON/YAML converter must pin js-yaml 4.1.0'
+  check_file "$directory/vendor/js-yaml-4.1.0.min.js"
+  check_file "$directory/vendor/LICENSE-js-yaml-4.1.0.txt"
+  check_file "$directory/vendor/README.md"
+  check_contains "$directory/index.html" './vendor/js-yaml-4.1.0.min.js' 'JSON/YAML converter must load local js-yaml 4.1.0'
   check_contains "$directory/index.html" 'id="directionSelect"' 'JSON/YAML converter missing direction selector'
   check_contains "$directory/index.html" 'id="sourceInput"' 'JSON/YAML converter missing source input'
   check_contains "$directory/index.html" 'id="resultOutput"' 'JSON/YAML converter missing result output'
@@ -149,8 +154,19 @@ check_qr_code_tool() {
   local directory='tools/20260811_qr-code-tool'
   check_tool_page "$directory"
   check_file "$directory/qr-core.js"
-  check_contains "$directory/index.html" 'qrcode@1.5.4' 'QR tool must pin qrcode 1.5.4'
-  check_contains "$directory/index.html" 'jsqr@1.4.0' 'QR tool must pin jsQR 1.4.0'
+  check_file "$directory/qrcode-loader.js"
+  check_file "$directory/vendor/qrcode-1.5.4.esm.js"
+  check_file "$directory/vendor/dijkstrajs-1.0.3.esm.js"
+  check_file "$directory/vendor/jsqr-1.4.0.js"
+  check_file "$directory/vendor/LICENSE-qrcode-1.5.4.txt"
+  check_file "$directory/vendor/LICENSE-dijkstrajs-1.0.3.txt"
+  check_file "$directory/vendor/LICENSE-jsqr-1.4.0.txt"
+  check_file "$directory/vendor/README.md"
+  check_contains "$directory/qrcode-loader.js" './vendor/qrcode-1.5.4.esm.js' 'QR tool must load its local qrcode 1.5.4 ESM build'
+  check_contains "$directory/qrcode-loader.js" 'window.qrCodeDependency' 'QR tool must expose a generator dependency promise'
+  check_not_contains "$directory/qrcode-loader.js" 'https?://' 'QR loader must not import qrcode from an external URL'
+  check_contains "$directory/vendor/qrcode-1.5.4.esm.js" './dijkstrajs-1.0.3.esm.js' 'Local qrcode bundle must import local dijkstrajs'
+  check_contains "$directory/index.html" './vendor/jsqr-1.4.0.js' 'QR tool must load local jsQR 1.4.0'
   check_contains "$directory/index.html" 'id="qrContent"' 'QR tool missing content input'
   check_contains "$directory/index.html" 'id="qrCanvas"' 'QR tool missing QR canvas'
   check_contains "$directory/index.html" 'id="downloadQr"' 'QR tool missing PNG download control'
@@ -158,6 +174,7 @@ check_qr_code_tool() {
   check_contains "$directory/index.html" 'id="scanButton"' 'QR tool missing scan control'
   check_contains "$directory/index.html" 'id="scanResult"' 'QR tool missing scan result'
   check_contains "$directory/script.js" 'createImageBitmap' 'QR tool missing local image decoding'
+  check_contains "$directory/script.js" 'window.qrCodeDependency' 'QR tool must wait for its ESM generator dependency'
   check_contains "$directory/script.js" 'window.jsQR' 'QR tool missing QR recognition'
   check_not_contains "$directory/script.js" 'innerHTML' 'QR tool must not inject QR content as HTML'
 }
@@ -199,7 +216,10 @@ check_sql_formatter() {
   local directory='tools/20260811_sql-formatter'
   check_tool_page "$directory"
   check_file "$directory/sql-core.js"
-  check_contains "$directory/index.html" 'sql-formatter@15.8.2' 'SQL formatter must pin sql-formatter 15.8.2'
+  check_file "$directory/vendor/sql-formatter-15.8.2.min.js"
+  check_file "$directory/vendor/LICENSE-sql-formatter-15.8.2.txt"
+  check_file "$directory/vendor/README.md"
+  check_contains "$directory/index.html" './vendor/sql-formatter-15.8.2.min.js' 'SQL formatter must load local sql-formatter 15.8.2'
   check_contains "$directory/index.html" 'id="languageSelect"' 'SQL formatter missing dialect selector'
   check_contains "$directory/index.html" 'id="sqlInput"' 'SQL formatter missing SQL input'
   check_contains "$directory/index.html" 'id="sqlOutput"' 'SQL formatter missing SQL output'
@@ -455,7 +475,10 @@ check_calculator_rsa() {
   check_tool_page 'tools/20260807_multiline-calculator'
   check_tool_page 'tools/20260311_rsa-encrypt'
   check_contains 'tools/20260807_multiline-calculator/script.js' 'const evaluate' 'calculator parser must be preserved'
-  check_contains 'tools/20260311_rsa-encrypt/index.html' 'jsencrypt/3.3.2/jsencrypt.min.js' 'RSA page must pin JSEncrypt 3.3.2'
+  check_file 'tools/20260311_rsa-encrypt/vendor/jsencrypt-3.3.2.min.js'
+  check_file 'tools/20260311_rsa-encrypt/vendor/LICENSE-jsencrypt-3.3.2.txt'
+  check_file 'tools/20260311_rsa-encrypt/vendor/README.md'
+  check_contains 'tools/20260311_rsa-encrypt/index.html' './vendor/jsencrypt-3.3.2.min.js' 'RSA page must load local JSEncrypt 3.3.2'
   check_contains 'tools/20260311_rsa-encrypt/script.js' 'formatPublicKey' 'RSA key formatting must be preserved'
   check_absent 'multiline-calculator.html'
   check_absent 'RSA_encrypt.html'

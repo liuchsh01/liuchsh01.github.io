@@ -76,7 +76,7 @@
     if (!validateInput()) return;
     if (!window.sqlFormatter?.format) {
       clearOutput();
-      setStatus('SQL 格式化依赖未能加载，请检查网络；本地压缩功能仍可使用。', 'error');
+      setStatus('本地 SQL 格式化依赖未能加载；压缩功能仍可使用，请刷新页面或检查文件完整性。', 'error');
       return;
     }
     try {

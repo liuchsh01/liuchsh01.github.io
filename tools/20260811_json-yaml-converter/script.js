@@ -119,7 +119,7 @@
 
   const convert = () => {
     if (!yamlAvailable) {
-      setStatus('转换依赖 js-yaml 4.1.0 未能加载，请检查网络连接后刷新页面。', 'error');
+      setStatus('本地转换依赖 js-yaml 4.1.0 未能加载，请刷新页面或检查文件完整性。', 'error');
       return;
     }
 
@@ -210,6 +210,6 @@
 
   if (!yamlAvailable) {
     convertButton.disabled = true;
-    setStatus('转换依赖 js-yaml 4.1.0 未能加载，请检查网络连接后刷新页面。', 'error');
+    setStatus('本地转换依赖 js-yaml 4.1.0 未能加载，请刷新页面或检查文件完整性。', 'error');
   }
 })();

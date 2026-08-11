@@ -42,9 +42,16 @@
   let selectedScanFile = null;
   let selectedScanUrl = '';
   let scanning = false;
+  let generatorDependencySettled = false;
 
   const hasGeneratorDependency = () => Boolean(window.QRCode && typeof window.QRCode.toCanvas === 'function');
   const hasScannerDependency = () => typeof window.jsQR === 'function';
+
+  const getGeneratorUnavailableMessage = () => (
+    generatorDependencySettled
+      ? '本地二维码生成组件加载失败，请刷新页面或检查文件完整性。'
+      : '正在加载二维码生成组件…'
+  );
 
   const setGeneratorStatus = (message, type = '') => {
     generatorStatus.textContent = message;
@@ -94,7 +101,10 @@
     qrSize.removeAttribute('aria-invalid');
 
     if (!hasGeneratorDependency()) {
-      setGeneratorStatus('二维码生成组件加载失败，请检查网络后刷新页面。', 'error');
+      setGeneratorStatus(
+        getGeneratorUnavailableMessage(),
+        generatorDependencySettled ? 'error' : '',
+      );
       generateButton.disabled = true;
       return;
     }
@@ -172,10 +182,25 @@
     setGeneratorStatus(
       hasGeneratorDependency()
         ? '输入文本或网址并设置样式，然后生成二维码。'
-        : '二维码生成组件加载失败，请检查网络后刷新页面。',
-      hasGeneratorDependency() ? '' : 'error',
+        : getGeneratorUnavailableMessage(),
+      hasGeneratorDependency() || !generatorDependencySettled ? '' : 'error',
     );
     qrContent.focus();
+  };
+
+  const initializeGeneratorDependency = async () => {
+    generateButton.disabled = true;
+    setGeneratorStatus('正在加载二维码生成组件…');
+
+    const dependency = await (window.qrCodeDependency || Promise.resolve(null));
+    generatorDependencySettled = true;
+    generateButton.disabled = !dependency || !hasGeneratorDependency();
+    setGeneratorStatus(
+      hasGeneratorDependency()
+        ? '输入文本或网址并设置样式，然后生成二维码。'
+        : getGeneratorUnavailableMessage(),
+      hasGeneratorDependency() ? '' : 'error',
+    );
   };
 
   const downloadCanvas = () => {
@@ -251,7 +276,7 @@
     if (scanning || !selectedScanFile) return;
     if (!hasScannerDependency()) {
       scanButton.disabled = true;
-      setScannerStatus('二维码识别组件加载失败，请检查网络后刷新页面。', 'error');
+      setScannerStatus('本地二维码识别组件加载失败，请刷新页面或检查文件完整性。', 'error');
       return;
     }
 
@@ -319,7 +344,7 @@
     scanButton.disabled = !hasScannerDependency();
 
     if (!hasScannerDependency()) {
-      setScannerStatus('图片已选择，但二维码识别组件加载失败。请检查网络后刷新页面。', 'error');
+      setScannerStatus('图片已选择，但本地二维码识别组件加载失败。请刷新页面或检查文件完整性。', 'error');
       return;
     }
     setScannerStatus('图片已选择，正在尝试识别…');
@@ -341,7 +366,7 @@
     setScannerStatus(
       hasScannerDependency()
         ? '请选择或拖入一张二维码图片，页面会自动尝试识别。'
-        : '二维码识别组件加载失败，请检查网络后刷新页面。',
+        : '本地二维码识别组件加载失败，请刷新页面或检查文件完整性。',
       hasScannerDependency() ? '' : 'error',
     );
   };
@@ -412,18 +437,12 @@
   window.addEventListener('beforeunload', cleanupScanUrl);
 
   updateContentCount();
-  generateButton.disabled = !hasGeneratorDependency();
+  void initializeGeneratorDependency();
   scanButton.disabled = true;
-  setGeneratorStatus(
-    hasGeneratorDependency()
-      ? '输入文本或网址并设置样式，然后生成二维码。'
-      : '二维码生成组件加载失败，请检查网络后刷新页面。',
-    hasGeneratorDependency() ? '' : 'error',
-  );
   setScannerStatus(
     hasScannerDependency()
       ? '请选择或拖入一张二维码图片，页面会自动尝试识别。'
-      : '二维码识别组件加载失败，请检查网络后刷新页面。',
+      : '本地二维码识别组件加载失败，请刷新页面或检查文件完整性。',
     hasScannerDependency() ? '' : 'error',
   );
 })();

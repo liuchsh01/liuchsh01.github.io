@@ -29,7 +29,7 @@
 
   const requireYamlApi = (yamlApi) => {
     if (!yamlApi || typeof yamlApi.load !== 'function' || typeof yamlApi.dump !== 'function') {
-      throw new Error('转换依赖 js-yaml 4.1.0 未能加载，请检查网络连接后刷新页面。');
+      throw new Error('本地转换依赖 js-yaml 4.1.0 未能加载，请刷新页面或检查文件完整性。');
     }
     return yamlApi;
   };

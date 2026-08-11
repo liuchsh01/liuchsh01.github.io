@@ -8,7 +8,7 @@
   <title>JSON / YAML 转换工具｜实用工具集</title>
   <link rel="stylesheet" href="../../assets/css/theme.css" />
   <link rel="stylesheet" href="./style.css" />
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js" defer></script>
+  <script src="./vendor/js-yaml-4.1.0.min.js" defer></script>
   <script src="../../assets/js/common.js"></script>
   <script src="./json-yaml-core.js" defer></script>
   <script src="./script.js" defer></script>
@@ -93,7 +93,7 @@
 
     <section class="info-card" aria-labelledby="conversion-note-heading">
       <h2 id="conversion-note-heading">处理说明</h2>
-      <p>转换使用固定版本 <code>js-yaml 4.1.0</code> 解析与生成 YAML。依赖脚本通过 CDN 加载，但输入内容、转换结果和下载文件均只在当前浏览器中处理，不会上传。</p>
+      <p>转换使用项目内置的固定版本 <code>js-yaml 4.1.0</code> 解析与生成 YAML。输入内容、转换结果和下载文件均只在当前浏览器中处理，不会上传。</p>
       <p>YAML 锚点会在转为 JSON 时展开；循环引用无法表示为 JSON。超出 JavaScript 安全整数范围的数字可能损失精度，精确标识符建议使用字符串。</p>
     </section>
   </main>

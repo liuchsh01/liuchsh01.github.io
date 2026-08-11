@@ -50,7 +50,7 @@
     }
 
     if (typeof window.JSEncrypt !== 'function') {
-      showStatus('加密库未能加载，请检查网络连接后刷新页面。');
+      showStatus('本地加密库未能加载，请刷新页面或检查文件完整性。');
       return;
     }
 
@@ -100,6 +100,6 @@
 
   if (typeof window.JSEncrypt !== 'function') {
     encryptButton.disabled = true;
-    showStatus('加密库未能加载，请检查网络连接后刷新页面。');
+    showStatus('本地加密库未能加载，请刷新页面或检查文件完整性。');
   }
 })();

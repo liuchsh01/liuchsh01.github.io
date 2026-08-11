@@ -10,8 +10,8 @@
   <link rel="stylesheet" href="./style.css" />
   <script src="../../assets/js/common.js"></script>
   <script src="./qr-core.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js" defer></script>
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" defer></script>
+  <script src="./qrcode-loader.js" defer></script>
+  <script src="./vendor/jsqr-1.4.0.js" defer></script>
   <script src="./script.js" defer></script>
 </head>
 <body>
@@ -146,7 +146,7 @@
     <section class="info-card" aria-labelledby="qr-note-heading">
       <p class="section-kicker">依赖与隐私</p>
       <h2 id="qr-note-heading">所有内容均在浏览器本地处理</h2>
-      <p>二维码生成使用锁定版本的 qrcode 1.5.4，图片识别使用 jsQR 1.4.0，两者通过 CDN 加载且不会接收你的文本或图片。首次打开页面需要联网加载组件；组件加载失败时，页面会明确提示对应功能不可用。</p>
+      <p>二维码生成使用项目内置的 qrcode 1.5.4 ESM 构建，图片识别使用项目内置的 jsQR 1.4.0。两项功能均可直接加载本地依赖，不会接收或上传你的文本与图片。</p>
       <p>复杂背景、透视变形、低对比度或过小的二维码可能无法识别。生成时建议保持前景和背景有足够对比度，并为二维码四周保留空白。</p>
     </section>
   </main>
