@@ -7,6 +7,7 @@ const {
   getOutputMimeType,
   normalizeQuality,
   normalizeResizeRequest,
+  shareAspectRatio,
 } = require('../tools/20260811_image-converter/image-core.js');
 
 test('blank dimensions preserve the original image size', () => {
@@ -35,6 +36,23 @@ test('locked width and height define a containing box', () => {
   assert.deepEqual(
     calculateOutputDimensions(600, 1200, '400', '400', true),
     { height: 400, width: 200 },
+  );
+});
+
+test('batch aspect-ratio comparison distinguishes shared and mixed ratios', () => {
+  assert.equal(shareAspectRatio([
+    { width: 1920, height: 1080 },
+    { width: 1280, height: 720 },
+    { width: 640, height: 360 },
+  ]), true);
+  assert.equal(shareAspectRatio([
+    { width: 1920, height: 1080 },
+    { width: 1080, height: 1920 },
+  ]), false);
+  assert.equal(shareAspectRatio([{ width: 800, height: 600 }]), true);
+  assert.throws(
+    () => shareAspectRatio([{ width: 800, height: 600 }, { width: 0, height: 600 }]),
+    /图片尺寸无效/,
   );
 });
 

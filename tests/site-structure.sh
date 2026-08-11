@@ -100,6 +100,7 @@ check_image_converter() {
   check_contains "$directory/index.html" 'id="convertImages"' 'image converter missing conversion control'
   check_contains "$directory/index.html" 'id="resultList"' 'image converter missing result list'
   check_contains "$directory/image-core.js" 'calculateOutputDimensions' 'image converter missing dimension calculation core'
+  check_contains "$directory/image-core.js" 'shareAspectRatio' 'image converter missing batch aspect-ratio comparison'
   check_contains "$directory/script.js" 'createImageBitmap' 'image converter missing local image decoding'
   check_contains "$directory/script.js" 'canvas.toBlob' 'image converter missing Canvas encoding'
   check_contains "$directory/script.js" 'URL.createObjectURL' 'image converter missing local preview/download URLs'

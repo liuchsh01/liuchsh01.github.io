@@ -90,6 +90,19 @@
     return validateOutputSize(outputWidth, outputHeight);
   };
 
+  const shareAspectRatio = (dimensions) => {
+    if (!Array.isArray(dimensions) || dimensions.length < 2) return true;
+    const [first, ...rest] = dimensions;
+    const isValid = item => (
+      Number.isInteger(item?.width) && item.width > 0
+      && Number.isInteger(item?.height) && item.height > 0
+    );
+    if (!isValid(first) || rest.some(item => !isValid(item))) {
+      throw new Error('图片尺寸无效，无法比较宽高比例。');
+    }
+    return rest.every(item => first.width * item.height === item.width * first.height);
+  };
+
   const normalizeFormat = (format) => {
     const value = String(format || '').toLowerCase();
     if (!FORMATS[value]) throw new Error('请选择 PNG、JPEG 或 WebP 输出格式。');
@@ -133,5 +146,6 @@
     normalizeFormat,
     normalizeQuality,
     normalizeResizeRequest,
+    shareAspectRatio,
   };
 });

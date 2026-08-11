@@ -154,6 +154,10 @@
   gap: 10px;
 }
 
+.dimension-grid .field + .field {
+  margin-top: 0;
+}
+
 .aspect-option {
   display: flex;
   align-items: flex-start;

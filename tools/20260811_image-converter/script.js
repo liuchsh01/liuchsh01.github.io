@@ -8,6 +8,7 @@
     getOutputMimeType,
     normalizeQuality,
     normalizeResizeRequest,
+    shareAspectRatio,
   } = window.ImageConverterCore;
 
   const MAX_FILES = 30;
@@ -72,7 +73,12 @@
       return;
     }
 
-    dimensionHint.textContent = `输入框按首张图 ${reference.width} × ${reference.height} 的比例联动；转换时每张图都会保持自身比例。`;
+    if (shareAspectRatio(selectedImages)) {
+      dimensionHint.textContent = `所选图片比例一致，将按 ${reference.width} × ${reference.height} 的比例自动联动宽高。`;
+      return;
+    }
+
+    dimensionHint.textContent = '所选图片比例不同，无法填充唯一的对应尺寸；只需填写一边，转换时会逐张计算另一边。';
   };
 
   const clearDerivedDimension = () => {
@@ -90,6 +96,10 @@
 
     const reference = selectedImages[0];
     if (!reference) {
+      clearDerivedDimension();
+      return;
+    }
+    if (selectedImages.length > 1 && !shareAspectRatio(selectedImages)) {
       clearDerivedDimension();
       return;
     }
