@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地格式化或压缩 SQL，支持 MySQL、PostgreSQL、SQLite、SQL Server、BigQuery 等常见方言。" />
+  <title>SQL 格式化工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/sql-formatter@15.8.2/dist/sql-formatter.min.js" defer></script>
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./sql-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">SQL PRETTIFIER</p>
+        <h1>SQL 格式化工具</h1>
+      </div>
+      <p class="subtitle">美化或压缩 SQL，按数据库方言处理关键字与缩进。查询内容只在当前浏览器中处理。</p>
+    </header>
+
+    <section class="panel settings-panel" aria-labelledby="sql-settings-heading">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">格式选项</p>
+          <h2 id="sql-settings-heading">选择 SQL 方言与排版方式</h2>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <div class="field">
+          <label for="languageSelect">SQL 方言</label>
+          <select id="languageSelect">
+            <option value="sql">标准 SQL</option>
+            <option value="mysql">MySQL</option>
+            <option value="mariadb">MariaDB</option>
+            <option value="postgresql">PostgreSQL</option>
+            <option value="sqlite">SQLite</option>
+            <option value="transactsql">SQL Server / T-SQL</option>
+            <option value="bigquery">BigQuery</option>
+            <option value="snowflake">Snowflake</option>
+            <option value="redshift">Redshift</option>
+            <option value="spark">Spark SQL</option>
+            <option value="hive">Hive</option>
+            <option value="plsql">Oracle PL/SQL</option>
+            <option value="db2">IBM DB2</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="keywordCaseSelect">关键字大小写</label>
+          <select id="keywordCaseSelect">
+            <option value="upper">大写</option>
+            <option value="lower">小写</option>
+            <option value="preserve">保持原样</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="tabWidthSelect">缩进宽度</label>
+          <select id="tabWidthSelect">
+            <option value="2">2 个空格</option>
+            <option value="4">4 个空格</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="logicalNewlineSelect">AND / OR 换行</label>
+          <select id="logicalNewlineSelect">
+            <option value="before">运算符放在新行开头</option>
+            <option value="after">运算符放在上一行末尾</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="querySpacingSelect">多条语句间距</label>
+          <select id="querySpacingSelect">
+            <option value="1">1 行</option>
+            <option value="2">2 行</option>
+          </select>
+        </div>
+
+        <label class="comment-option" for="preserveComments">
+          <input id="preserveComments" type="checkbox" checked />
+          <span>
+            <strong>压缩时保留注释</strong>
+            <small>关闭后移除 <code>--</code> 与 <code>/* */</code> 注释。</small>
+          </span>
+        </label>
+      </div>
+    </section>
+
+    <section class="workspace sql-workspace" aria-label="SQL 格式化工作区">
+      <section class="sql-panel input-panel" aria-labelledby="sql-input-heading">
+        <div class="section-head">
+          <h2 id="sql-input-heading">原始 SQL</h2>
+          <span class="count" id="inputStats">1 条 · 0 字符</span>
+        </div>
+
+        <label class="field-label" for="sqlInput">输入 SQL</label>
+        <textarea class="sql-textarea mono-input" id="sqlInput" spellcheck="false" placeholder="输入需要格式化的 SQL">select u.id,u.name,count(o.id) as order_count from users u left join orders o on o.user_id=u.id where u.status='active' and o.created_at&gt;='2026-01-01' group by u.id,u.name order by order_count desc;</textarea>
+
+        <div class="actions">
+          <button class="primary-button" id="formatSql" type="button">格式化 SQL</button>
+          <button class="secondary-button" id="minifySql" type="button">压缩 SQL</button>
+          <button class="secondary-button" id="clearSql" type="button">清空</button>
+        </div>
+        <p class="shortcut-hint">快捷键：⌘ / Ctrl + Enter 执行上一次操作，默认格式化</p>
+      </section>
+
+      <section class="sql-panel output-panel" aria-labelledby="sql-output-heading">
+        <div class="section-head result-heading-row">
+          <h2 id="sql-output-heading">处理结果</h2>
+          <span class="count" id="outputStats">0 字符</span>
+        </div>
+
+        <label class="field-label" for="sqlOutput">输出 SQL</label>
+        <textarea class="sql-textarea output-textarea mono-input" id="sqlOutput" readonly placeholder="格式化结果会显示在这里"></textarea>
+
+        <div class="actions">
+          <button class="secondary-button" id="copySql" type="button" disabled>复制结果</button>
+          <button class="secondary-button" id="downloadSql" type="button" disabled>下载 .sql</button>
+          <button class="secondary-button" id="useSqlAsInput" type="button" disabled>结果作为输入</button>
+        </div>
+        <div class="status" id="sqlStatus" role="status" aria-live="polite">点击“格式化 SQL”开始处理。</div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="sql-note-heading">
+      <h2 id="sql-note-heading">格式化范围</h2>
+      <p>格式化功能使用固定版本 <code>sql-formatter 15.8.2</code>，支持常见查询和多种 SQL 方言；存储过程、模板语法及自定义分隔符可能需要手动调整。依赖未加载时仍可使用本地压缩功能。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+.settings-panel {
+  margin-bottom: 20px;
+}
+
+.settings-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.converter-workspace {
+  padding: 0;
+}
+
+.converter-panel {
+  min-width: 0;
+  padding: 28px;
+}
+
+.input-panel {
+  border-right: 1px solid var(--line);
+}
+
+.converter-textarea {
+  min-height: 410px;
+  margin-top: 8px;
+  resize: vertical;
+  overflow-wrap: normal;
+  white-space: pre;
+  tab-size: 2;
+}
+
+.output-textarea {
+  background: var(--mist);
+}
+
+.shortcut-hint {
+  margin: 9px 0 0;
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.output-panel .status {
+  min-height: 46px;
+}
+
+@media (max-width: 760px) {
+  .converter-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .converter-panel {
+    padding: 20px;
+  }
+
+  .input-panel {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .converter-textarea {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .settings-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .actions > button {
+    flex: 1 1 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .converter-panel *,
+  .settings-panel * {
+    scroll-behavior: auto;
+  }
+}

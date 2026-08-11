@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地计算 IPv4 CIDR 子网的网络地址、广播地址、掩码、可用地址范围和主机数量。" />
+  <title>IPv4 / CIDR 子网计算器｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./ipv4-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">IPV4 SUBNETTING</p>
+        <h1>IPv4 子网计算器</h1>
+      </div>
+      <p class="subtitle">输入 IPv4 地址与 CIDR 前缀，计算网络范围、子网掩码和可用主机数量。支持直接粘贴完整 CIDR。</p>
+    </header>
+
+    <section class="workspace subnet-workspace" aria-label="IPv4 子网计算工作区">
+      <section class="subnet-panel entry-panel" aria-labelledby="subnet-input-heading">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">输入</p>
+            <h2 id="subnet-input-heading">地址与掩码</h2>
+          </div>
+        </div>
+
+        <form id="subnetForm" novalidate>
+          <div class="field">
+            <label for="addressInput">IPv4 地址或 CIDR</label>
+            <input class="mono-input" id="addressInput" type="text" value="192.168.1.100/24" spellcheck="false" autocomplete="off" placeholder="例如：192.168.1.100/24" />
+          </div>
+
+          <div class="field">
+            <label for="prefixInput">CIDR 前缀或子网掩码</label>
+            <input class="mono-input" id="prefixInput" type="text" value="24" spellcheck="false" autocomplete="off" placeholder="例如：24 或 255.255.255.0" />
+            <span class="helper-text">地址中已带有 <code>/24</code> 时，此处可留空；两处同时填写时必须一致。</span>
+          </div>
+
+          <div class="preset-row" aria-label="常用 CIDR 前缀">
+            <span>常用前缀</span>
+            <button type="button" data-prefix="8">/8</button>
+            <button type="button" data-prefix="16">/16</button>
+            <button type="button" data-prefix="24">/24</button>
+            <button type="button" data-prefix="30">/30</button>
+            <button type="button" data-prefix="32">/32</button>
+          </div>
+
+          <div class="actions">
+            <button class="primary-button" type="submit">计算子网</button>
+            <button class="secondary-button" id="clearSubnet" type="button">清空</button>
+          </div>
+          <p class="shortcut-hint">快捷键：⌘ / Ctrl + Enter</p>
+        </form>
+
+        <div class="status" id="subnetStatus" role="status" aria-live="polite">修改示例地址或直接点击“计算子网”。</div>
+      </section>
+
+      <section class="subnet-panel result-section" aria-labelledby="subnet-result-heading">
+        <div class="section-head result-heading-row">
+          <div>
+            <p class="section-kicker">结果</p>
+            <h2 id="subnet-result-heading">子网信息</h2>
+          </div>
+          <button class="secondary-button copy-results" id="copyResults" type="button" disabled>复制全部</button>
+        </div>
+
+        <div class="empty-state" id="emptyState">计算完成后，这里会显示网络地址、可用范围与主机数量。</div>
+
+        <div id="resultContent" hidden aria-live="polite">
+          <dl class="result-grid">
+            <div class="result-card featured-result">
+              <dt>规范 CIDR</dt>
+              <dd id="cidrResult">—</dd>
+            </div>
+            <div class="result-card">
+              <dt>地址类型</dt>
+              <dd id="typeResult">—</dd>
+            </div>
+            <div class="result-card">
+              <dt>网络地址</dt>
+              <dd id="networkResult">—</dd>
+            </div>
+            <div class="result-card">
+              <dt>广播 / 最后地址</dt>
+              <dd id="broadcastResult">—</dd>
+            </div>
+            <div class="result-card">
+              <dt>子网掩码</dt>
+              <dd id="maskResult">—</dd>
+            </div>
+            <div class="result-card">
+              <dt>反向掩码</dt>
+              <dd id="wildcardResult">—</dd>
+            </div>
+            <div class="result-card wide-result">
+              <dt>可用地址范围</dt>
+              <dd id="rangeResult">—</dd>
+            </div>
+            <div class="result-card">
+              <dt>地址总数</dt>
+              <dd id="totalResult">—</dd>
+            </div>
+            <div class="result-card">
+              <dt>可用主机数</dt>
+              <dd id="usableResult">—</dd>
+            </div>
+          </dl>
+
+          <div class="binary-panel">
+            <div>
+              <span>输入地址（二进制）</span>
+              <code id="addressBinaryResult">—</code>
+            </div>
+            <div>
+              <span>子网掩码（二进制）</span>
+              <code id="maskBinaryResult">—</code>
+            </div>
+          </div>
+
+          <p class="result-note" id="resultNote" hidden></p>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="subnet-note-heading">
+      <h2 id="subnet-note-heading">计算约定</h2>
+      <p><code>/0</code> 到 <code>/30</code> 会扣除网络地址与广播地址；<code>/31</code> 按点对点链路计算为两个可用地址；<code>/32</code> 表示一个主机地址。计算过程完全在浏览器本地完成。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

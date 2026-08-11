@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地完成 JSON 与 YAML 双向转换，支持语法校验、缩进选择、复制和下载结果。" />
+  <title>JSON / YAML 转换工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js" defer></script>
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./json-yaml-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">DATA CONVERTER</p>
+        <h1>JSON / YAML 转换</h1>
+      </div>
+      <p class="subtitle">在 JSON 与 YAML 之间双向转换，检查语法并按指定缩进输出。输入内容只在当前浏览器中处理。</p>
+    </header>
+
+    <section class="panel settings-panel" aria-labelledby="conversion-settings-heading">
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">转换选项</p>
+          <h2 id="conversion-settings-heading">选择转换方向与缩进</h2>
+        </div>
+      </div>
+
+      <div class="settings-grid">
+        <div class="field">
+          <label for="directionSelect">转换方向</label>
+          <select id="directionSelect">
+            <option value="json-to-yaml">JSON 转 YAML</option>
+            <option value="yaml-to-json">YAML 转 JSON</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="indentSelect">缩进宽度</label>
+          <select id="indentSelect">
+            <option value="2">2 个空格</option>
+            <option value="4">4 个空格</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <section class="workspace converter-workspace" aria-label="JSON 与 YAML 转换工作区">
+      <section class="converter-panel input-panel" aria-labelledby="source-heading">
+        <div class="section-head">
+          <h2 id="source-heading">输入 JSON</h2>
+          <span class="count" id="inputStats">0 行 · 0 字符</span>
+        </div>
+
+        <label class="field-label" id="sourceLabel" for="sourceInput">JSON 内容</label>
+        <textarea class="converter-textarea mono-input" id="sourceInput" spellcheck="false" placeholder="输入需要转换的 JSON">{
+  "name": "实用工具集",
+  "local": true,
+  "tools": ["Hash", "JSON", "时间戳"]
+}</textarea>
+
+        <div class="actions">
+          <button class="primary-button" id="convertButton" type="button">转换为 YAML</button>
+          <button class="secondary-button" id="clearButton" type="button">清空</button>
+        </div>
+        <p class="shortcut-hint">快捷键：⌘ / Ctrl + Enter 执行转换</p>
+      </section>
+
+      <section class="converter-panel output-panel" aria-labelledby="result-heading">
+        <div class="section-head">
+          <h2 id="result-heading">YAML 结果</h2>
+          <span class="count" id="outputStats">0 行 · 0 字符</span>
+        </div>
+
+        <label class="field-label" id="resultLabel" for="resultOutput">YAML 内容</label>
+        <textarea class="converter-textarea output-textarea mono-input" id="resultOutput" readonly placeholder="转换结果会显示在这里"></textarea>
+
+        <div class="actions">
+          <button class="secondary-button" id="copyButton" type="button" disabled>复制结果</button>
+          <button class="secondary-button" id="downloadButton" type="button" disabled>下载 .yaml</button>
+          <button class="secondary-button" id="useAsInputButton" type="button" disabled>反向继续转换</button>
+        </div>
+        <div class="status" id="conversionStatus" role="status" aria-live="polite">准备就绪，点击“转换为 YAML”开始处理。</div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="conversion-note-heading">
+      <h2 id="conversion-note-heading">处理说明</h2>
+      <p>转换使用固定版本 <code>js-yaml 4.1.0</code> 解析与生成 YAML。依赖脚本通过 CDN 加载，但输入内容、转换结果和下载文件均只在当前浏览器中处理，不会上传。</p>
+      <p>YAML 锚点会在转为 JSON 时展开；循环引用无法表示为 JSON。超出 JavaScript 安全整数范围的数字可能损失精度，精确标识符建议使用字符串。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地逐行整理文本列表，支持 Trim、去空行、去重、自然排序、大小写、前后缀和集合运算。" />
+  <title>文本列表整理工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./text-list-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">TEXT LIST ORGANIZER</p>
+        <h1>文本列表整理工具</h1>
+      </div>
+      <p class="subtitle">逐行清理、去重、自然排序和添加前后缀，也可计算两个列表的交集、差集与并集。内容仅在本地处理。</p>
+    </header>
+
+    <section class="workspace list-workspace" aria-label="文本列表整理工作区">
+      <div class="mode-toolbar">
+        <div class="mode-tabs" role="tablist" aria-label="整理模式">
+          <button class="mode-tab" id="organizeTab" type="button" role="tab" aria-selected="true" aria-controls="organizePanel" data-mode="organize">单列表整理</button>
+          <button class="mode-tab" id="setTab" type="button" role="tab" aria-selected="false" aria-controls="setPanel" data-mode="sets" tabindex="-1">两列表集合运算</button>
+        </div>
+        <span class="toolbar-note">⌘ / Ctrl + Enter 执行</span>
+      </div>
+
+      <section class="mode-panel" id="organizePanel" role="tabpanel" aria-labelledby="organizeTab">
+        <div class="organize-layout">
+          <section class="list-panel input-panel" aria-labelledby="source-heading">
+            <div class="section-head">
+              <div>
+                <p class="section-kicker">SOURCE LIST</p>
+                <h2 id="source-heading">待整理列表</h2>
+              </div>
+              <span class="count" id="sourceCount">0 行</span>
+            </div>
+
+            <div class="field">
+              <label for="sourceList">每行一个元素</label>
+              <textarea id="sourceList" class="list-textarea mono-input" spellcheck="false" placeholder="例如：&#10;item10&#10; item2 &#10;item2&#10;item1"></textarea>
+            </div>
+
+            <fieldset class="option-fieldset">
+              <legend>清理规则</legend>
+              <div class="check-grid">
+                <label class="check-option" for="trimLines">
+                  <input id="trimLines" type="checkbox" checked />
+                  <span>逐行 Trim</span>
+                </label>
+                <label class="check-option" for="removeEmpty">
+                  <input id="removeEmpty" type="checkbox" checked />
+                  <span>移除空行</span>
+                </label>
+                <label class="check-option" for="deduplicate">
+                  <input id="deduplicate" type="checkbox" checked />
+                  <span>移除重复项</span>
+                </label>
+                <label class="check-option" for="caseSensitive">
+                  <input id="caseSensitive" type="checkbox" />
+                  <span>去重区分大小写</span>
+                </label>
+              </div>
+            </fieldset>
+
+            <div class="transform-grid">
+              <div class="field">
+                <label for="sortMode">自然排序</label>
+                <select id="sortMode">
+                  <option value="none">保持原顺序</option>
+                  <option value="asc">自然升序</option>
+                  <option value="desc">自然降序</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="caseTransform">大小写转换</label>
+                <select id="caseTransform">
+                  <option value="none">保持原样</option>
+                  <option value="upper">转换为大写</option>
+                  <option value="lower">转换为小写</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="linePrefix">每行前缀</label>
+                <input id="linePrefix" type="text" placeholder="可选，例如：- " />
+              </div>
+              <div class="field">
+                <label for="lineSuffix">每行后缀</label>
+                <input id="lineSuffix" type="text" placeholder="可选，例如：;" />
+              </div>
+            </div>
+
+            <div class="actions organizer-actions">
+              <button class="primary-button" id="organizeButton" type="button">整理列表</button>
+              <button class="secondary-button" id="clearOrganizer" type="button">清空</button>
+            </div>
+          </section>
+
+          <section class="list-panel output-panel" aria-labelledby="organize-result-heading">
+            <div class="section-head">
+              <div>
+                <p class="section-kicker">RESULT</p>
+                <h2 id="organize-result-heading">整理结果</h2>
+              </div>
+              <span class="count" id="organizeResultCount">0 行</span>
+            </div>
+            <div class="field">
+              <label for="organizeResult">输出列表</label>
+              <textarea id="organizeResult" class="list-textarea result-textarea mono-input" readonly placeholder="整理后的列表会显示在这里"></textarea>
+            </div>
+            <div class="actions result-actions">
+              <button class="secondary-button" id="copyOrganizeResult" type="button" disabled>复制结果</button>
+              <button class="secondary-button" id="downloadOrganizeResult" type="button" disabled>下载 TXT</button>
+            </div>
+            <p class="status" id="organizeStatus" role="status" aria-live="polite">输入列表并选择规则，然后点击“整理列表”。</p>
+          </section>
+        </div>
+      </section>
+
+      <section class="mode-panel" id="setPanel" role="tabpanel" aria-labelledby="setTab" hidden>
+        <div class="set-input-grid">
+          <section class="set-input-panel" aria-labelledby="list-a-heading">
+            <div class="section-head compact-head">
+              <h2 id="list-a-heading">列表 A</h2>
+              <span class="count" id="listACount">0 行</span>
+            </div>
+            <label class="field-label" for="listA">每行一个元素</label>
+            <textarea id="listA" class="set-textarea mono-input" spellcheck="false" placeholder="输入列表 A"></textarea>
+          </section>
+          <section class="set-input-panel" aria-labelledby="list-b-heading">
+            <div class="section-head compact-head">
+              <h2 id="list-b-heading">列表 B</h2>
+              <span class="count" id="listBCount">0 行</span>
+            </div>
+            <label class="field-label" for="listB">每行一个元素</label>
+            <textarea id="listB" class="set-textarea mono-input" spellcheck="false" placeholder="输入列表 B"></textarea>
+          </section>
+        </div>
+
+        <div class="set-control-bar">
+          <div class="field operation-field">
+            <label for="setOperation">集合运算</label>
+            <select id="setOperation">
+              <option value="intersection">交集（A ∩ B）</option>
+              <option value="difference-a">差集（A − B）</option>
+              <option value="difference-b">差集（B − A）</option>
+              <option value="union">并集（A ∪ B）</option>
+            </select>
+          </div>
+          <div class="set-checks" aria-label="集合比较规则">
+            <label class="check-option" for="setTrim">
+              <input id="setTrim" type="checkbox" checked />
+              <span>逐行 Trim</span>
+            </label>
+            <label class="check-option" for="setRemoveEmpty">
+              <input id="setRemoveEmpty" type="checkbox" checked />
+              <span>移除空行</span>
+            </label>
+            <label class="check-option" for="setCaseSensitive">
+              <input id="setCaseSensitive" type="checkbox" />
+              <span>区分大小写</span>
+            </label>
+          </div>
+          <div class="actions set-actions">
+            <button class="secondary-button" id="swapLists" type="button">交换 A / B</button>
+            <button class="primary-button" id="calculateSet" type="button">计算结果</button>
+            <button class="secondary-button" id="clearSets" type="button">清空</button>
+          </div>
+        </div>
+
+        <section class="set-result-panel" aria-labelledby="set-result-heading">
+          <div class="section-head">
+            <div>
+              <p class="section-kicker">SET RESULT</p>
+              <h2 id="set-result-heading">集合运算结果</h2>
+            </div>
+            <span class="count" id="setResultCount">0 行</span>
+          </div>
+          <label class="field-label" for="setResult">输出列表</label>
+          <textarea id="setResult" class="set-result-textarea mono-input" readonly placeholder="交集、差集或并集会显示在这里"></textarea>
+          <div class="actions result-actions">
+            <button class="secondary-button" id="copySetResult" type="button" disabled>复制结果</button>
+            <button class="secondary-button" id="downloadSetResult" type="button" disabled>下载 TXT</button>
+          </div>
+          <p class="status" id="setStatus" role="status" aria-live="polite">输入一个或两个列表，选择集合运算后计算。</p>
+        </section>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="list-note-heading">
+      <p class="section-kicker">处理顺序</p>
+      <h2 id="list-note-heading">先清理，再转换和装饰</h2>
+      <p>单列表整理按“Trim → 移除空行 → 大小写转换 → 去重 → 自然排序 → 添加前后缀”的顺序处理。自然排序会将 item2 排在 item10 前面。</p>
+      <p>集合运算会先按所选规则清理并去重，再比较列表；忽略大小写时保留首次出现的原始写法和列表顺序。所有文本均不会上传。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

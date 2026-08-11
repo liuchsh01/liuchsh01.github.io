@@ -73,6 +73,12 @@ check_home() {
   check_contains 'index.html' './tools/20260811_regex-tester/' 'homepage missing regex tester link'
   check_contains 'index.html' './tools/20260811_text-diff/' 'homepage missing text diff link'
   check_contains 'index.html' './tools/20260811_cron-expression-tool/' 'homepage missing Cron expression tool link'
+  check_contains 'index.html' './tools/20260811_json-yaml-converter/' 'homepage missing JSON/YAML converter link'
+  check_contains 'index.html' './tools/20260811_qr-code-tool/' 'homepage missing QR code tool link'
+  check_contains 'index.html' './tools/20260811_ipv4-subnet-calculator/' 'homepage missing IPv4 subnet calculator link'
+  check_contains 'index.html' './tools/20260811_ip-info-lookup/' 'homepage missing IP info lookup link'
+  check_contains 'index.html' './tools/20260811_sql-formatter/' 'homepage missing SQL formatter link'
+  check_contains 'index.html' './tools/20260811_text-list-organizer/' 'homepage missing text list organizer link'
   check_not_contains 'index.html' 'on(click|input|change|submit)=' 'homepage must not use inline event handlers'
 }
 
@@ -113,6 +119,106 @@ check_encoding_converter() {
   check_contains "$directory/encoding-core.js" 'encodeURIComponent' 'encoding converter missing URL component encoding'
   check_contains "$directory/encoding-core.js" 'encodeHtmlEntities' 'encoding converter missing HTML entity encoding'
   check_not_contains "$directory/script.js" 'innerHTML' 'encoding converter must not inject user output as HTML'
+}
+
+check_json_yaml_converter() {
+  local directory='tools/20260811_json-yaml-converter'
+  check_tool_page "$directory"
+  check_file "$directory/json-yaml-core.js"
+  check_contains "$directory/index.html" 'js-yaml@4.1.0' 'JSON/YAML converter must pin js-yaml 4.1.0'
+  check_contains "$directory/index.html" 'id="directionSelect"' 'JSON/YAML converter missing direction selector'
+  check_contains "$directory/index.html" 'id="sourceInput"' 'JSON/YAML converter missing source input'
+  check_contains "$directory/index.html" 'id="resultOutput"' 'JSON/YAML converter missing result output'
+  check_contains "$directory/index.html" 'id="convertButton"' 'JSON/YAML converter missing convert control'
+  check_contains "$directory/index.html" 'id="copyButton"' 'JSON/YAML converter missing copy control'
+  check_contains "$directory/index.html" 'id="downloadButton"' 'JSON/YAML converter missing download control'
+  check_contains "$directory/json-yaml-core.js" 'convertJsonToYaml' 'JSON/YAML converter missing JSON to YAML core'
+  check_contains "$directory/json-yaml-core.js" 'convertYamlToJson' 'JSON/YAML converter missing YAML to JSON core'
+  check_not_contains "$directory/script.js" 'innerHTML' 'JSON/YAML converter must not inject user content as HTML'
+  check_not_contains "$directory/json-yaml-core.js" 'eval\(|new Function' 'JSON/YAML converter must not execute input'
+}
+
+check_qr_code_tool() {
+  local directory='tools/20260811_qr-code-tool'
+  check_tool_page "$directory"
+  check_file "$directory/qr-core.js"
+  check_contains "$directory/index.html" 'qrcode@1.5.4' 'QR tool must pin qrcode 1.5.4'
+  check_contains "$directory/index.html" 'jsqr@1.4.0' 'QR tool must pin jsQR 1.4.0'
+  check_contains "$directory/index.html" 'id="qrContent"' 'QR tool missing content input'
+  check_contains "$directory/index.html" 'id="qrCanvas"' 'QR tool missing QR canvas'
+  check_contains "$directory/index.html" 'id="downloadQr"' 'QR tool missing PNG download control'
+  check_contains "$directory/index.html" 'id="qrImageInput"' 'QR tool missing image input'
+  check_contains "$directory/index.html" 'id="scanButton"' 'QR tool missing scan control'
+  check_contains "$directory/index.html" 'id="scanResult"' 'QR tool missing scan result'
+  check_contains "$directory/script.js" 'createImageBitmap' 'QR tool missing local image decoding'
+  check_contains "$directory/script.js" 'window.jsQR' 'QR tool missing QR recognition'
+  check_not_contains "$directory/script.js" 'innerHTML' 'QR tool must not inject QR content as HTML'
+}
+
+check_ipv4_subnet_calculator() {
+  local directory='tools/20260811_ipv4-subnet-calculator'
+  check_tool_page "$directory"
+  check_file "$directory/ipv4-core.js"
+  check_contains "$directory/index.html" 'id="addressInput"' 'IPv4 calculator missing address input'
+  check_contains "$directory/index.html" 'id="prefixInput"' 'IPv4 calculator missing prefix input'
+  check_contains "$directory/index.html" 'id="subnetForm"' 'IPv4 calculator missing calculation form'
+  check_contains "$directory/index.html" 'id="copyResults"' 'IPv4 calculator missing copy control'
+  check_contains "$directory/ipv4-core.js" 'calculateSubnet' 'IPv4 calculator missing subnet calculation core'
+  check_contains "$directory/ipv4-core.js" 'prefixFromMask' 'IPv4 calculator missing dotted-mask support'
+  check_not_contains "$directory/script.js" 'innerHTML' 'IPv4 calculator must render results safely'
+}
+
+check_ip_info_lookup() {
+  local directory='tools/20260811_ip-info-lookup'
+  check_tool_page "$directory"
+  check_file "$directory/ip-core.js"
+  check_contains "$directory/index.html" 'id="ipInput"' 'IP lookup missing IP input'
+  check_contains "$directory/index.html" 'id="currentIp"' 'IP lookup missing current-IP control'
+  check_contains "$directory/index.html" 'value="ipwhois" checked' 'IP lookup must enable IPWhois by default'
+  check_contains "$directory/index.html" 'value="geojs" checked' 'IP lookup must enable GeoJS by default'
+  check_contains "$directory/index.html" 'value="dbip" checked' 'IP lookup must enable DB-IP by default'
+  check_contains "$directory/index.html" 'value="ripestat" checked' 'IP lookup must enable RIPEstat by default'
+  check_contains "$directory/index.html" 'value="ipinfo"' 'IP lookup missing IPinfo source'
+  check_contains "$directory/index.html" 'id="ipinfoToken"' 'IP lookup missing optional IPinfo token input'
+  check_contains "$directory/index.html" 'id="summaryGrid"' 'IP lookup missing aggregate result grid'
+  check_contains "$directory/index.html" 'id="sourceGrid"' 'IP lookup missing provider result grid'
+  check_contains "$directory/ip-core.js" 'normalizeProviderResponse' 'IP lookup missing provider normalization core'
+  check_contains "$directory/script.js" 'Promise.all' 'IP lookup must query providers concurrently'
+  check_contains "$directory/script.js" 'AbortController' 'IP lookup missing request timeout handling'
+  check_not_contains "$directory/script.js" 'innerHTML' 'IP lookup must render remote data safely'
+}
+
+check_sql_formatter() {
+  local directory='tools/20260811_sql-formatter'
+  check_tool_page "$directory"
+  check_file "$directory/sql-core.js"
+  check_contains "$directory/index.html" 'sql-formatter@15.8.2' 'SQL formatter must pin sql-formatter 15.8.2'
+  check_contains "$directory/index.html" 'id="languageSelect"' 'SQL formatter missing dialect selector'
+  check_contains "$directory/index.html" 'id="sqlInput"' 'SQL formatter missing SQL input'
+  check_contains "$directory/index.html" 'id="sqlOutput"' 'SQL formatter missing SQL output'
+  check_contains "$directory/index.html" 'id="formatSql"' 'SQL formatter missing format control'
+  check_contains "$directory/index.html" 'id="minifySql"' 'SQL formatter missing minify control'
+  check_contains "$directory/index.html" 'id="copySql"' 'SQL formatter missing copy control'
+  check_contains "$directory/sql-core.js" 'minifySql' 'SQL formatter missing local minify core'
+  check_not_contains "$directory/script.js" 'innerHTML' 'SQL formatter must not inject SQL as HTML'
+  check_not_contains "$directory/sql-core.js" 'eval\(|new Function' 'SQL formatter must not execute SQL input'
+}
+
+check_text_list_organizer() {
+  local directory='tools/20260811_text-list-organizer'
+  check_tool_page "$directory"
+  check_file "$directory/text-list-core.js"
+  check_contains "$directory/index.html" 'id="sourceList"' 'text list organizer missing source list'
+  check_contains "$directory/index.html" 'id="deduplicate"' 'text list organizer missing deduplication control'
+  check_contains "$directory/index.html" 'id="sortMode"' 'text list organizer missing sort selector'
+  check_contains "$directory/index.html" 'id="linePrefix"' 'text list organizer missing prefix input'
+  check_contains "$directory/index.html" 'id="listA"' 'text list organizer missing list A'
+  check_contains "$directory/index.html" 'id="listB"' 'text list organizer missing list B'
+  check_contains "$directory/index.html" 'id="setOperation"' 'text list organizer missing set-operation selector'
+  check_contains "$directory/index.html" 'id="copyOrganizeResult"' 'text list organizer missing copy control'
+  check_contains "$directory/text-list-core.js" 'organizeLines' 'text list organizer missing organizer core'
+  check_contains "$directory/text-list-core.js" 'performSetOperation' 'text list organizer missing set-operation core'
+  check_not_contains "$directory/script.js" 'innerHTML' 'text list organizer must render results safely'
 }
 
 check_identifier_generator() {
@@ -382,6 +488,24 @@ case "$group" in
   encoding)
     check_encoding_converter
     ;;
+  json-yaml)
+    check_json_yaml_converter
+    ;;
+  qr)
+    check_qr_code_tool
+    ;;
+  ipv4)
+    check_ipv4_subnet_calculator
+    ;;
+  ip-info)
+    check_ip_info_lookup
+    ;;
+  sql)
+    check_sql_formatter
+    ;;
+  text-list)
+    check_text_list_organizer
+    ;;
   identifier)
     check_identifier_generator
     ;;
@@ -410,6 +534,12 @@ case "$group" in
     check_token_inspector
     check_image_converter
     check_encoding_converter
+    check_json_yaml_converter
+    check_qr_code_tool
+    check_ipv4_subnet_calculator
+    check_ip_info_lookup
+    check_sql_formatter
+    check_text_list_organizer
     check_identifier_generator
     check_regex_tester
     check_text_diff

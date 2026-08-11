@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="通过多个免费数据源并行查询 IPv4 或 IPv6 的地理位置、ASN、组织和网络前缀信息。" />
+  <title>IP 信息综合查询｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./ip-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">MULTI-SOURCE IP LOOKUP</p>
+        <h1>IP 信息综合查询</h1>
+      </div>
+      <p class="subtitle">同时调用多个免费接口，对比 IP 的地理位置、ASN、运营组织与网络前缀，单个接口失败不会影响其他结果。</p>
+    </header>
+
+    <section class="workspace ip-workspace" aria-label="IP 信息查询工作区">
+      <form class="query-form" id="queryForm" novalidate>
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">查询目标</p>
+            <h2>输入 IPv4 或 IPv6 地址</h2>
+          </div>
+          <span class="count">快捷键：⌘ / Ctrl + Enter</span>
+        </div>
+
+        <div class="query-row">
+          <div class="field query-field">
+            <label for="ipInput">IP 地址</label>
+            <input class="mono-input" id="ipInput" name="ip" type="text" spellcheck="false" autocomplete="off" placeholder="例如：8.8.8.8 或 2001:4860:4860::8888" />
+          </div>
+          <div class="query-actions">
+            <button class="secondary-button" id="currentIp" type="button">查询当前 IP</button>
+            <button class="primary-button" id="lookupIp" type="submit">综合查询</button>
+          </div>
+        </div>
+
+        <fieldset class="provider-fieldset">
+          <legend>选择数据源</legend>
+          <div class="provider-grid">
+            <label class="provider-option">
+              <input type="checkbox" name="provider" value="ipwhois" checked />
+              <span><strong>IPWhois</strong><small>无需密钥 · 1,000 次/日</small></span>
+            </label>
+            <label class="provider-option">
+              <input type="checkbox" name="provider" value="geojs" checked />
+              <span><strong>GeoJS</strong><small>无需密钥 · 当前无速率限制</small></span>
+            </label>
+            <label class="provider-option">
+              <input type="checkbox" name="provider" value="dbip" checked />
+              <span><strong>DB-IP Free</strong><small>无需密钥 · 500 次/日</small></span>
+            </label>
+            <label class="provider-option">
+              <input type="checkbox" name="provider" value="ripestat" checked />
+              <span><strong>RIPEstat</strong><small>ASN、网段与路由补充</small></span>
+            </label>
+            <label class="provider-option">
+              <input type="checkbox" name="provider" value="ipapi" />
+              <span><strong>ipapi.co</strong><small>最高 1,000 次/日 · 测试用途</small></span>
+            </label>
+            <label class="provider-option">
+              <input type="checkbox" name="provider" value="ipinfo" />
+              <span><strong>IPinfo</strong><small>Token 可选 · 匿名接口尽力调用</small></span>
+            </label>
+          </div>
+        </fieldset>
+
+        <details class="token-options">
+          <summary>IPinfo Token（可选）</summary>
+          <div class="token-content">
+            <div class="field">
+              <label for="ipinfoToken">IPinfo Lite Token</label>
+              <input class="mono-input" id="ipinfoToken" type="password" autocomplete="off" placeholder="留空时调用 ipinfo.io/&lt;IP&gt;/json" />
+            </div>
+            <p>Token 只用于本次 IPinfo 请求，不会保存到本地存储，也不会出现在复制结果中。Lite 免费接口提供国家与 ASN 信息。</p>
+          </div>
+        </details>
+
+        <div class="privacy-notice">
+          <strong>外部请求提示</strong>
+          <p>点击查询后，目标 IP 会分别发送给已勾选的数据源；“查询当前 IP”会先通过 GeoJS 或 IPWhois 获取浏览器当前的公网出口地址。</p>
+        </div>
+
+        <div class="status" id="queryStatus" role="status" aria-live="polite">输入 IP 并选择数据源后开始查询。</div>
+      </form>
+    </section>
+
+    <section class="panel summary-panel" id="summarySection" aria-labelledby="summary-heading" hidden>
+      <div class="section-head summary-heading-row">
+        <div>
+          <p class="section-kicker">综合结果</p>
+          <h2 id="summary-heading">多源汇总</h2>
+          <span class="count" id="summaryMeta"></span>
+        </div>
+        <button class="secondary-button" id="copySummary" type="button" disabled>复制查询结果</button>
+      </div>
+      <dl class="summary-grid" id="summaryGrid"></dl>
+    </section>
+
+    <section class="panel source-panel" id="sourceSection" aria-labelledby="source-heading" hidden>
+      <div class="section-head">
+        <div>
+          <p class="section-kicker">接口明细</p>
+          <h2 id="source-heading">各数据源结果</h2>
+        </div>
+        <span class="count">城市和经纬度属于近似定位，不同数据库可能存在差异</span>
+      </div>
+      <div class="source-grid" id="sourceGrid" aria-live="polite"></div>
+    </section>
+
+    <section class="info-card" aria-labelledby="lookup-note-heading">
+      <h2 id="lookup-note-heading">接口说明与限制</h2>
+      <p>
+        默认数据源为
+        <a href="https://ipwhois.io/documentation" target="_blank" rel="noopener noreferrer">IPWhois</a>、
+        <a href="https://www.geojs.io/docs/general/" target="_blank" rel="noopener noreferrer">GeoJS</a>、
+        <a href="https://db-ip.com/api/free" target="_blank" rel="noopener noreferrer">DB-IP</a> 和
+        <a href="https://stat.ripe.net/docs/data_api" target="_blank" rel="noopener noreferrer">RIPEstat</a>。
+        <a href="https://ipapi.co/api/" target="_blank" rel="noopener noreferrer">ipapi.co</a> 免费服务主要用于测试与开发；
+        <a href="https://ipinfo.io/developers/lite-api" target="_blank" rel="noopener noreferrer">IPinfo Lite</a> 需要免费 Token。免费额度和接口策略可能调整，实际以服务商文档为准。
+      </p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

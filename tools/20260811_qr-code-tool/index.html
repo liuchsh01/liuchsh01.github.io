@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0f766e" />
+  <meta name="description" content="在浏览器本地生成和识别二维码，支持尺寸、纠错等级、前景色与背景色设置，并可下载 PNG。" />
+  <title>二维码生成与识别工具｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js" defer></script>
+  <script src="./qr-core.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.4/build/qrcode.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">LOCAL QR CODE TOOL</p>
+        <h1>二维码生成与识别</h1>
+      </div>
+      <p class="subtitle">将文本或网址生成为二维码，也可上传二维码图片识别原文。输入和图片仅在当前浏览器中处理。</p>
+    </header>
+
+    <section class="workspace qr-workspace" aria-label="二维码工具工作区">
+      <section class="qr-panel generator-panel" aria-labelledby="generator-heading">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">GENERATE</p>
+            <h2 id="generator-heading">生成二维码</h2>
+          </div>
+          <span class="count" id="contentCount">0 / 2331 字节</span>
+        </div>
+
+        <div class="field">
+          <label for="qrContent">文本或网址</label>
+          <textarea id="qrContent" class="qr-content" spellcheck="false" placeholder="例如：https://example.com 或任意多行文本"></textarea>
+        </div>
+
+        <div class="generator-options">
+          <div class="field">
+            <label for="qrSize">图片尺寸（px）</label>
+            <input id="qrSize" type="number" min="128" max="2048" step="1" value="320" inputmode="numeric" />
+          </div>
+          <div class="field">
+            <label for="errorLevel">纠错等级</label>
+            <select id="errorLevel">
+              <option value="L">L（约 7%）</option>
+              <option value="M" selected>M（约 15%）</option>
+              <option value="Q">Q（约 25%）</option>
+              <option value="H">H（约 30%）</option>
+            </select>
+          </div>
+        </div>
+
+        <fieldset class="color-fieldset">
+          <legend>二维码颜色</legend>
+          <div class="color-options">
+            <label class="color-option" for="darkColor">
+              <span>前景色</span>
+              <span class="color-control">
+                <input id="darkColor" type="color" value="#15231f" />
+                <output id="darkColorValue" for="darkColor">#15231f</output>
+              </span>
+            </label>
+            <label class="color-option" for="lightColor">
+              <span>背景色</span>
+              <span class="color-control">
+                <input id="lightColor" type="color" value="#ffffff" />
+                <output id="lightColorValue" for="lightColor">#ffffff</output>
+              </span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="actions generator-actions">
+          <button class="primary-button" id="generateButton" type="button">生成二维码</button>
+          <button class="secondary-button" id="resetGenerator" type="button">重置</button>
+        </div>
+        <p class="shortcut-hint">快捷键：⌘ / Ctrl + Enter 生成二维码</p>
+
+        <div class="qr-output" aria-labelledby="preview-heading">
+          <div class="section-head preview-heading-row">
+            <h3 id="preview-heading">生成结果</h3>
+          </div>
+          <div class="qr-canvas-wrap">
+            <p class="preview-placeholder" id="generatorPlaceholder">生成后可在这里预览二维码。</p>
+            <canvas id="qrCanvas" hidden aria-label="生成的二维码"></canvas>
+          </div>
+          <div class="actions preview-actions">
+            <button class="secondary-button" id="downloadQr" type="button" disabled>下载 PNG</button>
+            <button class="secondary-button" id="copyQrContent" type="button" disabled>复制原文</button>
+          </div>
+        </div>
+
+        <p class="status" id="generatorStatus" role="status" aria-live="polite">正在检查二维码生成组件…</p>
+      </section>
+
+      <section class="qr-panel scanner-panel" aria-labelledby="scanner-heading">
+        <div class="section-head">
+          <div>
+            <p class="section-kicker">SCAN IMAGE</p>
+            <h2 id="scanner-heading">识别二维码图片</h2>
+          </div>
+        </div>
+
+        <div class="qr-drop-zone" id="qrDropZone">
+          <input
+            class="visually-hidden"
+            id="qrImageInput"
+            type="file"
+            accept="image/png,image/jpeg,image/webp,image/gif,image/bmp,.png,.jpg,.jpeg,.webp,.gif,.bmp"
+          />
+          <label class="secondary-button file-select-button" for="qrImageInput">选择二维码图片</label>
+          <p>或将图片拖放到这里</p>
+          <span>支持 PNG、JPEG、WebP、GIF、BMP，单张不超过 15 MB。</span>
+        </div>
+
+        <div class="scan-preview" id="scanPreview" hidden>
+          <img id="scanPreviewImage" alt="待识别二维码图片预览" />
+          <div class="scan-file-copy">
+            <strong id="scanFileName"></strong>
+            <span id="scanFileMeta"></span>
+          </div>
+        </div>
+
+        <div class="actions scanner-actions">
+          <button class="primary-button" id="scanButton" type="button" disabled>识别二维码</button>
+          <button class="secondary-button" id="clearScan" type="button" disabled>清空图片</button>
+        </div>
+
+        <div class="field scan-result-field">
+          <label for="scanResult">识别结果</label>
+          <textarea id="scanResult" class="mono-input" readonly placeholder="识别出的二维码内容会显示在这里"></textarea>
+        </div>
+        <button class="secondary-button copy-scan-result" id="copyScanResult" type="button" disabled>复制识别结果</button>
+
+        <p class="status" id="scannerStatus" role="status" aria-live="polite">正在检查二维码识别组件…</p>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="qr-note-heading">
+      <p class="section-kicker">依赖与隐私</p>
+      <h2 id="qr-note-heading">所有内容均在浏览器本地处理</h2>
+      <p>二维码生成使用锁定版本的 qrcode 1.5.4，图片识别使用 jsQR 1.4.0，两者通过 CDN 加载且不会接收你的文本或图片。首次打开页面需要联网加载组件；组件加载失败时，页面会明确提示对应功能不可用。</p>
+      <p>复杂背景、透视变形、低对比度或过小的二维码可能无法识别。生成时建议保持前景和背景有足够对比度，并为二维码四周保留空白。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>
