@@ -141,7 +141,7 @@ assert.match(
   'mobile buttons and selects must keep a 44px touch target',
 );
 
-['ocean', 'sand', 'rose', 'night'].forEach(themeId => {
+['blueprint', 'soda', 'violet', 'night'].forEach(themeId => {
   const selector = ':root[data-theme="' + themeId + '"]';
   const start = themeCss.indexOf(selector);
   const end = themeCss.indexOf('\n}', start);
@@ -152,7 +152,7 @@ assert.match(
   assert.match(block, /--font-serif:/, themeId + ' theme must define its display typography');
 });
 
-['jade', 'ocean', 'sand', 'rose', 'night'].forEach(themeId => {
+['jade', 'blueprint', 'soda', 'violet', 'night'].forEach(themeId => {
   const overrides = themeId === 'jade' ? {} : extractThemeVariables(':root[data-theme="' + themeId + '"]');
   const variables = { ...defaultVariables, ...overrides };
   const muted = resolveVariable(variables, 'muted-soft');
@@ -167,14 +167,15 @@ assert.match(
   assert.ok(contrastRatio(controlLine, paper) >= 3, themeId + ' control boundary contrast is too low');
 });
 
-assert.equal(documentElement.dataset.theme, 'sand');
+assert.equal(documentElement.dataset.theme, 'soda');
 assert.equal(documentElement.style.colorScheme, 'light');
-assert.equal(meta.content, '#9a6c2f');
-assert.equal(windowObject.Toolbox.getTheme(), 'sand');
+assert.equal(meta.content, '#e85d04');
+assert.equal(windowObject.Toolbox.getTheme(), 'soda');
 assert.equal(windowObject.Toolbox.themes.length, 5);
+assert.equal(storedValues.get('toolbox-theme'), 'soda');
 
 documentListeners.get('DOMContentLoaded')();
-assert.equal(select.value, 'sand');
+assert.equal(select.value, 'soda');
 
 select.value = 'night';
 selectListeners.get('change')();
@@ -189,7 +190,7 @@ assert.equal(documentElement.dataset.theme, 'jade');
 assert.equal(storedValues.get('toolbox-theme'), 'jade');
 
 windowListeners.get('storage')({ key: 'toolbox-theme', newValue: 'ocean' });
-assert.equal(documentElement.dataset.theme, 'ocean');
+assert.equal(documentElement.dataset.theme, 'blueprint');
 assert.equal(storedValues.get('toolbox-theme'), 'jade');
 
 test('copyText converts a denied fallback into accessible feedback', async () => {

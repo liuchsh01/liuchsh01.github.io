@@ -5,20 +5,31 @@
   const DEFAULT_THEME = 'jade';
   const THEMES = Object.freeze([
     { id: 'jade', label: '翡翠青', colorScheme: 'light', accent: '#0f766e' },
-    { id: 'ocean', label: '海雾蓝', colorScheme: 'light', accent: '#256f86' },
-    { id: 'sand', label: '暖砂金', colorScheme: 'light', accent: '#9a6c2f' },
-    { id: 'rose', label: '雾玫瑰', colorScheme: 'light', accent: '#9a5d6c' },
+    { id: 'blueprint', label: '像素蓝图', colorScheme: 'light', accent: '#006ee6' },
+    { id: 'soda', label: '橘子汽水', colorScheme: 'light', accent: '#e85d04' },
+    { id: 'violet', label: '紫电薄暮', colorScheme: 'light', accent: '#7c3aed' },
     { id: 'night', label: '深林夜色', colorScheme: 'dark', accent: '#63c7b1' },
   ]);
+  const LEGACY_THEME_MAP = Object.freeze({
+    ocean: 'blueprint',
+    sand: 'soda',
+    rose: 'violet',
+  });
   const themeMap = new Map(THEMES.map(theme => [theme.id, theme]));
   let toastTimer;
   let activeTheme = DEFAULT_THEME;
 
-  const normalizeTheme = themeId => themeMap.has(themeId) ? themeId : DEFAULT_THEME;
+  const normalizeTheme = (themeId) => {
+    const migrated = LEGACY_THEME_MAP[themeId] || themeId;
+    return themeMap.has(migrated) ? migrated : DEFAULT_THEME;
+  };
 
   const readStoredTheme = () => {
     try {
-      return normalizeTheme(window.localStorage.getItem(THEME_STORAGE_KEY));
+      const stored = window.localStorage.getItem(THEME_STORAGE_KEY);
+      const normalized = normalizeTheme(stored);
+      if (stored && stored !== normalized) persistTheme(normalized);
+      return normalized;
     } catch (error) {
       return DEFAULT_THEME;
     }
