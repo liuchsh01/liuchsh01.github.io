@@ -40,6 +40,7 @@ check_tool_page() {
   check_file "$directory/style.css"
   check_file "$directory/script.js"
   check_contains "$directory/index.html" '../../assets/css/theme.css' "$directory must load the shared theme"
+  check_contains "$directory/index.html" '../../assets/icons/toolbox-mark.svg' "$directory must load the shared favicon"
   check_contains "$directory/index.html" '../../assets/js/common.js' "$directory must load common.js"
   check_not_contains "$directory/index.html" 'assets/js/common.js" defer' "$directory must initialize the saved theme before first paint"
   check_not_contains "$directory/index.html" '<(script|link|img|source|audio|video)[^>]+(src|href)="https?://' "$directory must not load runtime files from external URLs"
@@ -58,6 +59,8 @@ check_home() {
   check_file 'assets/css/theme.css'
   check_file 'assets/js/common.js'
   check_file 'assets/js/home.js'
+  check_file 'assets/icons/toolbox-mark.svg'
+  check_contains 'index.html' './assets/icons/toolbox-mark.svg' 'homepage must load the shared favicon'
   check_contains 'index.html' './assets/css/theme.css' 'homepage must load the shared theme'
   check_contains 'index.html' './assets/js/home.js' 'homepage must load category tab behavior'
   check_not_contains 'index.html' '<(script|link|img|source|audio|video)[^>]+(src|href)="https?://' 'homepage must not load runtime files from external URLs'
