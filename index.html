@@ -8,6 +8,7 @@
   <title>实用工具集</title>
   <link rel="stylesheet" href="./assets/css/theme.css" />
   <script src="./assets/js/common.js"></script>
+  <script src="./assets/js/home.js" defer></script>
 </head>
 <body class="home-page">
   <main class="shell">
@@ -52,8 +53,31 @@
         <span class="count">共 22 个</span>
       </div>
 
-      <div class="tool-grid">
-        <a class="tool-card" href="./tools/20260807_multiline-calculator/">
+      <div class="tool-tabs" role="tablist" aria-label="工具类型">
+        <button class="tool-tab" id="developmentTab" type="button" role="tab" aria-selected="true" aria-controls="toolGrid" data-tool-category="development">
+          <span>开发辅助</span><span class="tool-tab-count">9</span>
+        </button>
+        <button class="tool-tab" id="securityTab" type="button" role="tab" aria-selected="false" aria-controls="toolGrid" data-tool-category="security" tabindex="-1">
+          <span>编码与安全</span><span class="tool-tab-count">6</span>
+        </button>
+        <button class="tool-tab" id="textTab" type="button" role="tab" aria-selected="false" aria-controls="toolGrid" data-tool-category="text" tabindex="-1">
+          <span>文本</span><span class="tool-tab-count">3</span>
+        </button>
+        <button class="tool-tab" id="datetimeTab" type="button" role="tab" aria-selected="false" aria-controls="toolGrid" data-tool-category="datetime" tabindex="-1">
+          <span>时间日期</span><span class="tool-tab-count">2</span>
+        </button>
+        <button class="tool-tab" id="calculateTab" type="button" role="tab" aria-selected="false" aria-controls="toolGrid" data-tool-category="calculate" tabindex="-1">
+          <span>计算</span><span class="tool-tab-count">2</span>
+        </button>
+      </div>
+
+      <div class="tool-category-summary">
+        <p id="activeCategoryLabel">开发辅助工具</p>
+        <span class="count" id="activeCategoryCount" aria-live="polite">9 个</span>
+      </div>
+
+      <div class="tool-grid" id="toolGrid" role="tabpanel" aria-labelledby="developmentTab">
+        <a class="tool-card" href="./tools/20260807_multiline-calculator/" data-tool-category="calculate" hidden>
           <span class="tool-category">计算</span>
           <div>
             <h3>多行计算器</h3>
@@ -62,7 +86,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260810_multi-timezone-clock/">
+        <a class="tool-card" href="./tools/20260810_multi-timezone-clock/" data-tool-category="datetime" hidden>
           <span class="tool-category">时间日期</span>
           <div>
             <h3>多时区时钟</h3>
@@ -71,7 +95,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260810_timestamp-converter/">
+        <a class="tool-card" href="./tools/20260810_timestamp-converter/" data-tool-category="datetime" hidden>
           <span class="tool-category">时间日期</span>
           <div>
             <h3>时间戳转换工具</h3>
@@ -80,7 +104,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_cron-expression-tool/">
+        <a class="tool-card" href="./tools/20260811_cron-expression-tool/" data-tool-category="development">
           <span class="tool-category">开发辅助</span>
           <div>
             <h3>Cron 表达式工具</h3>
@@ -89,7 +113,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260311_rsa-encrypt/">
+        <a class="tool-card" href="./tools/20260311_rsa-encrypt/" data-tool-category="security" hidden>
           <span class="tool-category">编码与安全</span>
           <div>
             <h3>RSA 公钥加密</h3>
@@ -98,7 +122,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_encoding-converter/">
+        <a class="tool-card" href="./tools/20260811_encoding-converter/" data-tool-category="security" hidden>
           <span class="tool-category">编码与安全</span>
           <div>
             <h3>Base64 / URL / HTML 编码解码</h3>
@@ -107,7 +131,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_token-inspector/">
+        <a class="tool-card" href="./tools/20260811_token-inspector/" data-tool-category="security" hidden>
           <span class="tool-category">编码与安全</span>
           <div>
             <h3>JWT / JWE 解析校验</h3>
@@ -116,7 +140,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_image-converter/">
+        <a class="tool-card" href="./tools/20260811_image-converter/" data-tool-category="development">
           <span class="tool-category">开发辅助</span>
           <div>
             <h3>图片格式转换工具</h3>
@@ -125,7 +149,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_qr-code-tool/">
+        <a class="tool-card" href="./tools/20260811_qr-code-tool/" data-tool-category="development">
           <span class="tool-category">开发辅助</span>
           <div>
             <h3>二维码生成与识别</h3>
@@ -134,7 +158,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_ipv4-subnet-calculator/">
+        <a class="tool-card" href="./tools/20260811_ipv4-subnet-calculator/" data-tool-category="development">
           <span class="tool-category">开发辅助</span>
           <div>
             <h3>IPv4 / CIDR 子网计算器</h3>
@@ -143,7 +167,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_ip-info-lookup/">
+        <a class="tool-card" href="./tools/20260811_ip-info-lookup/" data-tool-category="development">
           <span class="tool-category">开发辅助</span>
           <div>
             <h3>IP 信息综合查询</h3>
@@ -152,7 +176,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260810_hash-generator/">
+        <a class="tool-card" href="./tools/20260810_hash-generator/" data-tool-category="security" hidden>
           <span class="tool-category">编码与安全</span>
           <div>
             <h3>Hash 计算工具</h3>
@@ -161,7 +185,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260810_random-password-generator/">
+        <a class="tool-card" href="./tools/20260810_random-password-generator/" data-tool-category="security" hidden>
           <span class="tool-category">编码与安全</span>
           <div>
             <h3>随机密码生成器</h3>
@@ -170,7 +194,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_uuid-ulid-generator/">
+        <a class="tool-card" href="./tools/20260811_uuid-ulid-generator/" data-tool-category="security" hidden>
           <span class="tool-category">编码与安全</span>
           <div>
             <h3>UUID / ULID 生成器</h3>
@@ -179,7 +203,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260810_json-formatter/">
+        <a class="tool-card" href="./tools/20260810_json-formatter/" data-tool-category="development">
           <span class="tool-category">开发辅助</span>
           <div>
             <h3>JSON 格式化工具</h3>
@@ -188,7 +212,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_json-yaml-converter/">
+        <a class="tool-card" href="./tools/20260811_json-yaml-converter/" data-tool-category="development">
           <span class="tool-category">开发辅助</span>
           <div>
             <h3>JSON / YAML 转换工具</h3>
@@ -197,7 +221,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_sql-formatter/">
+        <a class="tool-card" href="./tools/20260811_sql-formatter/" data-tool-category="development">
           <span class="tool-category">开发辅助</span>
           <div>
             <h3>SQL 格式化工具</h3>
@@ -206,7 +230,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_regex-tester/">
+        <a class="tool-card" href="./tools/20260811_regex-tester/" data-tool-category="development">
           <span class="tool-category">开发辅助</span>
           <div>
             <h3>正则表达式测试器</h3>
@@ -215,7 +239,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_text-diff/">
+        <a class="tool-card" href="./tools/20260811_text-diff/" data-tool-category="text" hidden>
           <span class="tool-category">文本</span>
           <div>
             <h3>文本差异对比</h3>
@@ -224,7 +248,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20260811_text-list-organizer/">
+        <a class="tool-card" href="./tools/20260811_text-list-organizer/" data-tool-category="text" hidden>
           <span class="tool-category">文本</span>
           <div>
             <h3>文本列表整理工具</h3>
@@ -233,7 +257,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20250127_annual-bonus-tax/">
+        <a class="tool-card" href="./tools/20250127_annual-bonus-tax/" data-tool-category="calculate" hidden>
           <span class="tool-category">计算</span>
           <div>
             <h3>年终奖计税</h3>
@@ -242,7 +266,7 @@
           <span class="tool-link" aria-hidden="true">打开工具 <span>→</span></span>
         </a>
 
-        <a class="tool-card" href="./tools/20251222_word-filter/">
+        <a class="tool-card" href="./tools/20251222_word-filter/" data-tool-category="text" hidden>
           <span class="tool-category">文本</span>
           <div>
             <h3>智能单词筛选器</h3>
