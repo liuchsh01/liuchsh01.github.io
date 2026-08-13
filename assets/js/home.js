@@ -1,6 +1,7 @@
 (() => {
   'use strict';
 
+  const STORAGE_KEY = 'toolbox-home-category';
   const tabList = document.querySelector('.tool-tabs');
   const panel = document.getElementById('toolGrid');
   const label = document.getElementById('activeCategoryLabel');
@@ -18,8 +19,24 @@
     calculate: '计算工具',
   });
 
+  const readStoredCategory = () => {
+    try {
+      return window.localStorage.getItem(STORAGE_KEY) || '';
+    } catch (error) {
+      return '';
+    }
+  };
+
+  const persistCategory = (category) => {
+    try {
+      window.localStorage.setItem(STORAGE_KEY, category);
+    } catch (error) {
+      // file:// 或隐私模式可能禁用存储；当前页面仍然可以正常切换分类。
+    }
+  };
+
   const activateCategory = (category, options = {}) => {
-    const { focus = false } = options;
+    const { focus = false, persist = true } = options;
     const activeTab = tabs.find(tab => tab.dataset.toolCategory === category);
     if (!activeTab) return;
 
@@ -40,6 +57,7 @@
     panel.dataset.activeCategory = category;
     label.textContent = categoryLabels[category] || '分类工具';
     count.textContent = visibleCount + ' 个';
+    if (persist) persistCategory(category);
     if (focus) activeTab.focus();
   };
 
@@ -64,5 +82,7 @@
   });
 
   const selectedTab = tabs.find(tab => tab.getAttribute('aria-selected') === 'true') || tabs[0];
-  if (selectedTab) activateCategory(selectedTab.dataset.toolCategory);
+  const storedCategory = readStoredCategory();
+  const initialTab = tabs.find(tab => tab.dataset.toolCategory === storedCategory) || selectedTab;
+  if (initialTab) activateCategory(initialTab.dataset.toolCategory, { persist: false });
 })();

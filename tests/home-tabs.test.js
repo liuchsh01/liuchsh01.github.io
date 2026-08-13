@@ -35,3 +35,11 @@ test('homepage tab markup and behavior expose an accessible single panel', () =>
   assert.match(script, /ArrowLeft/);
   assert.doesNotMatch(script, /innerHTML/);
 });
+
+test('homepage remembers the last selected category with a safe fallback', () => {
+  assert.match(script, /const STORAGE_KEY = 'toolbox-home-category'/);
+  assert.match(script, /window\.localStorage\.getItem\(STORAGE_KEY\)/);
+  assert.match(script, /window\.localStorage\.setItem\(STORAGE_KEY, category\)/);
+  assert.match(script, /tabs\.find\(tab => tab\.dataset\.toolCategory === storedCategory\) \|\| selectedTab/);
+  assert.match(script, /catch \(error\)/);
+});
