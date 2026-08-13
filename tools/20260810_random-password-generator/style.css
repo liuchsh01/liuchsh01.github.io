@@ -5,7 +5,7 @@
 
 .password-panel {
   min-width: 0;
-  padding: 28px;
+  padding: 20px;
 }
 
 .password-form {
@@ -21,7 +21,7 @@
 }
 
 .character-fieldset {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .character-fieldset legend,
@@ -128,7 +128,7 @@
 }
 
 .password-output {
-  height: 500px;
+  height: clamp(320px, calc(100vh - 260px), 430px);
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius-panel);

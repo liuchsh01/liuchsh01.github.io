@@ -45,6 +45,50 @@
   min-height: 46px;
 }
 
+@media (min-width: 761px) {
+  .settings-panel {
+    display: grid;
+    grid-template-columns: minmax(220px, 0.7fr) minmax(0, 1.3fr);
+    align-items: end;
+    gap: 20px;
+  }
+
+  .settings-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .shell {
+    padding-top: 24px;
+  }
+
+  .back-link {
+    min-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .masthead {
+    margin-bottom: 16px;
+  }
+
+  .settings-panel {
+    margin-bottom: 12px;
+    padding: 16px 22px;
+  }
+
+  .settings-panel .section-head {
+    margin-bottom: 0;
+  }
+
+  .converter-panel {
+    padding: 20px 22px;
+  }
+
+  .converter-textarea {
+    min-height: 190px;
+    height: clamp(190px, calc(100vh - 410px), 330px);
+  }
+}
+
 @media (max-width: 760px) {
   .converter-workspace {
     grid-template-columns: minmax(0, 1fr);

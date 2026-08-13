@@ -6,7 +6,7 @@
 .cron-entry,
 .cron-results {
   min-width: 0;
-  padding: 28px;
+  padding: 20px;
 }
 
 .cron-entry {
@@ -16,7 +16,7 @@
 .template-section {
   display: grid;
   gap: 9px;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .template-list {
@@ -205,17 +205,69 @@
 }
 
 .schedule-empty {
-  min-height: 210px;
+  min-height: 150px;
 }
 
 .schedule-list {
   display: grid;
   gap: 8px;
-  max-height: 420px;
+  max-height: clamp(170px, calc(100vh - 590px), 240px);
   margin: 0;
   padding: 0;
   overflow-y: auto;
   list-style: none;
+}
+
+@media (min-width: 901px) {
+  .template-section {
+    gap: 6px;
+    margin-bottom: 9px;
+  }
+
+  .template-button,
+  .compact-button {
+    min-height: 30px;
+  }
+
+  .expression-field input {
+    min-height: 46px;
+  }
+
+  .field-builder {
+    margin-top: 12px;
+    padding: 10px;
+  }
+
+  .preview-options {
+    margin-top: 12px;
+  }
+
+  .summary-card {
+    padding: 11px 13px;
+  }
+
+  .summary-text {
+    line-height: 1.45;
+  }
+
+  .normalized-row {
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+
+  .field-details {
+    gap: 5px;
+    margin-top: 10px;
+  }
+
+  .field-detail {
+    min-height: 34px;
+    padding: 5px 9px;
+  }
+
+  .schedule-heading {
+    margin: 12px 0 8px;
+  }
 }
 
 .schedule-item {

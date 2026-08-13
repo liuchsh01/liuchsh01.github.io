@@ -1,20 +1,20 @@
 .word-workspace {
-  grid-template-columns: minmax(0, 1fr);
+  grid-template-columns: minmax(0, 1.05fr) minmax(360px, 0.95fr);
   overflow: hidden;
 }
 
 .word-workspace > * + * {
-  border-top: 1px solid var(--line);
-  border-left: 0;
+  border-top: 0;
+  border-left: 1px solid var(--line);
 }
 
 .filter-form,
 .filter-results {
-  padding: 28px;
+  padding: 20px;
 }
 
 .filter-form .section-head {
-  margin-bottom: 20px;
+  margin-bottom: 12px;
 }
 
 .filter-form h2,
@@ -23,7 +23,7 @@
 }
 
 #sourceText {
-  min-height: 180px;
+  min-height: 120px;
   resize: vertical;
 }
 
@@ -38,14 +38,14 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .checkbox-field {
   display: flex;
   align-items: flex-start;
   gap: 11px;
-  margin-top: 20px;
+  margin-top: 12px;
   padding: 14px 15px;
   border: 1px solid var(--line);
   border-radius: var(--radius-panel);
@@ -85,7 +85,7 @@
 
 .actions {
   gap: 14px;
-  margin-top: 22px;
+  margin-top: 14px;
 }
 
 .shortcut-hint {
@@ -174,6 +174,15 @@
 }
 
 @media (max-width: 760px) {
+  .word-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .word-workspace > * + * {
+    border-top: 1px solid var(--line);
+    border-left: 0;
+  }
+
   .filter-form,
   .filter-results {
     padding: 20px;

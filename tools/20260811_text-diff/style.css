@@ -301,6 +301,42 @@
   font-style: italic;
 }
 
+@media (min-width: 761px) {
+  .shell {
+    padding-top: 24px;
+  }
+
+  .back-link {
+    min-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .masthead {
+    margin-bottom: 16px;
+  }
+
+  .text-column {
+    padding: 20px 22px;
+  }
+
+  .diff-input {
+    min-height: 180px;
+    height: clamp(180px, calc(100vh - 560px), 240px);
+  }
+
+  .diff-toolbar {
+    padding: 12px 22px;
+  }
+
+  .diff-toolbar + .status {
+    padding: 9px 22px;
+  }
+
+  .diff-results {
+    padding: 18px 22px 22px;
+  }
+}
+
 @media (max-width: 760px) {
   .diff-input-grid {
     grid-template-columns: minmax(0, 1fr);

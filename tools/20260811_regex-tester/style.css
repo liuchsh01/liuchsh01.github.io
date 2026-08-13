@@ -346,6 +346,44 @@
   text-align: center;
 }
 
+@media (min-width: 881px) {
+  .shell {
+    padding-top: 24px;
+  }
+
+  .back-link {
+    min-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .masthead {
+    margin-bottom: 16px;
+  }
+
+  .regex-panel {
+    padding: 20px 22px;
+  }
+
+  .flag-fieldset,
+  .test-text-field,
+  .replacement-field {
+    margin-top: 12px;
+  }
+
+  .flag-option {
+    min-height: 34px;
+    padding: 5px 9px;
+  }
+
+  .test-text {
+    min-height: clamp(140px, calc(100vh - 610px), 180px);
+  }
+
+  .result-window {
+    height: clamp(320px, calc(100vh - 420px), 430px);
+  }
+}
+
 @media (max-width: 880px) {
   .regex-workspace {
     grid-template-columns: minmax(0, 1fr);

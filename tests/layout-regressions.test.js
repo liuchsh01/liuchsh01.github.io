@@ -28,3 +28,20 @@ test('Cron workspace drops its fixed result column on narrow screens', () => {
     /@media \(max-width: 760px\)[\s\S]*?\.cron-workspace\s*\{\s*grid-template-columns:\s*minmax\(0, 1fr\)/,
   );
 });
+
+test('desktop tool pages use a wider compact shell without weakening mobile controls', () => {
+  const css = read('assets/css/theme.css');
+  assert.match(css, /\.shell\s*\{[\s\S]*?width:\s*min\(1240px, calc\(100% - 32px\)\)/);
+  assert.match(css, /@media \(min-width: 761px\)[\s\S]*?\.shell > \.back-link\s*\{[\s\S]*?position:\s*absolute/);
+  assert.match(css, /@media \(max-width: 760px\)[\s\S]*?\.home-link,[\s\S]*?\.back-link\s*\{[\s\S]*?min-height:\s*44px/);
+});
+
+test('dense desktop tools keep long content inside compact result regions', () => {
+  const cronCss = read('tools/20260811_cron-expression-tool/style.css');
+  const qrCss = read('tools/20260811_qr-code-tool/style.css');
+  const tokenCss = read('tools/20260811_token-inspector/style.css');
+
+  assert.match(cronCss, /\.schedule-list\s*\{[\s\S]*?max-height:\s*clamp\(170px/);
+  assert.match(qrCss, /@media \(min-width: 821px\)[\s\S]*?\.generator-panel\s*\{[\s\S]*?display:\s*grid/);
+  assert.match(tokenCss, /@media \(min-width: 821px\)[\s\S]*?\.shell\s*\{[\s\S]*?grid-template-columns:/);
+});

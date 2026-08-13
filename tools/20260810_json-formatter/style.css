@@ -5,7 +5,7 @@
 
 .json-panel {
   min-width: 0;
-  padding: 28px;
+  padding: 20px;
 }
 
 .input-panel {
@@ -13,7 +13,8 @@
 }
 
 .json-input {
-  min-height: 470px;
+  min-height: 250px;
+  height: clamp(250px, calc(100vh - 420px), 360px);
   tab-size: 2;
 }
 
@@ -134,7 +135,7 @@
 }
 
 .json-output {
-  height: 520px;
+  height: clamp(300px, calc(100vh - 320px), 420px);
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius-panel);

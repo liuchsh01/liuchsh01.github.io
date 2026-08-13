@@ -7,7 +7,7 @@
 
 .calculator-panel {
   min-width: 0;
-  padding: 28px;
+  padding: 20px;
 }
 
 .entry-panel {
@@ -15,7 +15,7 @@
 }
 
 .formula-input {
-  min-height: 330px;
+  min-height: 240px;
   resize: vertical;
   line-height: 1.75;
 }
@@ -33,7 +33,7 @@
 }
 
 .output-window {
-  height: 390px;
+  height: 310px;
   overflow: hidden;
   border: 1px solid var(--control-line);
   border-radius: var(--radius-panel);

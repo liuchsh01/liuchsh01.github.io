@@ -7,12 +7,12 @@
 .tax-form,
 .tax-results {
   min-width: 0;
-  padding: 28px;
+  padding: 20px;
 }
 
 .tax-form .section-head,
 .tax-results .section-head {
-  margin-bottom: 24px;
+  margin-bottom: 14px;
 }
 
 .tax-form h2,
@@ -21,7 +21,7 @@
 }
 
 .form-group + .form-group {
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .field-hint,
@@ -60,7 +60,7 @@
 
 .actions {
   gap: 14px;
-  margin-top: 24px;
+  margin-top: 14px;
 }
 
 .shortcut-hint {
@@ -82,9 +82,9 @@
 
 .result-empty {
   display: grid;
-  min-height: 246px;
+  min-height: 190px;
   place-items: center;
-  padding: 24px;
+  padding: 18px;
   border: 1px dashed var(--line);
   border-radius: var(--radius-soft);
   color: var(--muted);

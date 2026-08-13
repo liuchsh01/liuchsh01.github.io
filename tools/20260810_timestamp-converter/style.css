@@ -2,6 +2,32 @@
   padding: 16px;
 }
 
+@media (min-width: 941px) {
+  .converter-panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .live-timestamp {
+    grid-column: 1 / -1;
+  }
+
+  .conversion-section + .conversion-section {
+    border-top: 0;
+    border-left: 1px solid var(--line);
+  }
+
+  .timestamp-fields,
+  .datetime-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .timestamp-fields .field:first-child,
+  .datetime-fields .field:first-child {
+    grid-column: 1 / -1;
+  }
+}
+
 .live-timestamp {
   display: flex;
   align-items: center;
@@ -70,7 +96,7 @@
 }
 
 .conversion-section {
-  padding: 28px 20px;
+  padding: 18px 16px;
 }
 
 .conversion-section + .conversion-section {

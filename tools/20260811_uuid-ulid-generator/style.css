@@ -203,6 +203,48 @@
   color: var(--on-accent);
 }
 
+@media (min-width: 761px) {
+  .shell {
+    padding-top: 24px;
+  }
+
+  .back-link {
+    min-height: 32px;
+    margin-bottom: 10px;
+  }
+
+  .masthead {
+    margin-bottom: 16px;
+  }
+
+  .identifier-panel {
+    padding: 20px 22px;
+  }
+
+  .type-fieldset {
+    margin-bottom: 14px;
+  }
+
+  .type-options label {
+    min-height: 72px;
+    padding: 10px;
+  }
+
+  .parameter-grid {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .check-option {
+    min-height: 54px;
+    padding: 9px 11px;
+  }
+
+  .identifier-output {
+    height: clamp(320px, calc(100vh - 275px), 470px);
+  }
+}
+
 @media (max-width: 760px) {
   .identifier-workspace {
     grid-template-columns: minmax(0, 1fr);

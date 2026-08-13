@@ -5,7 +5,7 @@
 
 .subnet-panel {
   min-width: 0;
-  padding: 28px;
+  padding: 20px;
 }
 
 .entry-panel {
@@ -59,7 +59,7 @@
 }
 
 .result-section .empty-state {
-  min-height: 390px;
+  min-height: 300px;
 }
 
 .result-grid {

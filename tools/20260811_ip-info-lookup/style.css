@@ -147,7 +147,7 @@
 
 .summary-panel,
 .source-panel {
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .summary-heading-row > div {
@@ -333,7 +333,7 @@
 }
 
 .raw-json {
-  max-height: 280px;
+  max-height: 230px;
   margin: 9px 0 0;
   overflow: auto;
   padding: 11px;

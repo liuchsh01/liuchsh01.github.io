@@ -9,7 +9,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 20px;
-  padding: 20px 28px;
+  padding: 12px 20px;
   border-bottom: 1px solid var(--line);
   background: var(--surface-glass-soft);
 }
@@ -98,7 +98,7 @@
 
 .codec-panel {
   min-width: 0;
-  padding: 28px;
+  padding: 20px;
 }
 
 .input-panel {
@@ -106,7 +106,8 @@
 }
 
 .codec-textarea {
-  min-height: 360px;
+  min-height: 240px;
+  height: clamp(240px, calc(100vh - 370px), 330px);
   margin-top: 8px;
   resize: vertical;
   overflow-wrap: normal;

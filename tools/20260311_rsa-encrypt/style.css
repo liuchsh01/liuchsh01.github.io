@@ -9,7 +9,7 @@
 .rsa-form,
 .rsa-result {
   min-width: 0;
-  padding: 28px;
+  padding: 20px;
 }
 
 .rsa-form {
@@ -17,11 +17,11 @@
 }
 
 .form-group + .form-group {
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .key-input {
-  min-height: 180px;
+  min-height: 130px;
 }
 
 .field-help,
@@ -40,7 +40,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .section-head h2 {
@@ -56,7 +56,7 @@
 }
 
 .cipher-output {
-  min-height: 300px;
+  min-height: 220px;
   overflow-wrap: anywhere;
 }
 
