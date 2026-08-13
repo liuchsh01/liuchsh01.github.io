@@ -74,6 +74,8 @@
     generatedContent = '';
     const context = qrCanvas.getContext('2d');
     if (context) context.clearRect(0, 0, qrCanvas.width, qrCanvas.height);
+    qrCanvas.style.removeProperty('width');
+    qrCanvas.style.removeProperty('height');
     qrCanvas.hidden = true;
     generatorPlaceholder.hidden = false;
     downloadQr.disabled = true;
@@ -151,6 +153,11 @@
         }
 
         generatedContent = options.content;
+        // qrcode 会按导出尺寸写入内联 CSS，窄屏下会让画布超出预览区。
+        // 保留 canvas 的像素尺寸用于高清下载，展示尺寸交由响应式 CSS 控制。
+        qrCanvas.style.width = 'min(100%, 320px)';
+        qrCanvas.style.maxWidth = '100%';
+        qrCanvas.style.height = 'auto';
         qrCanvas.hidden = false;
         generatorPlaceholder.hidden = true;
         downloadQr.disabled = false;

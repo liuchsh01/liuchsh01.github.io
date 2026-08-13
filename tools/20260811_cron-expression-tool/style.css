@@ -266,8 +266,13 @@
 }
 
 @media (max-width: 760px) {
+  .cron-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .cron-entry {
     border-right: 0;
+    border-bottom: 1px solid var(--line);
   }
 
   .template-button,

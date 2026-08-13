@@ -133,7 +133,9 @@
 
 .qr-canvas-wrap canvas {
   display: block;
+  /* qrcode 会给 canvas 写入像素级内联尺寸，必须覆盖才能保持响应式预览。 */
   width: min(100%, 320px);
+  max-width: 100%;
   height: auto;
   border-radius: var(--radius-small);
   box-shadow: var(--shadow-soft);

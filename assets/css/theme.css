@@ -671,10 +671,13 @@ input[type="radio"] {
   accent-color: var(--teal);
 }
 
-.visually-hidden {
+.visually-hidden,
+input.visually-hidden:not([type="checkbox"]):not([type="radio"]) {
   position: absolute;
   width: 1px;
+  min-width: 1px;
   height: 1px;
+  min-height: 1px;
   padding: 0;
   margin: -1px;
   overflow: hidden;
