@@ -154,6 +154,7 @@
   const requireAlgorithms = () => {
     const algorithms = getSelectedAlgorithms();
     if (!algorithms.length) {
+      resetResults();
       setStatus('请至少选择一种 Hash 算法。', 'error');
       return null;
     }
@@ -167,6 +168,7 @@
 
     const text = textInput.value;
     if (text === '') {
+      resetResults();
       textInput.setAttribute('aria-invalid', 'true');
       textInput.focus();
       setStatus('请输入要计算 Hash 的文本；如需计算空文件，请使用文件模式。', 'error');
@@ -197,6 +199,7 @@
       renderResults(results);
       setStatus(`已完成 ${results.length} 项文本计算。`, 'success');
     } catch (error) {
+      resetResults();
       setStatus(error.message || '文本 Hash 计算失败，请重试。', 'error');
     } finally {
       setBusy(false);
@@ -253,6 +256,7 @@
     const algorithms = requireAlgorithms();
     if (!algorithms) return;
     if (!selectedFiles.length) {
+      resetResults();
       setStatus('请先选择至少一个文件。', 'error');
       return;
     }

@@ -1,81 +1,5 @@
-function calculatePostTax(preTaxAmount) {
-  const monthlyAmount = preTaxAmount / 12;
-  let taxRate;
-  let quickDeduction;
-
-  if (monthlyAmount <= 3000) {
-    taxRate = 0.03;
-    quickDeduction = 0;
-  } else if (monthlyAmount <= 12000) {
-    taxRate = 0.10;
-    quickDeduction = 210;
-  } else if (monthlyAmount <= 25000) {
-    taxRate = 0.20;
-    quickDeduction = 1410;
-  } else if (monthlyAmount <= 35000) {
-    taxRate = 0.25;
-    quickDeduction = 2660;
-  } else if (monthlyAmount <= 55000) {
-    taxRate = 0.30;
-    quickDeduction = 4410;
-  } else if (monthlyAmount <= 80000) {
-    taxRate = 0.35;
-    quickDeduction = 7160;
-  } else {
-    taxRate = 0.45;
-    quickDeduction = 15160;
-  }
-
-  const tax = preTaxAmount * taxRate - quickDeduction;
-  const postTaxAmount = preTaxAmount - tax;
-  return postTaxAmount;
-}
-
-function calculatePreTax(postTaxAmount) {
-  let monthlyAmount = postTaxAmount / 12;
-  let taxRate;
-  let quickDeduction;
-
-  while (true) {
-    if (monthlyAmount <= 3000) {
-      taxRate = 0.03;
-      quickDeduction = 0;
-    } else if (monthlyAmount <= 12000) {
-      taxRate = 0.10;
-      quickDeduction = 210;
-    } else if (monthlyAmount <= 25000) {
-      taxRate = 0.20;
-      quickDeduction = 1410;
-    } else if (monthlyAmount <= 35000) {
-      taxRate = 0.25;
-      quickDeduction = 2660;
-    } else if (monthlyAmount <= 55000) {
-      taxRate = 0.30;
-      quickDeduction = 4410;
-    } else if (monthlyAmount <= 80000) {
-      taxRate = 0.35;
-      quickDeduction = 7160;
-    } else {
-      taxRate = 0.45;
-      quickDeduction = 15160;
-    }
-
-    const preTaxAmount = (postTaxAmount - quickDeduction) / (1 - taxRate);
-    const postTaxResult = calculatePostTax(preTaxAmount);
-
-    if (postTaxAmount === postTaxResult || Math.abs(postTaxAmount - postTaxResult) < 1) {
-      return preTaxAmount;
-    }
-
-    if (monthlyAmount > 80000) {
-      return '计算失败';
-    }
-
-    monthlyAmount += 3000;
-  }
-}
-
 (() => {
+  const { calculatePostTax, calculatePreTaxCandidates } = window.AnnualBonusTaxCore;
   const form = document.getElementById('taxForm');
   const amountInput = document.getElementById('inputAmount');
   const inputType = document.getElementById('inputType');
@@ -87,6 +11,7 @@ function calculatePreTax(postTaxAmount) {
   const postTaxResult = document.getElementById('postTaxResult');
   const taxResult = document.getElementById('taxResult');
   const resultNote = document.getElementById('resultNote');
+  const alternativeResults = document.getElementById('alternativeResults');
 
   const currencyFormatter = new Intl.NumberFormat('zh-CN', {
     minimumFractionDigits: 2,
@@ -100,6 +25,8 @@ function calculatePreTax(postTaxAmount) {
     postTaxResult.textContent = '—';
     taxResult.textContent = '—';
     resultNote.textContent = '';
+    alternativeResults.replaceChildren();
+    alternativeResults.hidden = true;
     resultBadge.textContent = '等待输入';
     resultContent.hidden = true;
     resultEmpty.hidden = false;
@@ -119,7 +46,25 @@ function calculatePreTax(postTaxAmount) {
     amountInput.removeAttribute('aria-invalid');
   };
 
-  const renderResult = (preTaxAmount, postTaxAmount, sourceType) => {
+  const renderAlternatives = (candidates, selectedCandidate, postTaxAmount) => {
+    const alternatives = candidates.filter(candidate => Math.abs(candidate - selectedCandidate) >= 0.01);
+    alternativeResults.replaceChildren();
+    alternativeResults.hidden = alternatives.length === 0;
+
+    if (!alternatives.length) return;
+
+    const title = document.createElement('strong');
+    title.textContent = '另有可能的税前金额';
+    const list = document.createElement('ul');
+    alternatives.forEach(candidate => {
+      const item = document.createElement('li');
+      item.textContent = `${formatCurrency(candidate)}（税额 ${formatCurrency(candidate - postTaxAmount)}）`;
+      list.append(item);
+    });
+    alternativeResults.append(title, list);
+  };
+
+  const renderResult = (preTaxAmount, postTaxAmount, sourceType, candidates = []) => {
     const taxAmount = preTaxAmount - postTaxAmount;
 
     preTaxResult.textContent = formatCurrency(preTaxAmount);
@@ -127,7 +72,10 @@ function calculatePreTax(postTaxAmount) {
     taxResult.textContent = formatCurrency(taxAmount);
     resultNote.textContent = sourceType === 'preTax'
       ? '以上结果由税前金额按单独计税公式计算。'
-      : '以上税前金额由税后金额反推，可能存在小于 1 元的算法误差。';
+      : candidates.length > 1
+        ? '税率跳档可能使同一税后金额对应多个税前金额；上方先展示税前金额较小的方案。'
+        : '以上税前金额由税后金额反推，金额按分显示。';
+    renderAlternatives(candidates, preTaxAmount, postTaxAmount);
     resultBadge.textContent = sourceType === 'preTax' ? '税前转税后' : '税后反推税前';
     resultEmpty.hidden = true;
     resultContent.hidden = false;
@@ -152,13 +100,15 @@ function calculatePreTax(postTaxAmount) {
 
     let preTaxAmount;
     let postTaxAmount;
+    let preTaxCandidates = [];
 
     if (inputType.value === 'preTax') {
       preTaxAmount = inputAmount;
       postTaxAmount = calculatePostTax(inputAmount);
     } else {
       postTaxAmount = inputAmount;
-      preTaxAmount = calculatePreTax(inputAmount);
+      preTaxCandidates = calculatePreTaxCandidates(inputAmount);
+      preTaxAmount = preTaxCandidates[0];
     }
 
     if (!Number.isFinite(preTaxAmount) || !Number.isFinite(postTaxAmount)) {
@@ -166,7 +116,7 @@ function calculatePreTax(postTaxAmount) {
       return;
     }
 
-    renderResult(preTaxAmount, postTaxAmount, inputType.value);
+    renderResult(preTaxAmount, postTaxAmount, inputType.value, preTaxCandidates);
     if (window.Toolbox && typeof window.Toolbox.showToast === 'function') {
       window.Toolbox.showToast('计算完成');
     }

@@ -110,6 +110,7 @@
       renderIdentifiers(identifiers, options.type);
       setStatus(`已生成 ${identifiers.length} 个 ${TYPE_LABELS[options.type]}。`, 'success');
     } catch (error) {
+      renderIdentifiers([], selectedType());
       countInput.setAttribute('aria-invalid', 'true');
       setStatus(error.message || '生成失败，请检查参数。', 'error');
     }

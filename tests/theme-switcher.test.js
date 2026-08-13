@@ -130,6 +130,17 @@ const contrastRatio = (first, second) => {
   return (light + 0.05) / (dark + 0.05);
 };
 
+assert.match(
+  themeCss,
+  /\.theme-picker select\s*\{[^}]*min-height:\s*44px/s,
+  'homepage theme selector must provide a 44px touch target',
+);
+assert.match(
+  themeCss,
+  /@media \(max-width: 520px\)\s*\{[\s\S]*?body button:not\(\[hidden\]\),[\s\S]*?body select:not\(\[hidden\]\)\s*\{\s*min-height:\s*44px;/,
+  'mobile buttons and selects must keep a 44px touch target',
+);
+
 ['ocean', 'sand', 'rose', 'night'].forEach(themeId => {
   const selector = ':root[data-theme="' + themeId + '"]';
   const start = themeCss.indexOf(selector);

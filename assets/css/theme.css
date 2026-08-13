@@ -1001,7 +1001,7 @@ button[type="submit"]:hover:not(:disabled) {
 .theme-picker select {
   width: auto;
   min-width: 156px;
-  min-height: 38px;
+  min-height: 44px;
   padding-top: 6px;
   padding-bottom: 6px;
   background: var(--paper);
@@ -1214,10 +1214,19 @@ button[type="submit"]:hover:not(:disabled) {
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 520px) {
   .section-head {
     align-items: flex-start;
   }
+
+  body button:not([hidden]),
+  body .button:not([hidden]),
+  body select:not([hidden]) {
+    min-height: 44px;
+  }
+}
+
+@media (max-width: 420px) {
 
   .actions > button,
   .actions > .button {

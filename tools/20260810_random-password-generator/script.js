@@ -100,6 +100,7 @@
       renderPasswords(passwords);
       setStatus(`已生成 ${passwords.length} 个随机密码。`, 'success');
     } catch (error) {
+      renderPasswords([]);
       markLikelyInvalidInput(error.message);
       setStatus(error.message || '生成失败，请检查参数。', 'error');
     }

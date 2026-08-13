@@ -2,29 +2,23 @@ function getBaseForm(word) {
   const variations = new Set();
   variations.add(word);
 
-  if (word.endsWith('s') && word.length > 3) {
+  if (word.endsWith('ies') && word.length > 4) {
+    variations.add(`${word.slice(0, -3)}y`);
+  } else if (/(?:s|x|z|ch|sh|o)es$/.test(word) && word.length > 4) {
+    variations.add(word.slice(0, -2));
+  } else if (word.endsWith('s') && word.length > 3) {
     variations.add(word.slice(0, -1));
   }
 
-  if (word.endsWith('es') && word.length > 4) {
-    variations.add(word.slice(0, -2));
-  }
-
-  if (word.endsWith('ies') && word.length > 4) {
+  if (word.endsWith('ied') && word.length > 4) {
     variations.add(`${word.slice(0, -3)}y`);
-  }
-
-  if (word.endsWith('ed') && word.length > 4) {
+  } else if (word.endsWith('ed') && word.length > 4) {
     const base = word.slice(0, -2);
     variations.add(base);
 
     if (base.length > 2 && base[base.length - 1] === base[base.length - 2]) {
       variations.add(base.slice(0, -1));
     }
-  }
-
-  if (word.endsWith('ied') && word.length > 4) {
-    variations.add(`${word.slice(0, -3)}y`);
   }
 
   return Array.from(variations);
