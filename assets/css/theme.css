@@ -50,37 +50,39 @@
   --switch-line: #a8b9b2;
   --switch-bg: #dce4e0;
   --toast-bg: #18352f;
-  --body-pattern: none;
-  --body-glow-start: #dff4ec;
-  --body-glow-end: #e9f4ed;
-  --shadow: 0 18px 50px rgba(17, 52, 44, 0.11);
-  --shadow-soft: 0 10px 30px rgba(17, 52, 44, 0.07);
-  --shadow-tab: 0 4px 12px rgba(17, 52, 44, 0.08);
-  --shadow-card-rest: 0 6px 18px rgba(17, 52, 44, 0.04);
-  --shadow-card-hover: 0 14px 30px rgba(17, 52, 44, 0.09);
+  --body-pattern:
+    radial-gradient(ellipse at center, rgba(15, 118, 110, 0.07) 0 1px, transparent 1.7px) 0 0 / 25px 25px,
+    linear-gradient(135deg, transparent 0 48%, rgba(15, 118, 110, 0.035) 48% 52%, transparent 52% 100%) 0 0 / 50px 50px;
+  --body-glow-start: #ccece1;
+  --body-glow-end: #e8ead7;
+  --shadow: 0 22px 55px rgba(17, 70, 57, 0.14), 0 2px 0 rgba(255, 255, 255, 0.85) inset;
+  --shadow-soft: 0 12px 32px rgba(17, 70, 57, 0.09);
+  --shadow-tab: 0 5px 14px rgba(17, 70, 57, 0.11);
+  --shadow-card-rest: 0 7px 20px rgba(17, 70, 57, 0.055);
+  --shadow-card-hover: 0 18px 38px rgba(17, 70, 57, 0.14);
   --shadow-dropdown: 0 16px 36px rgba(17, 52, 44, 0.16);
   --shadow-button: 0 7px 16px rgba(15, 118, 110, 0.22);
   --shadow-switch: 0 2px 6px rgba(22, 62, 55, 0.22);
   --shadow-drag: 0 24px 58px rgba(17, 52, 44, 0.25);
   --shadow-toast: 0 8px 25px rgba(0, 0, 0, 0.18);
-  --radius-card: 22px;
-  --radius-note: 18px;
-  --radius-section: 16px;
-  --radius-soft: 14px;
-  --radius-tab: 13px;
-  --radius-panel: 12px;
-  --radius-control: 11px;
-  --radius-button: 10px;
-  --radius-compact: 8px;
-  --radius-small: 7px;
+  --radius-card: 24px 24px 10px 24px;
+  --radius-note: 20px 20px 8px 20px;
+  --radius-section: 17px 17px 7px 17px;
+  --radius-soft: 15px 15px 6px 15px;
+  --radius-tab: 14px 14px 5px 14px;
+  --radius-panel: 13px 13px 5px 13px;
+  --radius-control: 12px 12px 4px 12px;
+  --radius-button: 11px 11px 4px 11px;
+  --radius-compact: 9px 9px 3px 9px;
+  --radius-small: 8px 8px 3px 8px;
   --radius-pill: 999px;
   --radius-round: 50%;
   --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-serif: Georgia, "Songti SC", serif;
+  --font-serif: "Baskerville", "Songti SC", Georgia, serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  --heading-letter-spacing: -0.045em;
+  --heading-letter-spacing: -0.035em;
   --heading-weight: 700;
-  --card-heading-letter-spacing: -0.025em;
+  --card-heading-letter-spacing: -0.018em;
 }
 
 /*
@@ -135,15 +137,17 @@
   --switch-bg: #d9e5f3;
   --toast-bg: #10284a;
   --body-pattern:
-    linear-gradient(rgba(0, 84, 180, 0.07) 1px, transparent 1px) 0 0 / 24px 24px,
-    linear-gradient(90deg, rgba(0, 84, 180, 0.07) 1px, transparent 1px) 0 0 / 24px 24px;
-  --body-glow-start: #cfe6ff;
-  --body-glow-end: #dce9ff;
-  --shadow: 8px 8px 0 rgba(0, 76, 162, 0.16);
-  --shadow-soft: 5px 5px 0 rgba(0, 76, 162, 0.1);
+    linear-gradient(rgba(0, 84, 180, 0.095) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(90deg, rgba(0, 84, 180, 0.095) 1px, transparent 1px) 0 0 / 24px 24px,
+    linear-gradient(rgba(0, 84, 180, 0.045) 1px, transparent 1px) 0 0 / 6px 6px,
+    linear-gradient(90deg, rgba(0, 84, 180, 0.045) 1px, transparent 1px) 0 0 / 6px 6px;
+  --body-glow-start: #b9dcff;
+  --body-glow-end: #e1eaff;
+  --shadow: 9px 9px 0 rgba(0, 76, 162, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+  --shadow-soft: 5px 5px 0 rgba(0, 76, 162, 0.13);
   --shadow-tab: 2px 2px 0 rgba(0, 76, 162, 0.14);
-  --shadow-card-rest: 3px 3px 0 rgba(0, 76, 162, 0.08);
-  --shadow-card-hover: 6px 6px 0 rgba(0, 76, 162, 0.16);
+  --shadow-card-rest: 3px 3px 0 rgba(0, 76, 162, 0.11);
+  --shadow-card-hover: 7px 7px 0 rgba(0, 76, 162, 0.22);
   --shadow-dropdown: 8px 8px 0 rgba(0, 76, 162, 0.19);
   --shadow-button: 4px 4px 0 rgba(0, 70, 150, 0.25);
   --shadow-switch: 2px 2px 0 rgba(0, 70, 150, 0.18);
@@ -162,7 +166,7 @@
   --radius-pill: 2px;
   --radius-round: 50%;
   --font-sans: "SFMono-Regular", Consolas, "Liberation Mono", "PingFang SC", monospace;
-  --font-serif: "Arial Black", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-serif: Impact, "Arial Black", "PingFang SC", "Microsoft YaHei", sans-serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
   --heading-letter-spacing: -0.055em;
   --heading-weight: 900;
@@ -262,19 +266,19 @@
   --muted-empty: var(--muted);
   --line: #dfd5ee;
   --control-line: #8b7aa2;
-  --paper: #fdfbff;
-  --mist: #f5effc;
-  --control-bg: #faf7fe;
-  --surface-hover: #f4ecff;
-  --surface-drop: #f8f3fd;
-  --surface-glass-strong: rgba(253, 251, 255, 0.88);
-  --surface-glass-soft: rgba(248, 243, 253, 0.68);
+  --paper: #fffafe;
+  --mist: #f4edfb;
+  --control-bg: #fdf8ff;
+  --surface-hover: #f5eaff;
+  --surface-drop: #faf2ff;
+  --surface-glass-strong: rgba(255, 250, 254, 0.9);
+  --surface-glass-soft: rgba(250, 242, 255, 0.72);
   --on-accent: #ffffff;
-  --teal: #7c3aed;
-  --teal-dark: #5b21b6;
-  --teal-pale: #eaddff;
-  --teal-line: #c9b1f0;
-  --teal-gradient-end: #ad7cf0;
+  --teal: #7b2fd0;
+  --teal-dark: #5a189a;
+  --teal-pale: #eadcff;
+  --teal-line: #c8a8ed;
+  --teal-gradient-end: #d64f9c;
   --panel-line: rgba(91, 33, 182, 0.15);
   --card-line: rgba(91, 33, 182, 0.18);
   --teal-line-hover: rgba(124, 58, 237, 0.45);
@@ -297,38 +301,39 @@
   --syntax-punctuation: var(--muted);
   --switch-line: #a899bc;
   --switch-bg: #e6dcef;
-  --toast-bg: #302047;
+  --toast-bg: #351946;
   --body-pattern:
-    linear-gradient(120deg, rgba(124, 58, 237, 0.055) 0 1px, transparent 1px 20px),
-    radial-gradient(circle at center, rgba(219, 39, 119, 0.07) 0 1px, transparent 1.5px) 0 0 / 28px 28px;
-  --body-glow-start: #e9d8ff;
-  --body-glow-end: #f6ddea;
-  --shadow: 0 24px 65px rgba(65, 35, 105, 0.16);
-  --shadow-soft: 0 12px 34px rgba(65, 35, 105, 0.09);
+    radial-gradient(ellipse at top left, rgba(123, 47, 208, 0.11) 0 1px, transparent 1.8px) 0 0 / 21px 21px,
+    linear-gradient(118deg, transparent 0 46%, rgba(214, 79, 156, 0.06) 46% 48%, transparent 48% 100%) 0 0 / 56px 56px,
+    linear-gradient(28deg, transparent 0 49%, rgba(123, 47, 208, 0.045) 49% 51%, transparent 51% 100%) 0 0 / 72px 72px;
+  --body-glow-start: #dec6ff;
+  --body-glow-end: #f8cfdf;
+  --shadow: -7px 9px 0 rgba(123, 47, 208, 0.09), 8px 15px 38px rgba(73, 34, 102, 0.16);
+  --shadow-soft: -4px 6px 0 rgba(214, 79, 156, 0.07), 0 12px 30px rgba(73, 34, 102, 0.1);
   --shadow-tab: 0 5px 15px rgba(65, 35, 105, 0.11);
-  --shadow-card-rest: 0 7px 21px rgba(65, 35, 105, 0.06);
-  --shadow-card-hover: 0 18px 38px rgba(65, 35, 105, 0.15);
+  --shadow-card-rest: -3px 4px 0 rgba(123, 47, 208, 0.07), 0 7px 21px rgba(65, 35, 105, 0.06);
+  --shadow-card-hover: -6px 8px 0 rgba(214, 79, 156, 0.11), 0 18px 38px rgba(65, 35, 105, 0.16);
   --shadow-dropdown: 0 20px 44px rgba(65, 35, 105, 0.21);
   --shadow-button: 0 10px 24px rgba(124, 58, 237, 0.28);
   --shadow-switch: 0 3px 9px rgba(65, 35, 105, 0.22);
   --shadow-drag: 0 28px 68px rgba(65, 35, 105, 0.31);
   --shadow-toast: 0 8px 25px rgba(0, 0, 0, 0.18);
-  --radius-card: 26px 8px 26px 8px;
-  --radius-note: 20px 7px 20px 7px;
-  --radius-section: 18px 6px 18px 6px;
-  --radius-soft: 16px 5px 16px 5px;
-  --radius-tab: 14px 4px 14px 4px;
-  --radius-panel: 13px 4px 13px 4px;
-  --radius-control: 12px 4px 12px 4px;
-  --radius-button: 12px 4px 12px 4px;
-  --radius-compact: 10px 3px 10px 3px;
-  --radius-small: 8px 2px 8px 2px;
+  --radius-card: 32px 6px 24px 12px;
+  --radius-note: 24px 5px 18px 10px;
+  --radius-section: 22px 4px 16px 9px;
+  --radius-soft: 19px 4px 14px 8px;
+  --radius-tab: 17px 3px 13px 7px;
+  --radius-panel: 16px 3px 12px 7px;
+  --radius-control: 15px 3px 11px 6px;
+  --radius-button: 14px 3px 10px 6px;
+  --radius-compact: 12px 2px 9px 5px;
+  --radius-small: 10px 2px 7px 4px;
   --radius-pill: 999px;
   --radius-round: 50%;
   --font-sans: "Avenir Next", "Segoe UI", "PingFang SC", "Microsoft YaHei", sans-serif;
-  --font-serif: "Didot", "Bodoni 72", "Songti SC", serif;
+  --font-serif: "Bodoni 72", Didot, "Songti SC", serif;
   --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
-  --heading-letter-spacing: -0.035em;
+  --heading-letter-spacing: -0.025em;
   --heading-weight: 700;
   --card-heading-letter-spacing: -0.025em;
 }
@@ -1175,6 +1180,149 @@ button[type="submit"]:hover:not(:disabled) {
 .toast.is-visible {
   opacity: 1;
   transform: translate(-50%, 0);
+}
+
+/* 翡翠青：植物标本般的细腻纹理、柔和切角与玉石光泽。 */
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .workspace,
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .panel,
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .site-intro,
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .tool-section,
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .info-card {
+  border-top-color: var(--teal-line);
+}
+
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .masthead h1 {
+  text-shadow: 0 2px 0 rgba(255, 255, 255, 0.82);
+}
+
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .eyebrow,
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .section-kicker {
+  text-decoration: underline;
+  text-decoration-color: var(--teal-line);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 5px;
+}
+
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .primary-button,
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .calculate,
+:is(:root:not([data-theme]), :root[data-theme="jade"]) button[type="submit"] {
+  background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+}
+
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .tool-card {
+  background:
+    linear-gradient(135deg, var(--teal-inset), transparent 42%),
+    var(--paper);
+}
+
+:is(:root:not([data-theme]), :root[data-theme="jade"]) .tool-card:hover {
+  transform: translateY(-3px) rotate(-0.15deg);
+}
+
+/* 像素蓝图：工程制图线、坐标标记与硬边印刷感。 */
+:root[data-theme="blueprint"] .workspace,
+:root[data-theme="blueprint"] .panel,
+:root[data-theme="blueprint"] .site-intro,
+:root[data-theme="blueprint"] .tool-section,
+:root[data-theme="blueprint"] .info-card,
+:root[data-theme="blueprint"] .tool-card {
+  border-width: 2px;
+}
+
+:root[data-theme="blueprint"] .masthead h1 {
+  text-transform: uppercase;
+  text-shadow: 3px 3px 0 var(--teal-pale);
+}
+
+:root[data-theme="blueprint"] .eyebrow,
+:root[data-theme="blueprint"] .section-kicker {
+  letter-spacing: 0.2em;
+}
+
+:root[data-theme="blueprint"] .section-head h2,
+:root[data-theme="blueprint"] .section-head h3,
+:root[data-theme="blueprint"] .tool-card h3 {
+  text-transform: uppercase;
+}
+
+:root[data-theme="blueprint"] .primary-button,
+:root[data-theme="blueprint"] .calculate,
+:root[data-theme="blueprint"] button[type="submit"] {
+  border-color: var(--teal-dark);
+  box-shadow: 3px 3px 0 var(--teal-dark);
+}
+
+:root[data-theme="blueprint"] .primary-button:active:not(:disabled),
+:root[data-theme="blueprint"] .calculate:active:not(:disabled),
+:root[data-theme="blueprint"] button[type="submit"]:active:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--teal-dark);
+}
+
+:root[data-theme="blueprint"] .tool-card {
+  background:
+    linear-gradient(90deg, transparent 0 11px, var(--teal-inset) 11px 12px, transparent 12px),
+    linear-gradient(transparent 0 11px, var(--teal-inset) 11px 12px, transparent 12px),
+    var(--paper);
+  background-size: 12px 12px;
+}
+
+:root[data-theme="blueprint"] .tool-card:hover {
+  transform: translate(-2px, -2px);
+}
+
+:root[data-theme="blueprint"] .tool-tab[aria-selected="true"],
+:root[data-theme="blueprint"] .mode-tab[aria-selected="true"] {
+  outline: 1px dashed var(--teal-dark);
+  outline-offset: -5px;
+}
+
+/* 紫电薄暮：杂志封面式标题、紫粉切光与不对称卡片。 */
+:root[data-theme="violet"] .masthead h1 {
+  color: var(--teal-dark);
+  font-style: italic;
+  text-shadow: 2px 2px 0 rgba(214, 79, 156, 0.15);
+}
+
+:root[data-theme="violet"] .eyebrow,
+:root[data-theme="violet"] .section-kicker {
+  color: var(--teal-dark);
+  letter-spacing: 0.18em;
+}
+
+:root[data-theme="violet"] .workspace,
+:root[data-theme="violet"] .panel,
+:root[data-theme="violet"] .site-intro,
+:root[data-theme="violet"] .tool-section,
+:root[data-theme="violet"] .info-card {
+  border-top-color: var(--teal-line);
+  border-left-color: rgba(214, 79, 156, 0.3);
+}
+
+:root[data-theme="violet"] .primary-button,
+:root[data-theme="violet"] .calculate,
+:root[data-theme="violet"] button[type="submit"] {
+  background: linear-gradient(125deg, var(--teal-dark), var(--teal) 58%, var(--teal-gradient-end));
+}
+
+:root[data-theme="violet"] .tool-card {
+  background:
+    linear-gradient(140deg, rgba(123, 47, 208, 0.08), transparent 38%),
+    linear-gradient(320deg, rgba(214, 79, 156, 0.08), transparent 35%),
+    var(--paper);
+}
+
+:root[data-theme="violet"] .tool-card:nth-child(even) {
+  border-radius: 8px 28px 10px 22px;
+}
+
+:root[data-theme="violet"] .tool-card:hover {
+  transform: translateY(-3px) rotate(0.2deg);
+}
+
+:root[data-theme="violet"] .tool-tab[aria-selected="true"],
+:root[data-theme="violet"] .mode-tab[aria-selected="true"] {
+  background: linear-gradient(115deg, var(--teal-pale), rgba(214, 79, 156, 0.12));
 }
 
 @media (max-width: 1050px) {

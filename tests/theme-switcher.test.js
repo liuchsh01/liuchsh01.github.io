@@ -152,6 +152,25 @@ assert.match(
   assert.match(block, /--font-serif:/, themeId + ' theme must define its display typography');
 });
 
+[
+  ['jade', /:is\(:root:not\(\[data-theme\]\), :root\[data-theme="jade"\]\) \.tool-card/],
+  ['blueprint', /:root\[data-theme="blueprint"\] \.tool-card/],
+  ['violet', /:root\[data-theme="violet"\] \.tool-card/],
+].forEach(([themeId, componentRule]) => {
+  assert.match(themeCss, componentRule, themeId + ' theme must define distinctive component styling');
+});
+
+assert.match(
+  themeCss,
+  /:root\[data-theme="blueprint"\] \.tool-tab\[aria-selected="true"\][\s\S]*?outline:\s*1px dashed/,
+  'blueprint tabs must use an engineering drawing marker',
+);
+assert.match(
+  themeCss,
+  /:root\[data-theme="violet"\] \.masthead h1\s*\{[\s\S]*?font-style:\s*italic/,
+  'violet headings must keep their editorial character',
+);
+
 ['jade', 'blueprint', 'soda', 'violet', 'night'].forEach(themeId => {
   const overrides = themeId === 'jade' ? {} : extractThemeVariables(':root[data-theme="' + themeId + '"]');
   const variables = { ...defaultVariables, ...overrides };
