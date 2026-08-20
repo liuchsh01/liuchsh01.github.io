@@ -1316,7 +1316,7 @@ button[type="submit"]:hover:not(:disabled) {
   color: var(--on-accent);
 }
 
-/* 翡翠青：植物标本般的细腻纹理、柔和切角与玉石光泽。 */
+/* 翡翠青岚：植物标本般的细腻纹理、柔和切角与玉石光泽。 */
 :root[data-theme="jade"] .workspace,
 :root[data-theme="jade"] .panel,
 :root[data-theme="jade"] .site-intro,

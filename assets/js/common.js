@@ -5,7 +5,7 @@
   const DEFAULT_THEME = 'cloud';
   const THEMES = Object.freeze([
     { id: 'cloud', label: '云端清蓝', colorScheme: 'light', accent: '#2563eb' },
-    { id: 'jade', label: '翡翠青', colorScheme: 'light', accent: '#0f766e' },
+    { id: 'jade', label: '翡翠青岚', colorScheme: 'light', accent: '#0f766e' },
     { id: 'blueprint', label: '像素蓝图', colorScheme: 'light', accent: '#006ee6' },
     { id: 'soda', label: '橘子汽水', colorScheme: 'light', accent: '#e85d04' },
     { id: 'violet', label: '紫电薄暮', colorScheme: 'light', accent: '#7c3aed' },
