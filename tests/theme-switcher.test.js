@@ -28,7 +28,7 @@ const toast = {
   },
 };
 const select = {
-  value: 'jade',
+  value: 'cloud',
   addEventListener(type, callback) {
     selectListeners.set(type, callback);
   },
@@ -141,7 +141,7 @@ assert.match(
   'mobile buttons and selects must keep a 44px touch target',
 );
 
-['blueprint', 'soda', 'violet', 'night'].forEach(themeId => {
+['jade', 'blueprint', 'soda', 'violet', 'night'].forEach(themeId => {
   const selector = ':root[data-theme="' + themeId + '"]';
   const start = themeCss.indexOf(selector);
   const end = themeCss.indexOf('\n}', start);
@@ -150,10 +150,15 @@ assert.match(
   assert.match(block, /--body-pattern:/, themeId + ' theme must define a background texture');
   assert.match(block, /--radius-card:/, themeId + ' theme must define its radius character');
   assert.match(block, /--font-serif:/, themeId + ' theme must define its display typography');
+  const overrides = extractThemeVariables(selector);
+  Object.keys(defaultVariables).forEach(variable => {
+    assert.ok(variable in overrides, themeId + ' theme must override --' + variable);
+  });
 });
 
 [
-  ['jade', /:is\(:root:not\(\[data-theme\]\), :root\[data-theme="jade"\]\) \.tool-card/],
+  ['cloud', /:is\(:root:not\(\[data-theme\]\), :root\[data-theme="cloud"\]\) \.tool-card/],
+  ['jade', /:root\[data-theme="jade"\] \.tool-card/],
   ['blueprint', /:root\[data-theme="blueprint"\] \.tool-card/],
   ['violet', /:root\[data-theme="violet"\] \.tool-card/],
 ].forEach(([themeId, componentRule]) => {
@@ -171,8 +176,8 @@ assert.match(
   'violet headings must keep their editorial character',
 );
 
-['jade', 'blueprint', 'soda', 'violet', 'night'].forEach(themeId => {
-  const overrides = themeId === 'jade' ? {} : extractThemeVariables(':root[data-theme="' + themeId + '"]');
+['cloud', 'jade', 'blueprint', 'soda', 'violet', 'night'].forEach(themeId => {
+  const overrides = themeId === 'cloud' ? {} : extractThemeVariables(':root[data-theme="' + themeId + '"]');
   const variables = { ...defaultVariables, ...overrides };
   const muted = resolveVariable(variables, 'muted-soft');
   const controlBackground = resolveVariable(variables, 'control-bg');
@@ -190,7 +195,8 @@ assert.equal(documentElement.dataset.theme, 'soda');
 assert.equal(documentElement.style.colorScheme, 'light');
 assert.equal(meta.content, '#e85d04');
 assert.equal(windowObject.Toolbox.getTheme(), 'soda');
-assert.equal(windowObject.Toolbox.themes.length, 5);
+assert.equal(windowObject.Toolbox.themes.length, 6);
+assert.equal(windowObject.Toolbox.themes[0].id, 'cloud');
 assert.equal(storedValues.get('toolbox-theme'), 'soda');
 
 documentListeners.get('DOMContentLoaded')();
@@ -205,12 +211,12 @@ assert.equal(storedValues.get('toolbox-theme'), 'night');
 assert.equal(toast.textContent, '已切换为深林夜色主题');
 
 windowObject.Toolbox.setTheme('unknown-theme');
-assert.equal(documentElement.dataset.theme, 'jade');
-assert.equal(storedValues.get('toolbox-theme'), 'jade');
+assert.equal(documentElement.dataset.theme, 'cloud');
+assert.equal(storedValues.get('toolbox-theme'), 'cloud');
 
 windowListeners.get('storage')({ key: 'toolbox-theme', newValue: 'ocean' });
 assert.equal(documentElement.dataset.theme, 'blueprint');
-assert.equal(storedValues.get('toolbox-theme'), 'jade');
+assert.equal(storedValues.get('toolbox-theme'), 'cloud');
 
 test('copyText converts a denied fallback into accessible feedback', async () => {
   document.execCommand = () => false;

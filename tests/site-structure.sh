@@ -41,6 +41,7 @@ check_tool_page() {
   check_file "$directory/script.js"
   check_contains "$directory/index.html" '../../assets/css/theme.css' "$directory must load the shared theme"
   check_contains "$directory/index.html" '../../assets/icons/toolbox-mark.svg' "$directory must load the shared favicon"
+  check_contains "$directory/index.html" '<meta name="theme-color" content="#2563eb"' "$directory must declare the default cloud theme color"
   check_contains "$directory/index.html" '../../assets/js/common.js' "$directory must load common.js"
   check_not_contains "$directory/index.html" 'assets/js/common.js" defer' "$directory must initialize the saved theme before first paint"
   check_not_contains "$directory/index.html" '<(script|link|img|source|audio|video)[^>]+(src|href)="https?://' "$directory must not load runtime files from external URLs"
@@ -61,10 +62,12 @@ check_home() {
   check_file 'assets/js/home.js'
   check_file 'assets/icons/toolbox-mark.svg'
   check_contains 'index.html' './assets/icons/toolbox-mark.svg' 'homepage must load the shared favicon'
+  check_contains 'index.html' '<meta name="theme-color" content="#2563eb"' 'homepage must declare the default cloud theme color'
   check_contains 'index.html' './assets/css/theme.css' 'homepage must load the shared theme'
   check_contains 'index.html' './assets/js/home.js' 'homepage must load category tab behavior'
   check_not_contains 'index.html' '<(script|link|img|source|audio|video)[^>]+(src|href)="https?://' 'homepage must not load runtime files from external URLs'
   check_contains 'index.html' 'data-theme-select' 'homepage missing theme selector'
+  check_contains 'index.html' '<option value="cloud">云端清蓝（默认）</option>' 'homepage must list cloud as the first default theme'
   check_contains 'index.html' 'role="tablist"' 'homepage missing tool category tabs'
   check_contains 'index.html' 'id="toolGrid"' 'homepage missing tool category panel'
   check_not_contains 'index.html' 'assets/js/common.js" defer' 'homepage must initialize the saved theme before first paint'
@@ -402,11 +405,12 @@ check_theme_contract() {
   check_contains 'assets/css/theme.css' '--radius-section:' 'theme.css missing semantic radius tokens'
   check_contains 'assets/css/theme.css' '.info-card {' 'theme.css missing shared info card component'
   check_contains 'assets/css/theme.css' '.form-message,' 'theme.css missing shared form message component'
+  check_contains 'assets/css/theme.css' ':root[data-theme="jade"]' 'theme.css missing jade theme'
   check_contains 'assets/css/theme.css' ':root[data-theme="blueprint"]' 'theme.css missing blueprint theme'
   check_contains 'assets/css/theme.css' ':root[data-theme="soda"]' 'theme.css missing soda theme'
   check_contains 'assets/css/theme.css' ':root[data-theme="violet"]' 'theme.css missing violet theme'
   check_contains 'assets/css/theme.css' ':root[data-theme="night"]' 'theme.css missing night theme'
-  check_contains 'assets/js/common.js' "DEFAULT_THEME = 'jade'" 'common.js missing default jade theme'
+  check_contains 'assets/js/common.js' "DEFAULT_THEME = 'cloud'" 'common.js missing default cloud theme'
   check_contains 'assets/js/common.js' "THEME_STORAGE_KEY = 'toolbox-theme'" 'common.js missing theme persistence key'
   check_contains 'assets/js/common.js' 'document.documentElement.dataset.theme' 'common.js must apply theme on the document root'
   check_contains 'assets/js/common.js' 'window.localStorage.setItem' 'common.js must persist the selected theme'

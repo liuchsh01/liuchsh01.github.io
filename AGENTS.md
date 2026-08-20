@@ -82,30 +82,31 @@
 
 ### 设计令牌
 
-默认主题为 `jade`（翡翠青），基础颜色保持以下语义和默认值：
+默认主题为 `cloud`（云端清蓝），基础颜色保持以下语义和默认值：
 
 ```css
 :root {
   color-scheme: light;
-  --ink: #15231f;
-  --muted: #60726c;
-  --line: #d9e6e0;
+  --ink: #2c3e50;
+  --muted: #5b6b7e;
+  --line: #e3e8ef;
   --paper: #ffffff;
-  --mist: #f4f8f6;
-  --teal: #0f766e;
-  --teal-dark: #0b5f59;
-  --teal-pale: #e3f3ee;
-  --error: #bd3f3f;
-  --error-pale: #fff0ef;
-  --shadow: 0 18px 50px rgba(17, 52, 44, 0.11);
+  --mist: #eff2f7;
+  --teal: #2563eb;
+  --teal-dark: #1d4ed8;
+  --teal-pale: #eaf2ff;
+  --error: #dc2626;
+  --error-pale: #fef2f2;
+  --shadow: 0 16px 40px rgba(48, 77, 120, 0.09);
 }
 ```
 
-全站固定支持以下 5 个主题 ID：
+全站固定支持以下 6 个主题 ID：
 
 | 主题 ID | 中文名称 | 模式 | 用途 |
 | --- | --- | --- | --- |
-| `jade` | 翡翠青 | 浅色 | 默认主题，沿用项目原有青绿色视觉 |
+| `cloud` | 云端清蓝 | 浅色 | 默认主题，浅蓝渐变背景、白色卡片与简洁管理台风格 |
+| `jade` | 翡翠青 | 浅色 | 沿用项目原有青绿色视觉 |
 | `blueprint` | 像素蓝图 | 浅色 | 工程网格、硬边阴影与明快蓝色强调 |
 | `soda` | 橘子汽水 | 浅色 | 暖奶油底色、圆润气泡与橙绿撞色 |
 | `violet` | 紫电薄暮 | 浅色 | 紫粉暮光、非对称圆角与编辑感标题 |
@@ -261,7 +262,7 @@
 
 - 页面可直接通过相对路径打开，GitHub Pages 子路径下链接正确；
 - 主页和工具页视觉与 `assets/css/theme.css` 保持同一主题；
-- `jade`、`blueprint`、`soda`、`violet`、`night` 五个主题均检查文字对比度、表单、结果区、状态色和 Focus；
+- `cloud`、`jade`、`blueprint`、`soda`、`violet`、`night` 六个主题均检查文字对比度、表单、结果区、状态色和 Focus；
 - 从主页切换主题后进入任一工具页仍保持相同主题，刷新页面后选择不丢失；
 - 键盘可以完成主要操作，Focus 状态清晰；
 - 空输入、非法输入、极端值和正常值都有合理结果；
