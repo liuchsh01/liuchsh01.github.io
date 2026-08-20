@@ -45,3 +45,17 @@ test('dense desktop tools keep long content inside compact result regions', () =
   assert.match(qrCss, /@media \(min-width: 821px\)[\s\S]*?\.generator-panel\s*\{[\s\S]*?display:\s*grid/);
   assert.match(tokenCss, /@media \(min-width: 821px\)[\s\S]*?\.shell\s*\{[\s\S]*?grid-template-columns:/);
 });
+
+test('token inspector gives compact tokens a wide readable desktop input area', () => {
+  const css = read('tools/20260811_token-inspector/style.css');
+
+  assert.match(css, /\.token-input\s*\{[\s\S]*?font:\s*12px\/1\.55 var\(--font-mono\)/);
+  assert.match(
+    css,
+    /@media \(min-width: 821px\)[\s\S]*?\.token-input-panel > \.field\s*\{[\s\S]*?grid-column:\s*1 \/ -1/,
+  );
+  assert.match(
+    css,
+    /@media \(min-width: 821px\)[\s\S]*?\.token-input\s*\{[\s\S]*?min-height:\s*156px;[\s\S]*?height:\s*clamp\(156px, 20vh, 210px\)/,
+  );
+});
