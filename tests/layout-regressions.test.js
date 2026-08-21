@@ -59,3 +59,24 @@ test('token inspector gives compact tokens a wide readable desktop input area', 
     /@media \(min-width: 821px\)[\s\S]*?\.token-input\s*\{[\s\S]*?min-height:\s*156px;[\s\S]*?height:\s*clamp\(156px, 20vh, 210px\)/,
   );
 });
+
+test('timestamp converter keeps desktop controls inside separated columns', () => {
+  const css = read('tools/20260810_timestamp-converter/style.css');
+  const baseGridIndex = css.indexOf('.timestamp-fields {');
+  const desktopGridIndex = css.indexOf('@media (min-width: 941px)');
+
+  assert.ok(desktopGridIndex > baseGridIndex, 'desktop grid overrides must follow the base grid rules');
+  assert.match(css, /\.conversion-fields\s*\{[\s\S]*?gap:\s*12px/);
+  assert.match(
+    css,
+    /@media \(min-width: 941px\)[\s\S]*?\.converter-panel\s*\{[\s\S]*?column-gap:\s*16px/,
+  );
+  assert.match(
+    css,
+    /@media \(min-width: 941px\)[\s\S]*?\.timestamp-fields\s*\{[\s\S]*?grid-template-columns:\s*minmax\(92px, 0\.7fr\) minmax\(150px, 1\.15fr\) auto auto/,
+  );
+  assert.match(
+    css,
+    /@media \(min-width: 941px\)[\s\S]*?\.conversion-section \+ \.conversion-section\s*\{[\s\S]*?border-left:\s*0/,
+  );
+});
