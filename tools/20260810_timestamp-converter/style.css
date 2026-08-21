@@ -114,6 +114,11 @@
   gap: 12px;
 }
 
+#timestampInput,
+#dateTimeInput {
+  height: 50px;
+}
+
 .timestamp-fields {
   grid-template-columns: minmax(210px, 1.35fr) minmax(120px, 0.55fr) minmax(170px, 0.8fr) auto auto;
 }

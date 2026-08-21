@@ -79,4 +79,5 @@ test('timestamp converter keeps desktop controls inside separated columns', () =
     css,
     /@media \(min-width: 941px\)[\s\S]*?\.conversion-section \+ \.conversion-section\s*\{[\s\S]*?border-left:\s*0/,
   );
+  assert.match(css, /#timestampInput,\s*#dateTimeInput\s*\{\s*height:\s*50px/);
 });
