@@ -105,7 +105,7 @@
         </div>
 
         <label class="field-label" for="sqlInput">输入 SQL</label>
-        <textarea class="sql-textarea mono-input" id="sqlInput" spellcheck="false" placeholder="输入需要格式化的 SQL">select u.id,u.name,count(o.id) as order_count from users u left join orders o on o.user_id=u.id where u.status='active' and o.created_at&gt;='2026-01-01' group by u.id,u.name order by order_count desc;</textarea>
+        <textarea class="sql-textarea mono-input editor-input" id="sqlInput" spellcheck="false" placeholder="输入需要格式化的 SQL">select u.id,u.name,count(o.id) as order_count from users u left join orders o on o.user_id=u.id where u.status='active' and o.created_at&gt;='2026-01-01' group by u.id,u.name order by order_count desc;</textarea>
 
         <div class="actions">
           <button class="primary-button" id="formatSql" type="button">格式化 SQL</button>

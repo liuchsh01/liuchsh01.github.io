@@ -81,3 +81,29 @@ test('timestamp converter keeps desktop controls inside separated columns', () =
   );
   assert.match(css, /#timestampInput,\s*#dateTimeInput\s*\{\s*height:\s*50px/);
 });
+
+test('editable multiline tools use the shared compact editor treatment', () => {
+  const themeCss = read('assets/css/theme.css');
+  const toolDirectories = fs.readdirSync(path.join(root, 'tools'), { withFileTypes: true })
+    .filter(entry => entry.isDirectory())
+    .map(entry => entry.name);
+
+  assert.match(themeCss, /textarea\.editor-input\s*\{[\s\S]*?font-size:\s*13px;[\s\S]*?line-height:\s*1\.6/);
+  assert.match(
+    themeCss,
+    /@media \(max-width: 760px\)[\s\S]*?textarea\.editor-input\s*\{[\s\S]*?font-size:\s*16px/,
+  );
+
+  for (const directory of toolDirectories) {
+    const html = read(`tools/${directory}/index.html`);
+    const editableTextareas = html.match(/<textarea\b(?![^>]*\breadonly\b)[^>]*>/g) || [];
+
+    for (const textarea of editableTextareas) {
+      assert.match(
+        textarea,
+        /class="[^"]*(?:editor-input|token-input)[^"]*"/,
+        `${directory} has an editable textarea without compact editor styling: ${textarea}`,
+      );
+    }
+  }
+});
