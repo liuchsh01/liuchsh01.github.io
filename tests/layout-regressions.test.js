@@ -125,3 +125,16 @@ test('hash result values align vertically with their copy buttons', () => {
     /\.hash-value-row\s*\{[\s\S]*?grid-template-columns:\s*62px minmax\(0, 1fr\) auto;[\s\S]*?align-items:\s*center/,
   );
 });
+
+test('Java hashCode keeps its text-only note in an accessible hover tooltip', () => {
+  const html = read('tools/20260810_hash-generator/index.html');
+  const css = read('tools/20260810_hash-generator/style.css');
+
+  assert.doesNotMatch(html, /Java hashCode（文本）/);
+  assert.match(html, /aria-describedby="javaHashcodeHint"/);
+  assert.match(html, /class="algorithm-tooltip"[^>]*role="tooltip">仅支持文本模式<\/span>/);
+  assert.match(
+    css,
+    /\.algorithm-options label\.has-tooltip:hover \.algorithm-tooltip,[\s\S]*?\.algorithm-options label\.has-tooltip:focus-within \.algorithm-tooltip\s*\{[\s\S]*?visibility:\s*visible;[\s\S]*?opacity:\s*1/,
+  );
+});

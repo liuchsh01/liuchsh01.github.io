@@ -98,6 +98,48 @@
   opacity: 0.55;
 }
 
+.algorithm-options label.has-tooltip {
+  position: relative;
+}
+
+.algorithm-tooltip {
+  position: absolute;
+  z-index: 5;
+  bottom: calc(100% + 7px);
+  left: 50%;
+  padding: 5px 8px;
+  border-radius: var(--radius-pill);
+  visibility: hidden;
+  background: var(--toast-bg);
+  box-shadow: var(--shadow-toast);
+  color: var(--paper);
+  font-size: 11px;
+  font-weight: 650;
+  line-height: 1.4;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+  white-space: nowrap;
+}
+
+.algorithm-tooltip::after {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  border: 4px solid transparent;
+  border-top-color: var(--toast-bg);
+  content: '';
+  transform: translateX(-50%);
+}
+
+.algorithm-options label.has-tooltip:hover .algorithm-tooltip,
+.algorithm-options label.has-tooltip:focus-within .algorithm-tooltip {
+  visibility: visible;
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 .hash-input {
   min-height: 150px;
 }

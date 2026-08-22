@@ -45,7 +45,11 @@
             <label><input type="checkbox" name="algorithm" value="SHA-256" checked /> SHA-256</label>
             <label><input type="checkbox" name="algorithm" value="SHA-384" /> SHA-384</label>
             <label><input type="checkbox" name="algorithm" value="SHA-512" /> SHA-512</label>
-            <label><input type="checkbox" name="algorithm" value="JAVA-HASHCODE" data-text-only="true" /> Java hashCode（文本）</label>
+            <label class="has-tooltip">
+              <input type="checkbox" name="algorithm" value="JAVA-HASHCODE" data-text-only="true" aria-label="Java hashCode" aria-describedby="javaHashcodeHint" />
+              Java hashCode
+              <span class="algorithm-tooltip" id="javaHashcodeHint" role="tooltip">仅支持文本模式</span>
+            </label>
           </div>
         </fieldset>
 
