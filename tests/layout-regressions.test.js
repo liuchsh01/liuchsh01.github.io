@@ -48,8 +48,11 @@ test('dense desktop tools keep long content inside compact result regions', () =
 
 test('token inspector gives compact tokens a wide readable desktop input area', () => {
   const css = read('tools/20260811_token-inspector/style.css');
+  const html = read('tools/20260811_token-inspector/index.html');
+  const themeCss = read('assets/css/theme.css');
 
-  assert.match(css, /\.token-input\s*\{[\s\S]*?font:\s*12px\/1\.55 var\(--font-mono\)/);
+  assert.match(html, /<textarea(?=[^>]*id="tokenInput")(?=[^>]*class="[^"]*editor-input-code)[^>]*>/);
+  assert.match(themeCss, /textarea\.editor-input-code\s*\{[\s\S]*?font-size:\s*12px/);
   assert.match(
     css,
     /@media \(min-width: 821px\)[\s\S]*?\.token-input-panel > \.field\s*\{[\s\S]*?grid-column:\s*1 \/ -1/,
@@ -88,10 +91,11 @@ test('editable multiline tools use the shared compact editor treatment', () => {
     .filter(entry => entry.isDirectory())
     .map(entry => entry.name);
 
-  assert.match(themeCss, /textarea\.editor-input\s*\{[\s\S]*?font-size:\s*13px;[\s\S]*?line-height:\s*1\.6/);
+  assert.match(themeCss, /textarea\.editor-input-code\s*\{[\s\S]*?font-size:\s*12px;[\s\S]*?line-height:\s*1\.55/);
+  assert.match(themeCss, /textarea\.editor-input-text\s*\{[\s\S]*?font-size:\s*13px;[\s\S]*?line-height:\s*1\.6/);
   assert.match(
     themeCss,
-    /@media \(max-width: 760px\)[\s\S]*?textarea\.editor-input\s*\{[\s\S]*?font-size:\s*16px/,
+    /@media \(max-width: 760px\)[\s\S]*?textarea\.editor-input-code,[\s\S]*?textarea\.editor-input-text\s*\{[\s\S]*?font-size:\s*16px/,
   );
 
   for (const directory of toolDirectories) {
@@ -101,8 +105,13 @@ test('editable multiline tools use the shared compact editor treatment', () => {
     for (const textarea of editableTextareas) {
       assert.match(
         textarea,
-        /class="[^"]*(?:editor-input|token-input)[^"]*"/,
+        /class="[^"]*editor-input[^"]*"/,
         `${directory} has an editable textarea without compact editor styling: ${textarea}`,
+      );
+      assert.match(
+        textarea,
+        /class="[^"]*(?:editor-input-code|editor-input-text)[^"]*"/,
+        `${directory} has an editable textarea without an editor content type: ${textarea}`,
       );
     }
   }

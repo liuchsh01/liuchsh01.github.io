@@ -29,13 +29,13 @@
       <form class="rsa-form" id="rsaForm" novalidate>
         <div class="form-group">
           <label class="field-label" for="publicKey">RSA 公钥</label>
-          <textarea class="key-input mono-input editor-input" id="publicKey" rows="8" spellcheck="false" autocomplete="off" placeholder="支持纯 Base64，或包含 BEGIN PUBLIC KEY 的 PEM 格式"></textarea>
+          <textarea class="key-input mono-input editor-input editor-input-code" id="publicKey" rows="8" spellcheck="false" autocomplete="off" placeholder="支持纯 Base64，或包含 BEGIN PUBLIC KEY 的 PEM 格式"></textarea>
           <p class="field-help">纯 Base64 公钥会自动补全为标准 PEM 格式。</p>
         </div>
 
         <div class="form-group">
           <label class="field-label" for="plainText">待加密明文</label>
-          <textarea class="editor-input" id="plainText" rows="6" spellcheck="false" placeholder="输入需要加密的文本"></textarea>
+          <textarea class="editor-input editor-input-text" id="plainText" rows="6" spellcheck="false" placeholder="输入需要加密的文本"></textarea>
           <p class="field-help">RSA 适合短文本；PKCS#1 v1.5 的明文上限为密钥字节数减 11。</p>
         </div>
 

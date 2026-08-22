@@ -36,7 +36,7 @@
 
       <div class="field">
         <label for="tokenInput">JWT 或 JWE Token</label>
-        <textarea class="token-input mono-input" id="tokenInput" spellcheck="false" autocomplete="off" placeholder="粘贴 3 段 JWT/JWS 或 5 段 Compact JWE"></textarea>
+        <textarea class="token-input mono-input editor-input editor-input-code" id="tokenInput" spellcheck="false" autocomplete="off" placeholder="粘贴 3 段 JWT/JWS 或 5 段 Compact JWE"></textarea>
       </div>
       <div class="actions">
         <button class="primary-button" id="parseToken" type="button">解析并检查</button>
@@ -108,7 +108,7 @@
 
         <div class="field key-field">
           <label for="keyInput">校验或解密密钥</label>
-          <textarea class="key-input mono-input editor-input" id="keyInput" spellcheck="false" autocomplete="off" placeholder="解析 Token 后会提示需要的密钥类型"></textarea>
+          <textarea class="key-input mono-input editor-input editor-input-code" id="keyInput" spellcheck="false" autocomplete="off" placeholder="解析 Token 后会提示需要的密钥类型"></textarea>
           <p class="helper-text" id="keyHint">JWT 解码本身不代表可信；只有签名验证成功才能确认完整性。</p>
         </div>
 

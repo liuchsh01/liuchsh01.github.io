@@ -4,7 +4,6 @@
 
 .token-input {
   min-height: 150px;
-  font: 12px/1.55 var(--font-mono);
   letter-spacing: -0.01em;
   word-break: break-all;
 }
