@@ -316,7 +316,7 @@
 .hash-value-row {
   display: grid;
   grid-template-columns: 62px minmax(0, 1fr) auto;
-  align-items: start;
+  align-items: center;
   gap: 8px;
   padding-top: 7px;
   border-top: 1px solid var(--line);

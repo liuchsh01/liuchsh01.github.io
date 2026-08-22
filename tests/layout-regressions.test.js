@@ -116,3 +116,12 @@ test('editable multiline tools use the shared compact editor treatment', () => {
     }
   }
 });
+
+test('hash result values align vertically with their copy buttons', () => {
+  const css = read('tools/20260810_hash-generator/style.css');
+
+  assert.match(
+    css,
+    /\.hash-value-row\s*\{[\s\S]*?grid-template-columns:\s*62px minmax\(0, 1fr\) auto;[\s\S]*?align-items:\s*center/,
+  );
+});
