@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2563eb" />
+  <link rel="icon" href="../../assets/icons/toolbox-mark.svg" type="image/svg+xml" />
+  <meta name="description" content="在浏览器本地用安全随机数生成密钥，默认 32 字节并编码为 Base64，也可输出 Base64URL 或十六进制。" />
+  <title>随机密钥生成器｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <link rel="stylesheet" href="./style.css" />
+  <script src="../../assets/js/common.js"></script>
+  <script src="./secret-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">CRYPTOGRAPHIC SECRETS</p>
+        <h1>随机密钥生成器</h1>
+      </div>
+      <p class="subtitle">用浏览器安全随机数生成指定长度的随机字节，再编码为字符串。默认 32 字节 + Base64，适合 HMAC、AES-256 和 JWT 密钥。</p>
+    </header>
+
+    <section class="workspace secret-workspace" aria-label="随机密钥生成工作区">
+      <form class="secret-panel secret-form" id="secretForm" novalidate aria-labelledby="settings-heading">
+        <div class="section-head">
+          <h2 id="settings-heading">生成参数</h2>
+          <span class="count" id="parameterSummary">32 字节 · Base64</span>
+        </div>
+
+        <fieldset class="type-fieldset">
+          <legend>输出编码</legend>
+          <div class="type-options">
+            <label>
+              <input type="radio" name="encoding" value="base64" checked />
+              <span>Base64</span>
+              <small>32 字节约 44 个字符，含填充</small>
+            </label>
+            <label>
+              <input type="radio" name="encoding" value="base64url" />
+              <span>Base64URL</span>
+              <small>URL 安全，去掉填充符</small>
+            </label>
+            <label>
+              <input type="radio" name="encoding" value="hex" />
+              <span>十六进制</span>
+              <small>32 字节输出 64 个字符</small>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="parameter-grid">
+          <div class="field">
+            <label for="byteLength">随机字节长度</label>
+            <input class="mono-input" id="byteLength" type="number" min="1" max="1024" step="1" value="32" inputmode="numeric" />
+            <span class="helper-text">常用 16 / 24 / 32 / 64 字节，最多 1024</span>
+          </div>
+
+          <div class="field">
+            <label for="secretCount">生成数量</label>
+            <input class="mono-input" id="secretCount" type="number" min="1" max="100" step="1" value="1" inputmode="numeric" />
+            <span class="helper-text">一次最多生成 100 个</span>
+          </div>
+        </div>
+
+        <fieldset class="preset-fieldset">
+          <legend>常用长度</legend>
+          <div class="preset-options">
+            <button type="button" class="secondary-button compact-button" data-byte-preset="16">16 字节</button>
+            <button type="button" class="secondary-button compact-button" data-byte-preset="24">24 字节</button>
+            <button type="button" class="secondary-button compact-button" data-byte-preset="32">32 字节</button>
+            <button type="button" class="secondary-button compact-button" data-byte-preset="64">64 字节</button>
+          </div>
+        </fieldset>
+
+        <div class="actions">
+          <button class="primary-button" id="generateSecrets" type="submit">生成密钥</button>
+          <button class="secondary-button" id="resetSettings" type="button">恢复默认</button>
+          <span class="hint">快捷键：⌘ / Ctrl + Enter</span>
+        </div>
+
+        <p class="status" id="formStatus" role="status" aria-live="polite">默认生成 1 个 32 字节的 Base64 密钥。</p>
+      </form>
+
+      <section class="secret-panel secret-results" aria-labelledby="results-heading">
+        <div class="section-head results-heading-row">
+          <div>
+            <h2 id="results-heading">生成结果</h2>
+            <span class="count" id="resultCount">0 个</span>
+          </div>
+          <div class="result-actions">
+            <button class="secondary-button compact-button" id="downloadResults" type="button" disabled>下载</button>
+            <button class="secondary-button compact-button" id="copyAll" type="button" disabled>复制全部</button>
+          </div>
+        </div>
+
+        <p class="result-meta" id="resultMeta">密钥尚未生成。</p>
+
+        <div class="secret-output">
+          <div class="empty-state" id="emptyState">选择编码和字节长度后生成密钥。</div>
+          <ol class="secret-list" id="resultList" hidden></ol>
+        </div>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="about-title">
+      <p class="section-kicker">使用说明</p>
+      <h2 id="about-title">这和随机密码有什么不同？</h2>
+      <p>随机密码按可读字符集合抽样，适合人工输入。这里先用 <code>crypto.getRandomValues</code> 生成原始字节，再编码为字符串，适合应用密钥、HMAC secret 和对称加密密钥。32 字节对应 256 位熵；Base64 会把二进制变成可复制文本，不改变随机性。密钥只在当前浏览器中生成，不会上传。</p>
+    </section>
+  </main>
+
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

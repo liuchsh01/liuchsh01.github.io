@@ -79,6 +79,7 @@ check_home() {
   check_contains 'index.html' './tools/20260810_multi-timezone-clock/' 'homepage missing multi-timezone clock link'
   check_contains 'index.html' './tools/20260810_hash-generator/' 'homepage missing hash generator link'
   check_contains 'index.html' './tools/20260810_random-password-generator/' 'homepage missing random password generator link'
+  check_contains 'index.html' './tools/20260917_secret-key-generator/' 'homepage missing secret key generator link'
   check_contains 'index.html' './tools/20260810_json-formatter/' 'homepage missing JSON formatter link'
   check_contains 'index.html' './tools/20260810_timestamp-converter/' 'homepage missing timestamp converter link'
   check_contains 'index.html' './tools/20260811_token-inspector/' 'homepage missing token inspector link'
@@ -378,6 +379,21 @@ check_json_formatter() {
   check_not_contains "$directory/script.js" 'innerHTML' 'JSON formatter must not inject user input as HTML'
 }
 
+
+check_secret_key_generator() {
+  local directory='tools/20260917_secret-key-generator'
+  check_tool_page "$directory"
+  check_file "$directory/secret-core.js"
+  check_contains "$directory/index.html" 'value="base64" checked' 'secret key generator must default to Base64'
+  check_contains "$directory/index.html" 'value="base64url"' 'secret key generator missing Base64URL option'
+  check_contains "$directory/index.html" 'value="hex"' 'secret key generator missing hex option'
+  check_contains "$directory/index.html" 'id="byteLength"' 'secret key generator missing byte length input'
+  check_contains "$directory/index.html" 'value="32"' 'secret key generator must default to 32 bytes'
+  check_contains "$directory/index.html" 'id="secretCount"' 'secret key generator missing count input'
+  check_contains "$directory/secret-core.js" 'getRandomValues' 'secret key generator must use cryptographic randomness'
+  check_contains "$directory/script.js" 'copyText' 'secret key generator missing copy behavior'
+}
+
 check_password_generator() {
   local directory='tools/20260810_random-password-generator'
   check_tool_page "$directory"
@@ -524,6 +540,9 @@ case "$group" in
   password)
     check_password_generator
     ;;
+  secret-key)
+    check_secret_key_generator
+    ;;
   json)
     check_json_formatter
     ;;
@@ -580,6 +599,7 @@ case "$group" in
     check_timezone_clock
     check_hash_generator
     check_password_generator
+    check_secret_key_generator
     check_json_formatter
     check_timestamp_converter
     check_token_inspector
