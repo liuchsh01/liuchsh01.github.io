@@ -80,18 +80,49 @@
 .parameter-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
   gap: 16px;
   margin-bottom: 16px;
 }
 
+.parameter-grid .field + .field {
+  margin-top: 0;
+}
+
+.parameter-grid input[type="number"] {
+  box-sizing: border-box;
+  height: 44px;
+  min-height: 44px;
+  appearance: textfield;
+}
+
+.parameter-grid input[type="number"]::-webkit-outer-spin-button,
+.parameter-grid input[type="number"]::-webkit-inner-spin-button {
+  height: 22px;
+}
+
 .field > .helper-text {
+  min-height: 18px;
   margin-top: 1px;
 }
 
 .preset-options {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 8px;
+}
+
+.preset-options .compact-button {
+  width: 100%;
+  border-color: var(--line);
+  background: var(--control-bg);
+  color: var(--ink-soft);
+}
+
+.preset-options .compact-button[aria-pressed="true"] {
+  border-color: var(--teal-line);
+  background: var(--teal-pale);
+  color: var(--teal-dark);
 }
 
 .results-heading-row > div:first-child {
@@ -237,7 +268,8 @@
 
 @media (max-width: 520px) {
   .type-options,
-  .parameter-grid {
+  .parameter-grid,
+  .preset-options {
     grid-template-columns: minmax(0, 1fr);
   }
 

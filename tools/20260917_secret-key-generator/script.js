@@ -24,6 +24,7 @@
   const resultList = document.querySelector('#resultList');
   const copyAll = document.querySelector('#copyAll');
   const downloadResults = document.querySelector('#downloadResults');
+  const presetButtons = [...document.querySelectorAll('[data-byte-preset]')];
 
   const ENCODING_LABELS = Object.freeze({
     [ENCODINGS.BASE64]: 'Base64',
@@ -58,10 +59,18 @@
     return `${Math.ceil(byteLength / 3) * 4} 个 Base64 字符`;
   };
 
+  const updatePresetState = () => {
+    const current = byteLengthInput.value.trim();
+    presetButtons.forEach((button) => {
+      button.setAttribute('aria-pressed', button.dataset.bytePreset === current ? 'true' : 'false');
+    });
+  };
+
   const updateSummary = () => {
     const encoding = selectedEncoding();
     const bytesText = /^\d+$/.test(byteLengthInput.value.trim()) ? `${byteLengthInput.value.trim()} 字节` : '—';
     parameterSummary.textContent = `${bytesText} · ${ENCODING_LABELS[encoding]}`;
+    updatePresetState();
   };
 
   const renderSecrets = (secrets, encoding, byteLength) => {

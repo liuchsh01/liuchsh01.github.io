@@ -392,6 +392,9 @@ check_secret_key_generator() {
   check_contains "$directory/index.html" 'id="secretCount"' 'secret key generator missing count input'
   check_contains "$directory/secret-core.js" 'getRandomValues' 'secret key generator must use cryptographic randomness'
   check_contains "$directory/script.js" 'copyText' 'secret key generator missing copy behavior'
+  check_contains "$directory/script.js" 'updatePresetState' 'secret key generator missing length preset selected state'
+  check_contains "$directory/index.html" 'data-byte-preset="32" aria-pressed="true"' 'secret key generator must mark 32-byte preset as selected by default'
+  check_contains "$directory/style.css" '.parameter-grid .field + .field' 'secret key generator must keep byte length and count fields aligned'
 }
 
 check_password_generator() {
