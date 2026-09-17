@@ -54,17 +54,12 @@
         </fieldset>
 
         <div class="parameter-grid">
-          <div class="field">
-            <label for="byteLength">随机字节长度</label>
-            <input class="mono-input" id="byteLength" type="number" min="1" max="1024" step="1" value="32" inputmode="numeric" />
-            <span class="helper-text">最多 1024 字节</span>
-          </div>
-
-          <div class="field">
-            <label for="secretCount">生成数量</label>
-            <input class="mono-input" id="secretCount" type="number" min="1" max="100" step="1" value="1" inputmode="numeric" />
-            <span class="helper-text">一次最多生成 100 个</span>
-          </div>
+          <label for="byteLength">随机字节长度</label>
+          <label for="secretCount">生成数量</label>
+          <input class="mono-input" id="byteLength" type="number" min="1" max="1024" step="1" value="32" inputmode="numeric" />
+          <input class="mono-input" id="secretCount" type="number" min="1" max="100" step="1" value="1" inputmode="numeric" />
+          <span class="helper-text">最多 1024 字节</span>
+          <span class="helper-text">一次最多 100 个</span>
         </div>
 
         <fieldset class="preset-fieldset">

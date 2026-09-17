@@ -394,7 +394,7 @@ check_secret_key_generator() {
   check_contains "$directory/script.js" 'copyText' 'secret key generator missing copy behavior'
   check_contains "$directory/script.js" 'updatePresetState' 'secret key generator missing length preset selected state'
   check_contains "$directory/index.html" 'data-byte-preset="32" aria-pressed="true"' 'secret key generator must mark 32-byte preset as selected by default'
-  check_contains "$directory/style.css" '.parameter-grid .field + .field' 'secret key generator must keep byte length and count fields aligned'
+  check_contains "$directory/style.css" 'grid-template-rows: 20px 44px auto' 'secret key generator must align labels and inputs on shared rows'
 }
 
 check_password_generator() {

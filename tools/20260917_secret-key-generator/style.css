@@ -80,30 +80,44 @@
 .parameter-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  align-items: start;
-  gap: 16px;
+  grid-template-rows: 20px 44px auto;
+  align-items: center;
+  column-gap: 16px;
+  row-gap: 8px;
   margin-bottom: 16px;
 }
 
-.parameter-grid .field + .field {
-  margin-top: 0;
+.parameter-grid label {
+  display: flex;
+  align-items: center;
+  min-height: 20px;
+  margin: 0;
+  line-height: 20px;
 }
 
 .parameter-grid input[type="number"] {
   box-sizing: border-box;
+  width: 100%;
   height: 44px;
   min-height: 44px;
+  margin: 0;
+  padding: 0 12px;
+  line-height: 42px;
   appearance: textfield;
+  -webkit-appearance: textfield;
 }
 
 .parameter-grid input[type="number"]::-webkit-outer-spin-button,
 .parameter-grid input[type="number"]::-webkit-inner-spin-button {
-  height: 22px;
+  margin: 0;
+  appearance: none;
+  -webkit-appearance: none;
 }
 
-.field > .helper-text {
+.parameter-grid .helper-text {
   min-height: 18px;
-  margin-top: 1px;
+  margin: 0;
+  line-height: 18px;
 }
 
 .preset-options {
@@ -268,10 +282,21 @@
 
 @media (max-width: 520px) {
   .type-options,
-  .parameter-grid,
   .preset-options {
     grid-template-columns: minmax(0, 1fr);
   }
+
+  .parameter-grid {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: none;
+  }
+
+  .parameter-grid > :nth-child(1) { order: 1; }
+  .parameter-grid > :nth-child(3) { order: 2; }
+  .parameter-grid > :nth-child(5) { order: 3; }
+  .parameter-grid > :nth-child(2) { order: 4; }
+  .parameter-grid > :nth-child(4) { order: 5; }
+  .parameter-grid > :nth-child(6) { order: 6; }
 
   .type-options label {
     min-height: 72px;
