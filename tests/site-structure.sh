@@ -86,6 +86,7 @@ check_home() {
   check_contains 'index.html' './tools/20260811_token-inspector/' 'homepage missing token inspector link'
   check_contains 'index.html' './tools/20260811_image-converter/' 'homepage missing image converter link'
   check_contains 'index.html' './tools/20260811_encoding-converter/' 'homepage missing encoding converter link'
+  check_contains 'index.html' './tools/20260928_url-codec/' 'homepage missing URL codec link'
   check_contains 'index.html' './tools/20260811_uuid-ulid-generator/' 'homepage missing UUID/ULID generator link'
   check_contains 'index.html' './tools/20260811_regex-tester/' 'homepage missing regex tester link'
   check_contains 'index.html' './tools/20260811_text-diff/' 'homepage missing text diff link'
@@ -425,6 +426,26 @@ check_bcrypt_tool() {
   check_not_contains "$directory/script.js" 'innerHTML' 'Bcrypt tool must not inject password or Hash content as HTML'
 }
 
+check_url_codec() {
+  local directory='tools/20260928_url-codec'
+  check_tool_page "$directory"
+  check_file "$directory/url-core.js"
+  check_contains "$directory/index.html" './url-core.js' 'URL codec must load its local conversion core'
+  check_contains "$directory/index.html" './script.js' 'URL codec must load its local interaction script'
+  check_contains "$directory/index.html" 'id="sourceInput"' 'URL codec missing source input'
+  check_contains "$directory/index.html" 'id="resultOutput"' 'URL codec missing result output'
+  check_contains "$directory/index.html" 'id="urlMode"' 'URL codec missing conversion mode selector'
+  check_contains "$directory/index.html" 'id="encodeButton"' 'URL codec missing encode control'
+  check_contains "$directory/index.html" 'id="decodeButton"' 'URL codec missing decode control'
+  check_contains "$directory/index.html" 'id="clearButton"' 'URL codec missing clear control'
+  check_contains "$directory/index.html" 'id="copyOutput"' 'URL codec missing copy control'
+  check_contains "$directory/index.html" 'id="useAsInput"' 'URL codec missing use-as-input control'
+  check_contains "$directory/index.html" 'id="conversionStatus"' 'URL codec missing conversion status'
+  check_contains "$directory/url-core.js" 'encodeURIComponent' 'URL codec must use native encodeURIComponent'
+  check_contains "$directory/url-core.js" 'decodeURIComponent' 'URL codec must use native decodeURIComponent'
+  check_not_contains "$directory/script.js" 'innerHTML' 'URL codec must not inject URL content as HTML'
+}
+
 check_password_generator() {
   local directory='tools/20260810_random-password-generator'
   check_tool_page "$directory"
@@ -577,6 +598,9 @@ case "$group" in
   bcrypt)
     check_bcrypt_tool
     ;;
+  url-codec)
+    check_url_codec
+    ;;
   json)
     check_json_formatter
     ;;
@@ -635,6 +659,7 @@ case "$group" in
     check_password_generator
     check_secret_key_generator
     check_bcrypt_tool
+    check_url_codec
     check_json_formatter
     check_timestamp_converter
     check_token_inspector

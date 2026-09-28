@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="description" content="在浏览器本地进行 URL 编码与解码，支持参数片段、完整网址和表单参数，明确区分空格、加号和保留字符。" />
+  <link rel="icon" href="../../assets/icons/toolbox-mark.svg" type="image/svg+xml" />
+  <title>URL 编码与解码｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <script src="../../assets/js/common.js"></script>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="./url-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">URL ENCODING</p>
+        <h1>URL 编码与解码</h1>
+      </div>
+      <p class="subtitle">转换中文、空格和特殊字符的百分号编码。支持参数片段、完整网址和表单参数，所有内容只在浏览器本地处理。</p>
+    </header>
+
+    <section class="workspace url-workspace" aria-label="URL 编解码工作区">
+      <section class="url-panel input-panel" aria-labelledby="inputHeading">
+        <div class="section-head">
+          <h2 id="inputHeading">待转换内容</h2>
+          <span class="count" id="inputCount">0 字符 · 0 字节</span>
+        </div>
+        <div class="field">
+          <label for="urlMode">处理规则</label>
+          <select id="urlMode" aria-describedby="modeHint">
+            <option value="component">参数或路径片段</option>
+            <option value="full">完整网址</option>
+            <option value="form">表单参数（空格 ↔ +）</option>
+          </select>
+          <p class="helper-text mode-hint" id="modeHint">适合单个参数值或路径片段。空格编码为 %20，+ 编码为 %2B；解码时 + 保持不变。</p>
+        </div>
+        <div class="field">
+          <label for="sourceInput">输入文本</label>
+          <textarea class="url-textarea mono-input editor-input editor-input-code" id="sourceInput" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="例如：中文 空格+&amp;/?" aria-describedby="inputHint"></textarea>
+          <span class="helper-text" id="inputHint">使用 UTF-8；保留输入的空格与换行，每次只处理一层编码。</span>
+        </div>
+        <div class="actions">
+          <button class="primary-button" id="encodeButton" type="button">URL 编码</button>
+          <button class="secondary-button" id="decodeButton" type="button">URL 解码</button>
+          <button class="secondary-button" id="clearButton" type="button">清空</button>
+        </div>
+        <p class="hint shortcut-hint">⌘ / Ctrl + Enter：重复上一次操作，默认编码</p>
+      </section>
+
+      <section class="url-panel output-panel" aria-labelledby="outputHeading">
+        <div class="section-head">
+          <h2 id="outputHeading">转换结果</h2>
+          <span class="count" id="outputCount">0 字符 · 0 字节</span>
+        </div>
+        <div class="field output-field">
+          <label for="resultOutput">输出文本</label>
+          <textarea class="url-textarea mono-input" id="resultOutput" readonly spellcheck="false" placeholder="完成编码或解码后，结果会显示在这里"></textarea>
+        </div>
+        <div class="actions">
+          <button class="secondary-button" id="copyOutput" type="button" disabled>复制结果</button>
+          <button class="secondary-button" id="useAsInput" type="button" disabled>结果作为输入</button>
+        </div>
+        <p class="status" id="conversionStatus" role="status" aria-live="polite" aria-atomic="true">选择处理规则，输入内容后点击“URL 编码”或“URL 解码”。</p>
+        <noscript><p class="status is-error">请启用 JavaScript 后使用此工具。</p></noscript>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="aboutHeading">
+      <h2 id="aboutHeading">如何选择处理规则？</h2>
+      <p><strong>参数或路径片段：</strong>适合搜索词、单个参数值或路径的一段，会编码 <code>/ ? &amp; = # +</code> 等保留字符。使用浏览器的 <code>encodeURIComponent / decodeURIComponent</code> 规则，<code>! ' ( ) *</code> 等字符保持不变。</p>
+      <p><strong>完整网址：</strong>保留协议、路径和查询分隔符，使用 <code>encodeURI / decodeURI</code> 规则；解码时 <code>%2F</code>、<code>%3F</code> 等保留字符的编码也会保留。若整个网址都被编码，请选择“参数或路径片段”解码。这里仅做字符转换，不解析或校验网址。</p>
+      <p><strong>表单参数：</strong>处理单个参数名或参数值，不拆分查询串。按 <code>application/x-www-form-urlencoded</code> 规则把空格编码为 <code>+</code>，把原有 <code>+</code> 编码为 <code>%2B</code>；解码时先把 <code>+</code> 还原为空格。</p>
+      <p>三种模式解码时均严格检查百分号编码与 UTF-8，非法输入会报错；表单解码不会像部分服务端那样忽略错误或替换损坏字符。再次编码会将 <code>%</code> 变为 <code>%25</code>；多层编码可用“结果作为输入”逐次处理。规则依据：<a href="https://tc39.es/ecma262/multipage/global-object.html#sec-uri-handling-functions" target="_blank" rel="noopener noreferrer">ECMAScript URI 处理</a>、<a href="https://url.spec.whatwg.org/#application/x-www-form-urlencoded" target="_blank" rel="noopener noreferrer">WHATWG 表单编码</a>。</p>
+    </section>
+  </main>
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+.url-workspace {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.url-panel {
+  padding: 24px;
+}
+
+.mode-hint {
+  min-height: 3.2em;
+  margin: 0;
+}
+
+.url-textarea {
+  min-height: 220px;
+  height: clamp(220px, calc(100vh - 500px), 340px);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.url-textarea[aria-invalid="true"] {
+  border-color: var(--error);
+  background: var(--error-pale);
+}
+
+.output-panel {
+  display: flex;
+  flex-direction: column;
+}
+
+.output-field {
+  flex: 1;
+  grid-template-rows: auto minmax(220px, 1fr);
+}
+
+.output-field textarea {
+  height: 100%;
+  color: var(--ink-code);
+}
+
+.url-panel .actions {
+  margin-top: 16px;
+}
+
+.shortcut-hint {
+  margin: 10px 0 0;
+}
+
+.url-panel .status {
+  margin-bottom: 0;
+}
+
+@media (max-width: 760px) {
+  .url-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .url-panel {
+    padding: 20px;
+  }
+
+  .url-workspace > * + * {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .url-textarea {
+    font-size: 16px;
+  }
+}
