@@ -13,6 +13,7 @@ const vendorFiles = new Map([
   ['tools/20260811_qr-code-tool/vendor/dijkstrajs-1.0.3.esm.js', 'd4ba77f0a7ec6f9e499012655acbbe18a3380f7d9e5a785028490d9c0705cede'],
   ['tools/20260811_qr-code-tool/vendor/jsqr-1.4.0.js', 'bc40c8a15196236b2314db0856f72ca0b49980cd5413b8c852a7349f5fee0859'],
   ['tools/20260811_json-yaml-converter/vendor/js-yaml-4.1.0.min.js', '45dc3dd03dc07a06705a2c2989b8c7f709013f04bd5386e3279d4e447f07ebd7'],
+  ['tools/20260928_bcrypt-tool/vendor/bcryptjs-3.0.3.umd.js', 'ed01b52b436504d8bb7086d93fee4bd8edbb22d8ed88e1b456e0c604f30e79c4'],
 ]);
 
 test('vendored runtime files retain their pinned content', () => {
@@ -31,12 +32,15 @@ test('vendored browser bundles expose their expected APIs', () => {
     const sqlFormatter = require(path.join(projectRoot, 'tools/20260811_sql-formatter/vendor/sql-formatter-15.8.2.min.js'));
     const jsQR = require(path.join(projectRoot, 'tools/20260811_qr-code-tool/vendor/jsqr-1.4.0.js'));
     const yaml = require(path.join(projectRoot, 'tools/20260811_json-yaml-converter/vendor/js-yaml-4.1.0.min.js'));
+    const bcrypt = require(path.join(projectRoot, 'tools/20260928_bcrypt-tool/vendor/bcryptjs-3.0.3.umd.js'));
 
     assert.equal(typeof JSEncrypt, 'function');
     assert.equal(typeof sqlFormatter.format, 'function');
     assert.equal(typeof jsQR, 'function');
     assert.equal(typeof yaml.load, 'function');
     assert.equal(typeof yaml.dump, 'function');
+    assert.equal(typeof bcrypt.hashSync, 'function');
+    assert.equal(typeof bcrypt.compareSync, 'function');
   } finally {
     if (previousWindow === undefined) delete global.window;
     else global.window = previousWindow;

@@ -15,12 +15,12 @@ test('homepage groups every tool into one of the five stable categories', () => 
     return result;
   }, {});
 
-  assert.equal(categories.length, 22);
+  assert.equal(categories.length, 24);
   assert.deepEqual(counts, {
     calculate: 2,
     datetime: 2,
     development: 9,
-    security: 6,
+    security: 8,
     text: 3,
   });
 });

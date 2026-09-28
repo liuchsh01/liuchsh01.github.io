@@ -78,6 +78,7 @@ check_home() {
   check_contains 'index.html' './tools/20251222_word-filter/' 'homepage missing word filter link'
   check_contains 'index.html' './tools/20260810_multi-timezone-clock/' 'homepage missing multi-timezone clock link'
   check_contains 'index.html' './tools/20260810_hash-generator/' 'homepage missing hash generator link'
+  check_contains 'index.html' './tools/20260928_bcrypt-tool/' 'homepage missing Bcrypt tool link'
   check_contains 'index.html' './tools/20260810_random-password-generator/' 'homepage missing random password generator link'
   check_contains 'index.html' './tools/20260917_secret-key-generator/' 'homepage missing secret key generator link'
   check_contains 'index.html' './tools/20260810_json-formatter/' 'homepage missing JSON formatter link'
@@ -397,6 +398,33 @@ check_secret_key_generator() {
   check_contains "$directory/style.css" 'grid-template-rows: 20px 44px auto' 'secret key generator must align labels and inputs on shared rows'
 }
 
+check_bcrypt_tool() {
+  local directory='tools/20260928_bcrypt-tool'
+  check_tool_page "$directory"
+  check_file "$directory/bcrypt-core.js"
+  check_file "$directory/worker.js"
+  check_file "$directory/vendor/bcryptjs-3.0.3.umd.js"
+  check_file "$directory/vendor/LICENSE-bcryptjs-3.0.3.txt"
+  check_file "$directory/vendor/README.md"
+  check_contains "$directory/index.html" './vendor/bcryptjs-3.0.3.umd.js' 'Bcrypt tool must load local bcryptjs 3.0.3'
+  check_contains "$directory/index.html" 'name="mode"' 'Bcrypt tool missing mode selector'
+  check_contains "$directory/index.html" 'value="generate"' 'Bcrypt tool missing generate mode'
+  check_contains "$directory/index.html" 'value="verify"' 'Bcrypt tool missing verify mode'
+  check_contains "$directory/index.html" 'id="bcryptForm"' 'Bcrypt tool missing form'
+  check_contains "$directory/index.html" 'id="passwordInput"' 'Bcrypt tool missing password input'
+  check_contains "$directory/index.html" 'id="costInput"' 'Bcrypt tool missing cost input'
+  check_contains "$directory/index.html" 'id="hashInput"' 'Bcrypt tool missing hash input'
+  check_contains "$directory/index.html" 'id="runButton"' 'Bcrypt tool missing run control'
+  check_contains "$directory/index.html" 'id="resultOutput"' 'Bcrypt tool missing result output'
+  check_contains "$directory/index.html" 'id="copyResult"' 'Bcrypt tool missing copy control'
+  check_contains "$directory/index.html" 'id="progressBar"' 'Bcrypt tool missing progress indicator'
+  check_contains "$directory/bcrypt-core.js" 'utf8ByteLength' 'Bcrypt tool must check UTF-8 byte length'
+  check_contains "$directory/bcrypt-core.js" '72' 'Bcrypt tool must enforce the Bcrypt 72-byte limit'
+  check_contains "$directory/script.js" 'new Worker' 'Bcrypt tool must use a worker for hashing'
+  check_contains "$directory/worker.js" 'bcrypt' 'Bcrypt worker missing local bcrypt implementation'
+  check_not_contains "$directory/script.js" 'innerHTML' 'Bcrypt tool must not inject password or Hash content as HTML'
+}
+
 check_password_generator() {
   local directory='tools/20260810_random-password-generator'
   check_tool_page "$directory"
@@ -546,6 +574,9 @@ case "$group" in
   secret-key)
     check_secret_key_generator
     ;;
+  bcrypt)
+    check_bcrypt_tool
+    ;;
   json)
     check_json_formatter
     ;;
@@ -603,6 +634,7 @@ case "$group" in
     check_hash_generator
     check_password_generator
     check_secret_key_generator
+    check_bcrypt_tool
     check_json_formatter
     check_timestamp_converter
     check_token_inspector

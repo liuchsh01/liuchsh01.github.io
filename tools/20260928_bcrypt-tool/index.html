@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#2563eb" />
+  <meta name="description" content="在浏览器本地生成 Bcrypt 密码 Hash 或验证密码是否匹配，支持 cost 设置、随机盐和 UTF-8 字节长度检查，无需上传密码。" />
+  <link rel="icon" href="../../assets/icons/toolbox-mark.svg" type="image/svg+xml" />
+  <title>Bcrypt 生成与验证｜实用工具集</title>
+  <link rel="stylesheet" href="../../assets/css/theme.css" />
+  <script src="../../assets/js/common.js"></script>
+  <link rel="stylesheet" href="./style.css" />
+  <script src="./vendor/bcryptjs-3.0.3.umd.js" defer></script>
+  <script src="./bcrypt-core.js" defer></script>
+  <script src="./script.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <a class="back-link" href="../../index.html">← 返回实用工具集</a>
+    <header class="masthead">
+      <div>
+        <p class="eyebrow">LOCAL PASSWORD HASHING</p>
+        <h1>Bcrypt 生成与验证</h1>
+      </div>
+      <p class="subtitle">生成带随机盐的密码 Hash，或检查密码是否与已有 Hash 匹配。所有计算在浏览器本地完成，密码不会上传或保存。</p>
+    </header>
+
+    <section class="workspace bcrypt-workspace" aria-label="Bcrypt 生成与验证工作区">
+      <form class="bcrypt-panel" id="bcryptForm" novalidate aria-labelledby="inputHeading" autocomplete="off">
+        <div class="section-head">
+          <h2 id="inputHeading">输入与参数</h2>
+          <span class="count">本地处理</span>
+        </div>
+        <fieldset class="mode-fieldset">
+          <legend>操作模式</legend>
+          <div class="mode-options">
+            <label><input type="radio" name="mode" value="generate" checked />生成 Hash</label>
+            <label><input type="radio" name="mode" value="verify" />验证密码</label>
+          </div>
+        </fieldset>
+
+        <div class="field">
+          <div class="password-label-row">
+            <label for="passwordInput">密码</label>
+            <span class="count" id="byteCount">0 / 72 字节</span>
+          </div>
+          <div class="password-control">
+            <input class="mono-input" id="passwordInput" type="password" placeholder="输入需要生成或验证的密码" autocomplete="new-password" spellcheck="false" autocapitalize="off" aria-describedby="passwordHint" />
+            <button class="secondary-button" id="togglePassword" type="button" aria-pressed="false" aria-controls="passwordInput">显示密码</button>
+          </div>
+          <span class="helper-text" id="passwordHint">按 UTF-8 计算，最多 72 字节；空格原样保留，不接受空密码。</span>
+        </div>
+
+        <div class="field mode-fields" id="generateFields">
+          <label for="costInput">计算成本（cost）</label>
+          <input class="mono-input" id="costInput" type="number" min="4" max="16" step="1" value="10" inputmode="numeric" aria-describedby="costHint" />
+          <span class="helper-text" id="costHint">默认 10，可选 4–16；每增加 1，计算量约翻倍。高 cost 可能需要较长时间。</span>
+        </div>
+
+        <div class="field mode-fields" id="verifyFields" hidden>
+          <label for="hashInput">待验证的 Bcrypt Hash</label>
+          <textarea class="mono-input editor-input editor-input-code" id="hashInput" rows="3" spellcheck="false" autocomplete="off" autocapitalize="off" placeholder="$2b$10$…（完整 60 字符）" aria-describedby="hashHint"></textarea>
+          <span class="helper-text" id="hashHint">支持 $2a$、$2b$、$2y$；从 Hash 自动读取盐和 cost。本工具最高处理 cost 16。</span>
+        </div>
+
+        <div class="actions">
+          <button class="primary-button" id="runButton" type="submit">生成 Hash</button>
+          <button class="secondary-button" id="cancelButton" type="button" hidden>取消计算</button>
+          <button class="secondary-button" id="clearButton" type="button">清空</button>
+        </div>
+        <p class="hint shortcut-hint">快捷键：⌘ / Ctrl + Enter</p>
+        <p class="status" id="formStatus" role="status" aria-live="polite" aria-atomic="true">输入密码后生成 Hash，每次会自动使用新的随机盐。</p>
+        <noscript><p class="status is-error">请启用 JavaScript 后使用此工具。</p></noscript>
+      </form>
+
+      <section class="bcrypt-panel results-panel" aria-labelledby="resultHeading">
+        <div class="section-head">
+          <h2 id="resultHeading">处理结果</h2>
+          <button class="secondary-button compact-button" id="copyResult" type="button" disabled>复制 Hash</button>
+        </div>
+        <div class="empty-state" id="emptyState">生成的 Hash 或密码验证结论会显示在这里。</div>
+        <div id="progressPanel" hidden>
+          <label id="progressLabel" for="progressBar">正在计算…</label>
+          <progress id="progressBar" max="1" value="0">0%</progress>
+          <p class="helper-text" id="progressHint">可随时取消本次计算。</p>
+        </div>
+        <div id="resultDetails" hidden>
+          <label class="field-label" id="outputLabel" for="resultOutput">Bcrypt Hash</label>
+          <textarea class="mono-input result-output" id="resultOutput" readonly rows="3" spellcheck="false" aria-describedby="resultMeta"></textarea>
+          <p class="result-meta" id="resultMeta"></p>
+          <button class="secondary-button" id="useForVerify" type="button">用此 Hash 验证</button>
+        </div>
+        <p class="result-note">Bcrypt 是不可逆的密码哈希，没有“解密”操作。验证会重新计算并判断是否匹配。</p>
+      </section>
+    </section>
+
+    <section class="info-card" aria-labelledby="aboutHeading">
+      <h2 id="aboutHeading">格式与使用说明</h2>
+      <p>Hash 共 60 个字符，包含版本、cost、盐和摘要。同一密码每次生成的 Hash 通常不同，应使用“验证密码”判断匹配，不能直接比较两次生成的字符串。生成使用浏览器安全随机数；验证无需手动填写盐或 cost。</p>
+      <p>超过 72 个 UTF-8 字节的密码会被拒绝，避免 Bcrypt 截断后出现相同前缀被判定为匹配的情况。中文和 Emoji 通常占多个字节；本工具不会修剪或规范化密码，也不会自动进行预哈希。空密码和旧系统特殊预处理不在本工具支持范围内。</p>
+      <p>为控制浏览器计算耗时，本工具将 cost 限制在 4–16；无法在后台计算时，最高为 12 且需要等待完成。该上限是工具限制，cost 选择应结合实际用途和设备性能评估。实现依据：<a href="https://github.com/dcodeIO/bcrypt.js" target="_blank" rel="noopener noreferrer">bcryptjs 官方文档</a>；依赖已固定版本并保存在本地。</p>
+    </section>
+  </main>
+  <div class="toast" data-toast role="status" aria-live="polite" aria-atomic="true"></div>
+</body>
+</html>

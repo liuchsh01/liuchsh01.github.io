@@ -1,0 +1,189 @@
+.bcrypt-workspace {
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.bcrypt-panel {
+  padding: 24px;
+}
+
+.mode-fieldset {
+  min-width: 0;
+  margin: 0 0 20px;
+  padding: 0;
+  border: 0;
+}
+
+.mode-fieldset legend {
+  margin-bottom: 8px;
+  color: var(--ink-soft);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.mode-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.mode-options label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 44px;
+  padding: 10px;
+  border: 1px solid var(--control-line);
+  border-radius: var(--radius-button);
+  background: var(--control-bg);
+  cursor: pointer;
+}
+
+.mode-options label:has(:checked) {
+  border-color: var(--teal);
+  background: var(--teal-pale);
+  color: var(--teal-dark);
+}
+
+.mode-options label:has(:focus-visible) {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.password-label-row,
+.password-control {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.password-label-row {
+  justify-content: space-between;
+}
+
+.password-control input {
+  flex: 1;
+}
+
+.password-control button {
+  flex: 0 0 auto;
+  padding-inline: 12px;
+  font-size: 12px;
+}
+
+.mode-fields {
+  margin-top: 20px;
+}
+
+#costInput {
+  max-width: 160px;
+}
+
+#hashInput,
+.result-output {
+  min-height: 106px;
+  overflow-wrap: anywhere;
+}
+
+.bcrypt-panel .actions {
+  margin-top: 22px;
+}
+
+.shortcut-hint {
+  margin: 10px 0 0;
+}
+
+.bcrypt-panel .status {
+  margin-bottom: 0;
+}
+
+.compact-button {
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 12px;
+}
+
+.results-panel .empty-state {
+  min-height: 220px;
+}
+
+.result-output {
+  margin-top: 8px;
+  color: var(--ink-code);
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.result-output.is-success {
+  border-color: var(--success-line);
+  background: var(--success-pale);
+  color: var(--success);
+}
+
+.result-output.is-error {
+  border-color: var(--error-line);
+  background: var(--error-pale);
+  color: var(--error);
+}
+
+.result-meta,
+.result-note {
+  color: var(--muted);
+  font-size: 13px;
+  overflow-wrap: anywhere;
+}
+
+.result-note {
+  margin: 22px 0 0;
+}
+
+#progressPanel {
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-panel);
+  background: var(--control-bg);
+}
+
+#progressBar {
+  display: block;
+  width: 100%;
+  height: 12px;
+  margin-top: 16px;
+  overflow: hidden;
+  appearance: none;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--line);
+  accent-color: var(--teal);
+}
+
+#progressBar::-webkit-progress-bar {
+  background: var(--line);
+}
+
+#progressBar::-webkit-progress-value {
+  background: var(--teal);
+}
+
+#progressBar::-moz-progress-bar {
+  background: var(--teal);
+}
+
+@media (max-width: 760px) {
+  .bcrypt-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .bcrypt-panel {
+    padding: 20px;
+  }
+
+  .bcrypt-workspace > * + * {
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .password-control input {
+    font-size: 16px;
+  }
+}
