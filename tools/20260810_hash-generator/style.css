@@ -266,8 +266,21 @@
   color: var(--error);
 }
 
+.output-encoding-control {
+  display: grid;
+  grid-template-columns: auto minmax(0, 220px);
+  align-items: center;
+  justify-content: start;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.output-encoding-note {
+  margin: 0 0 12px;
+}
+
 .hash-output {
-  height: clamp(300px, calc(100vh - 320px), 420px);
+  height: clamp(260px, calc(100vh - 400px), 420px);
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: var(--radius-panel);

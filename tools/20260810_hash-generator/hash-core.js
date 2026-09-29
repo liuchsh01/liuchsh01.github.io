@@ -57,6 +57,57 @@
     return output;
   };
 
+  const hexToBytes = (hexValue) => {
+    if (typeof hexValue !== 'string') {
+      throw new TypeError('Hash 摘要必须是十六进制字符串。');
+    }
+    if (hexValue.length % 2 !== 0) {
+      throw new Error('Hash 摘要的十六进制长度必须为偶数。');
+    }
+    if (!/^[0-9a-f]*$/i.test(hexValue)) {
+      throw new Error('Hash 摘要只能包含十六进制字符。');
+    }
+
+    const bytes = new Uint8Array(hexValue.length / 2);
+    for (let index = 0; index < bytes.length; index += 1) {
+      bytes[index] = Number.parseInt(hexValue.slice(index * 2, (index * 2) + 2), 16);
+    }
+    return bytes;
+  };
+
+  const bytesToBase64 = (value) => {
+    const bytes = toUint8Array(value);
+    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    let output = '';
+
+    for (let index = 0; index < bytes.length; index += 3) {
+      const first = bytes[index];
+      const second = bytes[index + 1];
+      const third = bytes[index + 2];
+      const chunk = (first << 16) | ((second || 0) << 8) | (third || 0);
+
+      output += alphabet[(chunk >>> 18) & 0x3f];
+      output += alphabet[(chunk >>> 12) & 0x3f];
+      output += second === undefined ? '=' : alphabet[(chunk >>> 6) & 0x3f];
+      output += third === undefined ? '=' : alphabet[chunk & 0x3f];
+    }
+    return output;
+  };
+
+  const formatDigest = (hexValue, encoding = 'hex') => {
+    if (!['hex', 'base64', 'base64url'].includes(encoding)) {
+      throw new Error(`不支持的 Hash 摘要编码：${encoding}`);
+    }
+
+    const bytes = hexToBytes(hexValue);
+    if (encoding === 'hex') return bytesToHex(bytes);
+
+    const base64 = bytesToBase64(bytes);
+    return encoding === 'base64url'
+      ? base64.replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '')
+      : base64;
+  };
+
   const rotateLeft = (value, count) => ((value << count) | (value >>> (32 - count))) >>> 0;
 
   const wordToLittleEndianHex = (word) => {
@@ -174,6 +225,7 @@
   return {
     bytesToHex,
     digestBytes,
+    formatDigest,
     javaStringHashCode,
     md5Hex,
     splitTextLines,

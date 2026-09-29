@@ -3,6 +3,7 @@
 
   const {
     digestBytes,
+    formatDigest,
     javaStringHashCode,
     splitTextLines,
     textToBytes,
@@ -27,6 +28,7 @@
   const resultCount = document.getElementById('resultCount');
   const emptyState = document.getElementById('emptyState');
   const copyAllButton = document.getElementById('copyAll');
+  const outputEncoding = document.getElementById('outputEncoding');
 
   let activeMode = 'text';
   let selectedFiles = [];
@@ -53,6 +55,7 @@
 
   const setBusy = (busy) => {
     isBusy = busy;
+    outputEncoding.disabled = busy;
     tabs.forEach(tab => { tab.disabled = busy; });
     algorithmInputs.forEach(input => {
       const unavailable = input.dataset.unavailable === 'true';
@@ -83,6 +86,11 @@
     element.textContent = value;
     return element;
   };
+
+  // Keep the original digest so switching formats never rehashes text or rereads files.
+  const getDisplayedValue = hash => hash.algorithm === 'Java hashCode'
+    ? hash.value
+    : formatDigest(hash.value, outputEncoding.value);
 
   const renderResults = (results) => {
     latestResults = results;
@@ -116,7 +124,7 @@
           row.className = 'hash-value-row';
           const term = makeText('dt', '', hash.algorithm);
           const description = document.createElement('dd');
-          description.append(makeText('code', 'hash-code', hash.value));
+          description.append(makeText('code', 'hash-code', getDisplayedValue(hash)));
           const copyButton = makeText('button', 'copy-hash', '复制');
           copyButton.type = 'button';
           copyButton.dataset.resultIndex = String(resultIndex);
@@ -389,7 +397,11 @@
     if (!button) return;
     const result = latestResults[Number(button.dataset.resultIndex)];
     const hash = result?.hashes?.[Number(button.dataset.hashIndex)];
-    if (hash) window.Toolbox.copyText(hash.value, `${hash.algorithm} 已复制`);
+    if (hash) window.Toolbox.copyText(getDisplayedValue(hash), `${hash.algorithm} 已复制`);
+  });
+
+  outputEncoding.addEventListener('change', () => {
+    if (!isBusy && latestResults.length) renderResults(latestResults);
   });
 
   copyAllButton.addEventListener('click', () => {
@@ -397,7 +409,7 @@
       .filter(result => !result.error)
       .map(result => [
         result.title,
-        ...result.hashes.map(hash => `${hash.algorithm}: ${hash.value}`),
+        ...result.hashes.map(hash => `${hash.algorithm}: ${getDisplayedValue(hash)}`),
       ].join('\n'))
       .join('\n\n');
 

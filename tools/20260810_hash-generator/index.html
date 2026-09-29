@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="theme-color" content="#2563eb" />
   <link rel="icon" href="../../assets/icons/toolbox-mark.svg" type="image/svg+xml" />
-  <meta name="description" content="在浏览器本地计算文本或多个文件的 MD5、SHA-1、SHA-256、SHA-384 和 SHA-512 Hash 值。" />
+  <meta name="description" content="在浏览器本地计算文本或多个文件的 MD5、SHA-1、SHA-256、SHA-384 和 SHA-512 Hash 值，支持 Hex、Base64 和 Base64URL 输出。" />
   <title>Hash 计算工具｜实用工具集</title>
   <link rel="stylesheet" href="../../assets/css/theme.css" />
   <link rel="stylesheet" href="./style.css" />
@@ -108,6 +108,16 @@
           <button class="secondary-button copy-all-button" id="copyAll" type="button" disabled>复制全部</button>
         </div>
 
+        <div class="output-encoding-control">
+          <label for="outputEncoding">输出编码</label>
+          <select id="outputEncoding" aria-describedby="outputEncodingHint">
+            <option value="hex" selected>Hex（十六进制）</option>
+            <option value="base64">Base64</option>
+            <option value="base64url">Base64URL（无填充）</option>
+          </select>
+        </div>
+        <p class="helper-text output-encoding-note" id="outputEncodingHint">切换后立即更新已有摘要；Java hashCode 保持十进制。</p>
+
         <div class="hash-output">
           <div class="empty-state" id="emptyState">完成计算后，各项 Hash 值会显示在这里。</div>
           <div class="hash-result-list" id="resultList" hidden aria-live="polite" aria-label="Hash 计算结果"></div>
@@ -118,6 +128,7 @@
     <section class="info-card" aria-labelledby="hash-note-heading">
       <h2 id="hash-note-heading">格式与安全说明</h2>
       <p>MD5 与 SHA 系列会把文本按 UTF-8 字节计算；浏览器文本框中的换行以 LF 处理。逐行模式不包含换行符，会保留中间空行，但忽略末尾换行产生的额外空项。文件按原始二进制字节计算。</p>
+      <p>MD5 与 SHA 摘要默认以小写 Hex 显示，也可切换为 Base64 或 Base64URL；编码对象是摘要的原始字节，不是 Hex 文本。Base64 保留 <code>=</code> 填充；Base64URL 将 <code>+</code>、<code>/</code> 替换为 <code>-</code>、<code>_</code>，并省略填充。单项复制和复制全部均使用当前输出编码。</p>
       <p>Java hashCode 复现 <code>String.hashCode()</code> 的 UTF-16、有符号 32 位整数结果，只适用于文本，切换到文件模式时会禁用。</p>
       <p>MD5 与 SHA-1 已不适合密码保存、数字签名等抗碰撞安全场景；校验下载文件时请优先选择 SHA-256 或更强算法。</p>
     </section>
